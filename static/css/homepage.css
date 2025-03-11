@@ -1,0 +1,529 @@
+/* TanSAF Color Palette */
+:root {
+    --tansaf-blue: #abd4ff;
+    --tansaf-gold: #D4AF37;
+    --tansaf-blue-light: #E6F3F7;
+    --tansaf-gold-light: #F4E4BC;
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --error-color: #ff4757;
+    --success-color: #2ed573;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--tansaf-blue), var(--tansaf-gold));
+    overflow-x: hidden;
+}
+
+/* Navigation Styles */
+.nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-brand i {
+    color: var(--tansaf-gold);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    padding: 0.5rem 0;
+    transition: all 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--tansaf-gold);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Hero Section */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    color: white;
+}
+
+.hero-content {
+    flex: 1;
+    max-width: 600px;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--tansaf-gold);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--tansaf-gold);
+    color: black;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.hero-illustration {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-illustration img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Achievements Section */
+.achievements-section, 
+.universities-section,
+.application-section {
+    padding: 4rem 2rem;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: white;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.achievement-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.achievement-card:hover {
+    transform: translateY(-10px);
+}
+
+.achievement-icon {
+    font-size: 3rem;
+    color: var(--tansaf-gold);
+    margin-bottom: 1rem;
+}
+
+.achievement-card h3 {
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.achievement-year {
+    display: block;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    color: var(--tansaf-blue-light);
+}
+
+/* Universities Section */
+.universities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.university-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.university-card:hover {
+    transform: scale(1.05);
+}
+
+.university-card img {
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.btn-outline {
+    display: block;
+    width: max-content;
+    margin: 0 auto;
+    border: 2px solid white;
+    color: white;
+    background: transparent;
+}
+
+/* Application Section */
+.application-section {
+    text-align: center;
+    color: white;
+}
+
+.application-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.application-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin: 2rem 0;
+}
+
+/* Footer */
+.site-footer {
+    background: rgba(0, 0, 0, 0.1);
+    color: white;
+    padding: 3rem 2rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.footer-logo i {
+    color: var(--tansaf-gold);
+}
+
+.footer-social {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-icon {
+    color: white;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: var(--tansaf-gold);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    opacity: 0.7;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-stats {
+        justify-content: center;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .hero-illustration {
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-social {
+        gap: 1rem;
+        display: none;
+    }
+}
+
+/* Animations */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+
+
+/* Toast Messages */
+.fixed-toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.toast-message {
+    min-width: 300px;
+    max-width: 400px;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast-message.success {
+    border-left: 4px solid #10B981;
+}
+
+.toast-message.error {
+    border-left: 4px solid #EF4444;
+}
+
+.toast-message.warning {
+    border-left: 4px solid #F59E0B;
+}
+
+.toast-message.info {
+    border-left: 4px solid #3B82F6;
+}
+
+.toast-content {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toast-text {
+    margin-right: 1rem;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #9CA3AF;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+}
+
+.toast-close:hover {
+    color: #4B5563;
+}
+
+.toast-progress {
+    height: 3px;
+    background: #E5E7EB;
+}
+
+.toast-progress .progress-bar {
+    height: 100%;
+    width: 0;
+    transition: width 5s linear;
+}
+
+.success .progress-bar {
+    background-color: #10B981;
+}
+
+.error .progress-bar {
+    background-color: #EF4444;
+}
+
+.warning .progress-bar {
+    background-color: #F59E0B;
+}
+
+.info .progress-bar {
+    background-color: #3B82F6;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Dark mode support */
+.dark .toast-message {
+    background: #1F2937;
+}
+
+.dark .toast-text {
+    color: #E5E7EB;
+}
+
+.dark .toast-close {
+    color: #9CA3AF;
+}
+
+.dark .toast-close:hover {
+    color: #E5E7EB;
+}
+
+.dark .toast-progress {
+    background: #374151;
+}
+
+/* Dark mode styles */
+.dark {
+    @apply bg-gray-900 text-white;
+}
+
+.dark .glass {
+    @apply bg-gray-900/80 border-gray-700/20;
+}

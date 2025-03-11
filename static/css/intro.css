@@ -1,0 +1,174 @@
+/* Intro Page Specific Styles */
+:root {
+    --tansaf-blue: #006994;
+    --tansaf-gold: #D4AF37;
+    --tansaf-blue-light: #E6F3F7;
+    --tansaf-gold-light: #F4E4BC;
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+.intro-container {
+    width: 100%;
+    min-height: calc(100vh - 80px); /* Account for nav height */
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 3rem;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: fadeInUp 1s forwards;
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.card-header h2 {
+    color: var(--tansaf-blue);
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.card-header p {
+    color: #666;
+    font-size: 1rem;
+}
+
+.intro-text {
+    color: #444;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+.intro-text p {
+    margin-bottom: 1rem;
+}
+
+.intro-text ul {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+.intro-text li {
+    margin-bottom: 0.5rem;
+}
+
+.intro-text a {
+    color: var(--tansaf-blue);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.intro-text a:hover {
+    color: var(--tansaf-gold);
+}
+
+/* Form Elements */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--tansaf-blue-light);
+    border-radius: 12px;
+}
+
+.checkbox-input {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--tansaf-blue);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.checkbox-label {
+    color: var(--tansaf-blue);
+    font-weight: 500;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+.submit-btn {
+    background: var(--tansaf-gold);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+}
+
+.submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.submit-btn i {
+    font-size: 1.2rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-card {
+        padding: 1rem !important;
+    }
+
+    .card-header h2 {
+        font-size: 1.75rem;
+    }
+
+    .intro-text {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-card {
+        padding: 1.5rem;
+    }
+}

@@ -1,0 +1,1180 @@
+/* Shared Form Styling */
+:root {
+    /* --tansaf-blue: #5dcffd; */
+    --tansaf-bluee: #5dcffd;
+    --tansaf-blue: white;
+    --tansaf-bluu: #0d7eaa;
+    --tansaf-gold: #D4AF37;
+    --tansaf-blue-light: #E6F3F7;
+    --tansaf-gold-light: #F4E4BC;
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --progress-incomplete: #cccccc;
+    --progress-complete: var(--tansaf-gold);
+    --progress-active: var(--tansaf-blue);
+}
+
+/* Form Layout */
+.content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+
+
+/* Progress Bar */
+.form-progress {
+    margin-bottom: 2rem;
+}
+
+.progress-bar {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 1.5rem;
+    overflow-x: scroll;
+    margin-bottom: 0px;
+    padding-bottom: 60px;
+
+}
+
+.progress-steps {
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+}
+
+.progress-step {
+    position: relative;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #666;
+    margin-right: 3rem;
+}
+
+.progress-step:last-child {
+    margin-right: 0;
+}
+
+.progress-step::after {
+    content: '';
+    position: absolute;
+    right: -2rem;
+    width: 1rem;
+    height: 2px;
+    background: #ccc;
+}
+
+.progress-step:last-child::after {
+    display: none;
+}
+
+.step-dot {
+    /* width: 1rem;
+    height: 1rem;
+    background: #ccc;
+    border-radius: 50%; */
+    margin-right: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.step-label {
+    font-size: 0.9rem;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+
+/* Active and Completed States */
+.progress-step.active .step-dot {
+     background: rgba(255, 217, 0, 0);
+    /* /* background: gold; */
+    /* box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);  */
+}
+
+.progress-step.active .step-label {
+    color: #000;
+    color: var(--tansaf-bluee);
+    color: var(--tansaf-blue-light);
+    font-weight: 600;
+}
+
+.progress-step.completed .step-dot {
+    background: gold;
+    color: #A1C25D;
+    color: gold;
+    display: block;
+}
+
+.progress-step.completed::after {
+    background: gold;
+}
+
+.progress-step:hover .step-dot {
+    transform: scale(1.2);
+}
+
+.progress-step:hover .step-label {
+    color: #000;
+    color: var(--tansaf-bluee);
+}
+
+/* Form Styling */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: gold;
+    box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Info Section */
+.info-section {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 1.5rem;
+    position: sticky;
+    top: 2rem;
+    height: fit-content;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.info-section h2 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.info-section p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.hints h3 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.hints ul {
+    list-style: none;
+    padding: 0;
+}
+
+.hints li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.8rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+.hints li::before {
+    content: "•";
+    color: gold;
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+}
+
+/* Buttons */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgb(255 255 255 / 10%);;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn i {
+    margin: 0 0.5rem;
+}
+
+.btn-primary {
+    background: gold;
+    color: #000;
+}
+
+.btn-secondary {
+    background: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .content-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .info-section {
+        position: static;
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+
+    .progress-step {
+        margin-right: 2rem;
+    }
+
+    .progress-step::after {
+        right: -1.5rem;
+        width: 1rem;
+    }
+
+    .step-label {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* TanSAF Color Palette */
+:root {
+    --tansaf-blue: #5dcffd;
+    --tansaf-gold: #D4AF37;
+    --tansaf-blue-light: #E6F3F7;
+    --tansaf-gold-light: #F4E4BC;
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+
+
+    --light-bg: #ffffff;
+    /* Default light background */
+    --dark-bg: #333333;
+    /* Default dark background */
+    --dark-text: #000000;
+    /* Default text color for light mode */
+    --light-text: #f0f0f0;
+    /* Default text color for dark mode */
+    --highlight-color: #007bff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* font-family: 'Poppins', sans-serif; */
+    font-family: "Inter", serif;
+
+}
+
+body {
+    min-height: 100vh;
+    background: url(../images/education-illustration.svg) no-repeat center center fixed;
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+/* Navigation */
+.nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    color: var(--tansaf-blue);
+    color: var(--tansaf-gold);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-brand i {
+    color: var(--tansaf-gold);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.nav-link {
+    color: var(--tansaf-bluu);
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--tansaf-blue);
+    color: var(--tansaf-gold);
+}
+
+.nav-link i {
+    font-size: 1.1rem;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: #444;
+    color: #979797;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Main Container */
+.main-container {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    /* Account for nav height */
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+
+    .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .nav-link {
+        padding: 0.75rem;
+        border-radius: 8px;
+    }
+
+    .nav-link:hover {
+        background: var(--tansaf-blue-light);
+        }
+}
+
+/* General Info Page Specific Styles */
+.form-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 3rem;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: fadeInUp 1s forwards;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-label {
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--tansaf-blue);
+    color: white;
+    font-weight: 500;
+
+}
+
+.form-label i {
+    color: var(--tansaf-gold);
+    font-size: 1.2rem;
+}
+
+.form-row {
+    margin-bottom: 1rem;
+}
+
+/* Form Controls */
+.form-control {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    background: var(--tansaf-blue-light);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--tansaf-gold);
+    /* background: white;   */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-control::placeholder {
+    color: #999;
+}
+
+/* Select Styling */
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23006994' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2em;
+    padding-right: 2.5rem;
+}
+
+/* Error Messages */
+.error-text {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.btn {
+    flex: 1;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.btn i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+/* Previous Button */
+.btn-secondary {
+    background: var(--tansaf-blue-light);
+    color: var(--tansaf-blue);
+}
+
+.btn-secondary:hover {
+    background: var(--tansaf-blue);
+    color: rgb(136, 136, 136);
+    transform: translateX(-2px);
+}
+
+.btn-secondary:hover i {
+    transform: translateX(-4px);
+}
+
+/* Next Button */
+.btn-primary {
+    background: var(--tansaf-gold);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateX(2px);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+}
+
+.btn-primary:hover i {
+    transform: translateX(4px);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 2rem;
+        margin: 1rem;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-container {
+        padding: 1.5rem;
+    }
+}
+
+/* General Form Styles */
+.form-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    background: var(--glass-bg);
+    /* background: rgba(255, 255, 255, 0.267); */
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12px);
+}
+
+/* Input Fields */
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    background: var(--glass-bg);
+    /* color: var(--tansaf-gold-light); */
+    color: rgb(214, 214, 214);
+    /* background: black; */
+    /* color: #ffffff; */
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--tansaf-blue);
+    outline: none;
+}
+
+/* Error and Success Messages */
+.error-text {
+    color: var(--error-color);
+    font-size: 0.875rem;
+    margin-top: -0.5rem;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--tansaf-bluu);
+    /* background: #0d7eaa; */
+    color: white;
+}
+
+.btn-primary:hover {
+    /* background: var(--tansaf-blue-light); */
+    background: rgba(255, 255, 255, 0.274);
+}
+
+.btn-secondary {
+    background: var(--tansaf-gold);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: var(--tansaf-gold-light);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 2rem;
+        width: 350px;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}
+
+
+input,
+select,
+textarea {
+    background-color: var(--light-bg, #ffffff);
+    /* Default light background */
+    color: var(--dark-text, #000000);
+    /* Default dark text */
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    box-shadow: 0 0 5px var(--highlight-color, #007bff);
+    /* Optional glow effect */
+}
+
+/* Add dark mode support if applicable */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    color: var(--dark-bg, #333333);
+    background-color: var(--light-text, #f0f0f0);
+}
+
+/* Main Container Layout */
+.content-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 7rem auto 2rem;
+    padding: 0 2rem;
+}
+
+.form-section {
+    flex: 1;
+    min-width: 0;
+}
+
+.info-section {
+    flex: 0 0 350px;
+    position: sticky;
+    top: 7rem;
+    height: fit-content;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+
+.info-section h2 {
+    font-size: 2rem;
+    color: var(--tansaf-blue);
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.info-section p {
+    /* color: rgba(0, 0, 0, 0.7); */
+    color: rgb(201 201 201 / 70%);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.info-section .hints {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.info-section .hints h3 {
+    font-size: 1.2rem;
+    color: var(--tansaf-blue);
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.info-section .hints ul {
+    list-style: none;
+    padding: 0;
+}
+
+.info-section .hints li {
+    margin-bottom: 0.8rem;
+    padding-left: 1.5rem;
+    position: relative;
+    /* color: rgba(0, 0, 0, 0.7); */
+    color: rgb(201 201 201 / 70%);
+}
+
+.info-section .hints li::before {
+    content: "•";
+    color: var(--tansaf-gold);
+    position: absolute;
+    left: 0;
+}
+
+/* Progress Bar */
+.form-progress {
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+}
+
+.progress-bar {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.0);
+    border-radius: 4px;
+}
+
+.progress-bar::-webkit-scrollbar {
+    height: 8px;
+}
+
+.progress-bar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.progress-bar::-webkit-scrollbar-thumb {
+    background: var(--tansaf-gold);
+    border-radius: 4px;
+}
+
+
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(45deg, var(--tansaf-blue), var(--tansaf-gold));
+    transition: width 0.3s ease;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.progress-step {
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.6);
+    color: rgb(157 155 155);
+    
+    position: relative;
+}
+
+.progress-step.active {
+    color: var(--tansaf-blue);
+    font-weight: 600;
+}
+
+.progress-step.completed {
+    color: var(--tansaf-gold);
+}
+
+/* Form Improvements */
+.form-container {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* i likt the outlook, however, i dont like somethings, its white background for some reason, cant you see
+how glassy general info is, keep that glassy ness here, i think  */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Select Field Styling */
+select.form-control {
+    appearance: none;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+select.form-control:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--tansaf-blue);
+    color: rgba(0, 0, 0, 0.9);
+}
+
+select.form-control option {
+    background: white;
+    color: rgba(0, 0, 0, 0.8);
+    padding: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .content-wrapper {
+        flex-direction: column;
+    }
+
+    .info-section {
+        position: static;
+        flex: none;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .content-wrapper {
+        margin-top: 5rem;
+        padding: 0 1rem;
+    }
+
+    .form-container {
+        padding: 1.5rem;
+    }
+
+    .info-section {
+        display: none;
+    }
+
+    .progress-steps {
+        /* display: none; */
+    }
+    .form-progress{
+        width: 350px;
+    }
+
+}
+
+
+
+
+.form-labelo {
+    margin-bottom: 20px !important;
+    font-style: italic;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Toast Messages */
+.fixed-toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.toast-message {
+    min-width: 300px;
+    max-width: 400px;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast-message.success {
+    border-left: 4px solid #10B981;
+}
+
+.toast-message.error {
+    border-left: 4px solid #EF4444;
+}
+
+.toast-message.warning {
+    border-left: 4px solid #F59E0B;
+}
+
+.toast-message.info {
+    border-left: 4px solid #3B82F6;
+}
+
+.toast-content {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toast-text {
+    margin-right: 1rem;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #9CA3AF;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+}
+
+.toast-close:hover {
+    color: #4B5563;
+}
+
+.toast-progress {
+    height: 3px;
+    background: #E5E7EB;
+}
+
+.toast-progress .progress-bar {
+    height: 100%;
+    width: 0;
+    transition: width 5s linear;
+}
+
+.success .progress-bar {
+    background-color: #10B981;
+}
+
+.error .progress-bar {
+    background-color: #EF4444;
+}
+
+.warning .progress-bar {
+    background-color: #F59E0B;
+}
+
+.info .progress-bar {
+    background-color: #3B82F6;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Dark mode support */
+.dark .toast-message {
+    background: #1F2937;
+}
+
+.dark .toast-text {
+    color: #E5E7EB;
+}
+
+.dark .toast-close {
+    color: #9CA3AF;
+}
+
+.dark .toast-close:hover {
+    color: #E5E7EB;
+}
+
+.dark .toast-progress {
+    background: #374151;
+}
+
+/* Dark mode styles */
+.dark {
+    @apply bg-gray-900 text-white;
+}
+
+.dark .glass {
+    @apply bg-gray-900/80 border-gray-700/20;
+}
+
+
+.text-danger{
+    color: red;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.progress-step .step-dot {
+    /* width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--progress-incomplete); */
+    transition: background-color 0.3s;
+}
+
+.progress-step.completed .step-dot {
+    background-color: var(--progress-complete);
+    background-color: #00000000;
+}
+
+.progress-step.active .step-dot {
+    /* background-color: var(--progress-active); */
+}

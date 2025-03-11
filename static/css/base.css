@@ -1,0 +1,462 @@
+/* TanSAF Color Palette */
+:root {
+    --tansaf-bluee: #5dcffd;
+    --tansaf-blue: white;
+    --tansaf-gold: #D4AF37;
+    --tansaf-blue-light: rgba(0, 105, 148, 0.1);
+    --tansaf-gold-light: rgba(212, 175, 55, 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.95);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --error-color: #dc3545;
+}
+
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", serif;
+}
+
+body {
+    min-height: 100vh;
+    background: url(../images/education-illustration.svg) no-repeat center center fixed;
+    background-size: cover;
+    overflow-x: hidden;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Navigation */
+.nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px !important;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    color: var(--tansaf-blue);
+    color: #2E368F;
+    color: var(--tansaf-gold);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.nav-brand:hover {
+    color: #2E368F;
+    color: var(--tansaf-bluee);
+}
+
+.nav-brand i {
+    font-size: 1.8rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-link {
+    color: #757575;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: inherit;
+    color: var(--tansaf-gold);
+}
+
+.nav-link i {
+    font-size: 1.2rem;
+}
+
+.mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--tansaf-blue);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+/* Page Header Styles */
+.page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    animation: fadeInDown 0.8s forwards;
+}
+
+.page-header h2 {
+    color: var(--tansaf-blue);
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.page-header p {
+    color: #666;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Progress Bar */
+.form-progress {
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    padding: 0 1rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--tansaf-gold);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    padding: 0 10px;
+}
+
+.progress-step {
+    color: #666;
+    font-size: 0.875rem;
+    position: relative;
+}
+
+.progress-step.active {
+    color: var(--tansaf-gold);
+    font-weight: 500;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 1rem;
+        gap: 0.5rem;
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+
+    .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .nav-link {
+        width: 100%;
+        justify-content: center;
+        background: var(--tansaf-blue-light);
+    }
+
+    .nav-link:hover {
+        background: var(--tansaf-blue);
+        color: white;
+    }
+
+}
+
+/* Main Container */
+.main-container {
+    min-height: 100vh;
+    padding-top: 80px; /* Height of nav */
+}
+
+/* General Form Styles */
+.form-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12px);
+}
+
+/* Input Fields */
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    background: var(--glass-bg);
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+.form-control:focus {
+    border-color: var(--tansaf-blue);
+    outline: none;
+}
+
+/* Error and Success Messages */
+.error-text {
+    color: var(--error-color);
+    font-size: 0.875rem;
+    margin-top: -0.5rem;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.btn-primary {
+    background: var(--tansaf-blue);
+    color: white;
+}
+.btn-primary:hover {
+    background: var(--tansaf-blue-light);
+}
+.btn-secondary {
+    background: var(--tansaf-gold);
+    color: white;
+}
+.btn-secondary:hover {
+    background: var(--tansaf-gold-light);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 1rem;
+    }
+    .btn {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}
+
+
+
+
+
+
+
+/* Toast Messages */
+.fixed-toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.toast-message {
+    min-width: 300px;
+    max-width: 400px;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast-message.success {
+    border-left: 4px solid #10B981;
+}
+
+.toast-message.error {
+    border-left: 4px solid #EF4444;
+}
+
+.toast-message.warning {
+    border-left: 4px solid #F59E0B;
+}
+
+.toast-message.info {
+    border-left: 4px solid #3B82F6;
+}
+
+.toast-content {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toast-text {
+    margin-right: 1rem;
+    font-size: 0.875rem;
+    color: #374151;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #9CA3AF;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+}
+
+.toast-close:hover {
+    color: #4B5563;
+}
+
+.toast-progress {
+    height: 3px;
+    background: #E5E7EB;
+}
+
+.toast-progress .progress-bar {
+    height: 100%;
+    width: 0;
+    transition: width 5s linear;
+    animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0;
+    }
+
+}
+
+.success .progress-bar {
+    background-color: #10B981;
+}
+
+.error .progress-bar {
+    background-color: #EF4444;
+}
+
+.warning .progress-bar {
+    background-color: #F59E0B;
+}
+
+.info .progress-bar {
+    background-color: #3B82F6;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Dark mode support */
+.dark .toast-message {
+    background: #1F2937;
+}
+
+.dark .toast-text {
+    color: #E5E7EB;
+}
+
+.dark .toast-close {
+    color: #9CA3AF;
+}
+
+.dark .toast-close:hover {
+    color: #E5E7EB;
+}
+
+.dark .toast-progress {
+    background: #374151;
+}
+
+/* Dark mode styles */
+.dark {
+    @apply bg-gray-900 text-white;
+}
+
+.dark .glass {
+    @apply bg-gray-900/80 border-gray-700/20;
+}
+
+.text-danger{
+    color: red;
+}

@@ -1,0 +1,39 @@
+.form-input {
+    @apply w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-700 
+           bg-white dark:bg-gray-800 focus:ring-2 focus:ring-tansaf-blue 
+           focus:border-transparent transition-all duration-200;
+}
+
+.login-card {
+    @apply w-full max-w-md mx-auto;
+}
+
+.form-group {
+    @apply space-y-2;
+}
+
+.form-group span {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+.form-group input {
+    @apply form-input;
+}
+
+.text-danger {
+    @apply text-red-500 text-sm mt-1;
+}
+
+.btn-primary {
+    @apply w-full py-3 px-4 bg-tansaf-blue text-white rounded-md 
+           hover:bg-blue-600 focus:outline-none focus:ring-2 
+           focus:ring-offset-2 focus:ring-tansaf-blue transition-colors;
+}
+
+.toast {
+    @apply animate-fade-in;
+}
+
+.toast .progress-bar {
+    @apply bg-tansaf-blue;
+}

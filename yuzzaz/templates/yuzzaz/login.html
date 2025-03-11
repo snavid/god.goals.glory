@@ -1,0 +1,72 @@
+{% extends "yuzzaz/besa.html" %}
+{% load static %}
+{% block title %}Login{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+{% block section %}LOGIN{% endblock %}
+{% block content %}
+    <div class="login-container">
+
+        <!-- Illustration Side -->
+        <div class="illustration-side">
+            <img src="{% static 'images/education-illustration.svg' %}" alt="Education Illustration" class="illustration">
+        </div>
+
+        <!-- Form Side -->
+        <div class="form-side">
+            <form class="login-form" method="POST">
+            <!-- <form class="login-form" method="post" action="{% url 'login' %}"> -->
+                {% csrf_token %}
+                <div class="form-header">
+                    <h2>Welcome Back</h2>
+                    <p>Enter your credentials to access your account</p>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="username" name="username" class="form-input" placeholder=" " required>
+                    <label for="username" class="form-label">Email</label>
+                    <div class="text-danger">
+                        {{ form.username.errors }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="password" name="password" class="form-input" placeholder=" " required>
+                    <label for="password" class="form-label">Password</label>
+                    <div class="text-danger">
+                        {{ form.password.errors }}
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span class="btn-text">Sign In</span>
+                </button>
+
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="{% url 'register' %}">Create account</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+        <!-- Toast Messages -->
+        {% if messages %}
+        <div class="fixed-toast-container">
+            {% for message in messages %}
+            <div class="toast-message {% if message.tags %}{{ message.tags }}{% endif %}">
+                <div class="toast-content">
+                    <div class="toast-text">{{ message }}</div>
+                    <button type="button" class="toast-close" onclick="this.parentElement.parentElement.remove()">×</button>
+                </div>
+                <div class="toast-progress">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    
+    <!-- Scripts -->
+    <script src="{% static 'js/login.js' %}"></script>
+{% endblock %}
