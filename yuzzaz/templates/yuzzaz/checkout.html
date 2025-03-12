@@ -1,0 +1,33 @@
+{% extends "yuzzaz/besa.html" %}
+{% load static %}
+{% block title %}Checkout{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock %}
+{% block section %}Checkout{% endblock %}
+{% block content %}
+
+<div class="form-side">
+    <div class="login-form">
+      <h1>CHECKOUT</h1>
+      <form method="post" action="{% url 'send_order_email' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="submit-btn" id="details" type="submit">
+            <span class="btn-text">
+              SEND ORDER EMAIL
+            </span>
+        </button>
+      
+
+        <div class="form-footer">
+            <p><i class="bi bi-arrow-left-circle-fill"></i> Go 
+                <a href="{% url 'cart'  %}"><u>BACK</u></a>
+            </p>
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock %}

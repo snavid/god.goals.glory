@@ -45,12 +45,7 @@
         </li>
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'cart' %}"><i class="bi bi-cart"></i></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'logout' %}">
-            <i class="bi bi-box-arrow-left"></i>  
-          </a>
+          <a class="nav-link"><i class="bi bi-cart"></i></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'profile' %}">
@@ -80,8 +75,8 @@
 </div>
 <div class="container">
     <!-- Add your content here -->
-    <h1>Welcome {{user.first_name}}!</h1>
-    <p>Shop with us</p>
+    <h1>Hello, Bootstrap!</h1>
+    <p>Start building your page inside this container.</p>
 
     <br>
   </div>
@@ -100,12 +95,7 @@
             <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top">
           </div>
             <div class="card-body">
-              <a href="{% url 'product_detail' product.id %}" >
-              <h5 class="card-title">
-                    {{ product.name }}
-                  </h5>
-                </a>
-            
+                <h5 class="card-title">{{ product.name }}</h5>
                 <p class="card-text">TZS. {{ product.price }}</p>
             </div>
         </div>

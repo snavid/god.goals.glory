@@ -1,0 +1,130 @@
+{% extends "yuzzaz/besa.html" %}
+{% load static %}
+{% block title %}CART{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock %}
+{% block section %}CART{% endblock %}
+{% block content %}
+<div class="form-side">
+  <div class="login-form">
+{% if order.items.all %}
+    <section class="h-100 h-custom">
+      <div class="container py-5 h-100" style="padding-top: 0 !important;">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12">
+            <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+              <div class="card-body p-0">
+                <div class="row g-0">
+                  <div class="col-lg-8">
+                    <div class="p-5">
+                      <div class="d-flex justify-content-between align-items-center mb-5">
+
+                        <h1 class="fw-bold mb-0">Shopping Cart</h1>
+                        <h6 class="mb-0 text-muted">{{ order.items.count }} items</h6>
+                      </div>
+                      <hr class="my-4">
+
+                      {% for item in order.items.all %}
+                      <div class="row mb-4 d-flex justify-content-between align-items-center">
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                          <img src="{{ item.product.image.url }}" class="img-fluid rounded-3"
+                            alt="{{ item.product.name }}">
+                        </div>
+                        <div class="col-md-3 col-lg-3 col-xl-3">
+                          <h6 class="text-muted">{{ item.product.category }}</h6>
+                          <h6 class="mb-0">{{ item.product.name }}</h6>
+                        </div>
+                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                          <a href="{% url 'decrease_quantity' item.id %}" class="btn btn-link px-2">
+                            <i class="bi bi-dash-circle"></i>
+                          </a>
+                          <p>
+                            {{ item.quantity }}
+                          </p>
+                          <a href="{% url 'increase_quantity' item.id %}" class="btn btn-link px-2">
+                            <i class="bi bi-plus-circle"></i>
+                          </a>
+                        </div>
+                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                          <h6 class="mb-0">TZS. {{ item.price|floatformat:0 }}
+
+                          </h6>
+                        </div>
+                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                          <a href="{% url 'remove_cart_item' item.id %}" class="text-muted"><i
+                              class="bi bi-x-circle"></i></a>
+                        </div>
+                      </div>
+                      <hr class="my-4">
+                      {% endfor %}
+
+                      <div class="pt-5">
+                        <h6 class="mb-0"><a href="{% url 'homepage' %}" class="text-body" style="text-align: start;">
+                            <i class="bi bi-arrow-left-circle-fill"></i> Back to shop</a>
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 bg-body-tertiary">
+                    <span class="sold-out-badge">
+                      <a href="{% url 'delete_order' order.id %}"><u><i class="bi bi-trash"></i></u></a>
+                    </span>
+                    
+                    <div class="p-5" style="padding: 1.5rem !important;">
+                      <h3 class="fw-bold mb-5 mt-2 pt-1">Totals Summary</h3>
+                      <hr class="my-4">
+                      <div class="d-flex justify-content-between mb-5">
+                        <small class="text-uppercase">Items</small>
+                        <small>{{ order.items.count }} </small>
+                        <br>
+                      <!-- </div> -->
+                      <!-- <hr class="my-4"> -->
+                      <!-- <div class="d-flex justify-content-between mb-5"> -->
+                        <small class="text-uppercase">Amount</small>
+                        <small>{{ order.total_price }}</small>
+                      </div>
+                      <h5 class="text-uppercase mb-3">Discount</h5>
+
+                      <div class="mb-5">
+                        <div data-mdb-input-init class="form-outline">
+                          <input type="text" id="form3Examplea2" class="form-control form-control-lg" width="40px"
+                            readonly value="{{0}}" />
+
+                        </div>
+                      </div>
+
+                      <hr class="my-4">
+                      <div class="d-flex justify-content-between mb-5">
+                        <h5 class="text-uppercase">Net Price: </h5>
+                        <h5>TZS. <u> {{ order.total_price }}</u></h5>
+                      </div>
+
+                      <button class="submit-btn" id="details">
+                        <span class="btn-text">
+                          <a href="{% url 'checkout' %}">
+                            CHECKOUT
+                          </a>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+    </section>
+{% else %}
+    <p class="empty-cart-message">Your cart is empty!</p>
+    <p style="text-align: center;"><a href="{% url 'homepage' %}" class="keep-shopping"><i class="bi bi-cart"></i>
+            Continue Shopping</a></p>
+    {% endif %}
+
+  </div>
+</div>
+
+
+{% endblock %}

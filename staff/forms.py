@@ -12,7 +12,9 @@ class PraiseForm(forms.ModelForm):
         model = Testimonial
         fields = ['user', 'caption', 'product', 'image', 'image_2', 'image_3', 'image_4']
 
-
+class OrderForm(forms.Form):
+    shipping_address = forms.CharField(widget=forms.Textarea)
+    payment_method = forms.ChoiceField(choices=[('credit_card', 'Credit Card'), ('cash', 'Cash'), ('paypal', 'PayPal')])
 
 class ReviewForm(forms.ModelForm):
     class Meta:

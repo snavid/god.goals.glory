@@ -19,6 +19,12 @@ class Product(models.Model):
     image_2 = models.ImageField(upload_to='products/' , blank=True, null=True )
     image_3 = models.ImageField(upload_to='products/' , blank=True, null=True )
     image_4 = models.ImageField(upload_to='products/' , blank=True, null=True )
+    # Size availability
+    size_s = models.BooleanField(default=True)
+    size_m = models.BooleanField(default=True)
+    size_l = models.BooleanField(default=True)
+    size_xl = models.BooleanField(default=True)
+    size_xxl = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -65,3 +71,33 @@ class Testimonial(models.Model):
 
     def __str__(self):
         return f"Testimonial by {self.user.username} on {self.product.name}"
+
+
+
+
+class Order(models.Model):
+    SIZE_CHOICES = [
+        ('S', 'Small'),
+        ('M', 'Medium'),
+        ('L', 'Large'),
+        ('XL', 'Extra Large'),
+        ('XXL', 'Double Extra Large'),
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    is_completed = models.BooleanField(default=False)
+    sizes = models.CharField(max_length=10, choices=SIZE_CHOICES, default='M')
+
+    def __str__(self):
+        return f"Order {self.id} by {self.user.username}"
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name} in Order {self.order.id}"
