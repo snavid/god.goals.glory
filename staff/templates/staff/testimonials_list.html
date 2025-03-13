@@ -1,0 +1,53 @@
+{% extends "yuzzaz/besa.html" %}
+{% load static %}
+{% block title %}Testimonials{% endblock %}
+{% block location %}Testimonials{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<link rel="stylesheet" href="{% static 'css/list2.css' %}">
+{% endblock %}
+{% block section %}Testimonials{% endblock %}
+{% block content %}
+<div class="form-side">
+  <div class="login-form">
+
+
+    <h1>Testimonials</h1>
+    <a href="{% url 'add_testimonial' %}" class="sold-out-badge">➕ Add New testimonial</a>
+
+    <div class="table-container">
+      <div class="table-responsive">
+          <table>
+              <tr>
+                  <th>Testimonial User</th>
+                  <th>Item</th>
+                  <th>Caption</th>
+                  <th>Actions</th>
+                  <th></th>
+              </tr>
+              {% for testimonial in testimonial %}
+              <tr>
+                  <td>{{ testimonial.user }}</td>
+                  <td>{{ testimonial.product }}</td>
+                  <td>{{ testimonial.caption }}</td>
+
+
+                </td>
+                  <td class="action-icons">
+                      <a href="{% url 'edit_testimonial' testimonial.id %}" class="btn btn-primary">
+                          <i class="bi bi-pencil"></i>
+                      </a>
+                  </td>
+                  <td>
+                      <a href="{% url 'delete_testimonial' testimonial.id %}" class="btn btn-danger">
+                          <i class="bi bi-trash"></i>
+                      </a>
+                  </td>
+              </tr>
+              {% endfor %}
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

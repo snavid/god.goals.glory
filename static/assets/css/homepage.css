@@ -83,8 +83,8 @@ h1 {
 
 
 .container a {
-  width: 70%;
-  margin-top: 30px;
+  /* width: 70%; */
+  /* margin-top: 30px; */
   text-decoration: none;
   color: inherit;
 }
@@ -251,7 +251,7 @@ h1 {
   color: white;
   padding: 5px 15px;
   /* border-radius: 20px; */
-  font-size: 0.8rem;
+  /* font-size: 0.8rem; */
   z-index: 1;
 
   background-color: rgb(0, 0, 0);
@@ -847,3 +847,32 @@ h1 {
   box-shadow: 5px 5px 0px black;
   border-radius: 0;
 }
+
+
+
+.cart-alert-dot {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+
+
+    /* Add your custom styles here */
+    .container {
+      padding-top: 20px;
+    }
+
+    footer {
+      background-color: white !important;
+      color: black !important;
+    }
+
+    footer i {
+      color: black !important;
+    }
+  

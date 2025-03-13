@@ -1,0 +1,39 @@
+{% extends "yuzzaz/besa.html" %}
+{% load static %}
+{% block title %}{{title}}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<link rel="stylesheet" href="{% static 'css/actions_form.css' %}">
+{% endblock %}
+{% block location %}{{title}}{% endblock %}
+{% block content %}
+
+<div class="form-side">
+    <div class="login-form">
+      <!-- <h1>CHECKOUT</h1> -->
+      <h1>{{title}}</h1>
+      <br>
+
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="submit-btn" id="detailsi" type="submit">
+            <span class="btn-text">
+                Save
+            </span>
+        </button>
+    </form>
+    
+      
+
+        <div class="form-footer">
+            <p><i class="bi bi-arrow-left-circle-fill"></i> Go 
+                <a href="{% url 'actions'  %}"><u>BACK</u></a>
+            </p>
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,4 +1,5 @@
 # views.py
+from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import EmailMultiAlternatives
 from django.contrib import messages
@@ -49,15 +50,22 @@ def add_review(request, product_id):
 
 @login_required
 def add_testimonial(request):
+    form = PraiseForm()
     if request.method == 'POST':
-        fomu = PraiseForm(request.POST, request.FILES)  # Handle images
-        if fomu.is_valid():
-            testimonial = fomu.save(commit=False)
+        form = PraiseForm(request.POST, request.FILES)  # Handle images
+        if form.is_valid():
+            testimonial = form.save(commit=False)
             testimonial.user = request.user  # Attach the logged-in user
             testimonial.save()
-            return redirect('homepage')  # Redirect after saving
+            messages.success(request, 'Testimonial added successfully')
+            return redirect('staff_dashboard')  # Redirect after saving
+    context = {
+        'form': form,
+        'title': 'Add Testimonial',
+        'action': 'Add Testimonial',
+    }
+    return render(request, 'staff/actions_form.html', context)
 
-    return redirect('homepage')
 
 @login_required
 def add_rating(request, product_id):
@@ -76,9 +84,94 @@ def add_rating(request, product_id):
     return redirect('homepage')
 
 
-def product_list(request):
+
+def testimonials_list(request):
+    testimonials = Testimonial.objects.all()
+    return render(request, 'staff/testimonials_list.html', {'testimonial': testimonials})
+
+def edit_testimonial(request, testimonial_id):
+    testimonial = get_object_or_404(Testimonial, id=testimonial_id)
+    
+    if request.method == "POST":
+        form = PraiseForm(request.POST, request.FILES, instance=testimonial)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'testimonial edited successfully')
+            return redirect('testimonials_list')
+    else:
+        form = PraiseForm(instance=testimonial)
+    
+    return render(request, 'staff/actions_form.html', {'form': form, 'title': 'Edit testimonial'})
+
+
+@login_required
+def add_testimonial(request):
+    if request.method == 'POST':
+        form = PraiseForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Testimonial added successfully')
+            return redirect('testimonials_list')
+    else:
+        form = PraiseForm()
+    context = {
+    'form': form,
+    'title': 'Add testimonial',
+    'action': 'Add testimonial',
+    }
+    return render(request, 'staff/actions_form.html', context)
+
+@login_required
+def delete_testimonial(request, pk):
+    testimonial = get_object_or_404(Testimonial, pk=pk)
+    testimonial.delete()
+    messages.success(request, 'Testimonial deleted successfully')
+    return redirect('testimonials_list')
+
+User = get_user_model()
+
+@login_required
+def users_list(request):
+    users = User.objects.all()
+    return render(request, 'staff/users_list.html', {'user': users})
+
+@login_required
+def orders_list(request):
+    orders = Order.objects.all()
+    return render(request, 'staff/orders_list.html', {'order': orders})
+
+@login_required
+def order_detail(request, order_id):
+    order = get_object_or_404(Order.objects.prefetch_related('items'), id=order_id)
+    return render(request, 'staff/order_details.html', {'order': order})
+
+@login_required
+def delete_order(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    order.delete()
+    return redirect('orders_list')
+
+
+
+
+def products_list(request):
     products = Product.objects.all()
-    return render(request, 'products.html', {'products': products})
+    return render(request, 'staff/products_list.html', {'product': products})
+
+def edit_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product edited successfully')
+            return redirect('products_list')
+    else:
+        form = ProductForm(instance=product)
+    
+    return render(request, 'staff/actions_form.html', {'form': form, 'title': 'Edit Product'})
+
 
 @login_required
 def add_product(request):
@@ -86,28 +179,24 @@ def add_product(request):
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('product_list')
+            messages.success(request, 'Product added successfully')
+            return redirect('products_list')
     else:
         form = ProductForm()
-    return render(request, 'product_form.html', {'form': form})
-
-@login_required
-def update_product(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES, instance=product)
-        if form.is_valid():
-            form.save()
-            return redirect('staff_dashboard')  # Redirect to dashboard after update
-    else:
-        form = ProductForm(instance=product)
-    return render(request, 'staff/update_product.html', {'form': form})
+    context = {
+    'form': form,
+    'title': 'Add Product',
+    'action': 'Add Product',
+    }
+    return render(request, 'staff/actions_form.html', context)
 
 @login_required
 def delete_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     product.delete()
-    return redirect('staff_dashboard')
+    return redirect('products_list')
+
+
 
 @login_required
 def review_rate(request, product_id):
@@ -181,8 +270,6 @@ def send_bulk_email(request):
         form = EmailTemplateForm()
 
     return render(request, "waitlist/send_email.html", {"form": form})
-
-
 
 
 
@@ -280,3 +367,8 @@ def send_bulk_email(request, template_id):
 
     return redirect('email_template_list')
 
+
+def actions(request):
+    """Allow staff to view all waitlist users."""
+    users = WaitlistUser.objects.all().order_by('-joined_at')
+    return render(request, "staff/actions.html", {"users": users})

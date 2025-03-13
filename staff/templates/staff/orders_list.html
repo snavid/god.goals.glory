@@ -1,0 +1,53 @@
+{% extends "yuzzaz/besa.html" %}
+{% load static %}
+{% block title %}Orders{% endblock %}
+{% block location %}Orders{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock %}
+{% block section %}Orders{% endblock %}
+{% block content %}
+<div class="form-side">
+  <div class="login-form">
+    
+    <h1>Orders</h1>
+
+    <div class="table-container">
+      <div class="table-responsive">
+          <table>
+              <tr>
+                  <th>Order</th>
+                  <th>Items No.</th>
+                  <th>Total Price</th>
+                  <th>Completed?</th>
+                  <th>Contact</th>
+                  <th></th>
+              </tr>
+              {% for order in order %}
+              <tr>
+                  <td>
+                    <a href="{% url 'order_detail' order.id %}">
+                      <i class="bi bi-info-circle"></i> {{ order.user }}
+                    </a>
+                  </td>
+                      
+                  <td>{{ order.items.count }}</td>
+                  <td>{{ order.total_price }}</td>
+                  <td>{{ order.is_completed|yesno:"Yes,No" }}</td>
+
+
+                </td>
+                  <td>
+                      <a href="mailto:{{ order.user.email }}" class="btn btn-primary">
+                          <i class="bi bi-envelope"></i>
+                      </a>
+                  </td>
+              </tr>
+              {% endfor %}
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

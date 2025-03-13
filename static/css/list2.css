@@ -1,0 +1,65 @@
+
+body { font-family: Arial, sans-serif; }
+.container { width: 80%; margin: auto; padding: 20px; }
+.btn { padding: 8px 12px; margin: 5px; border: none; color: white; border-radius: 4px; text-decoration: none; }
+.btn-edit { background: blue; }
+.btn-send { background: green; }
+.btn-create { background: black; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+th { background: black; color: white; }
+
+.sold-out-badge {
+  position: relative;
+  top: 10px;
+  margin-top: 30px;
+  text-decoration: none;
+  color: white !important;
+  float: right;
+  margin-bottom: 30px;
+  width: fit-content !important;
+  font-size: inherit;
+}
+
+.container a {
+  width: inherit;
+  margin-top: inherit;
+  text-decoration: inherit;
+  color: inherit;
+}
+
+@media (max-width: 1024px) {
+  .login-form {
+    width: 330px;
+    max-width: 100%;
+    padding: 20px !important;
+  }
+}
+
+.table-responsive {
+    overflow-x: auto; /* Enables horizontal scrolling on small screens */
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Ensures table doesn’t shrink too much */
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+@media (max-width: 768px) {
+    .table-container {
+        padding: 10px;
+    }
+    
+    th, td {
+        padding: 8px;
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+}

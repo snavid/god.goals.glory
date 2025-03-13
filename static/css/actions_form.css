@@ -1,0 +1,15 @@
+
+.login-form{
+    padding: 2rem;
+}
+input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(128, 128, 128, 0.486);
+    border-radius: 5px;
+}
+@media (max-width: 1024px) {
+    .login-form {
+padding: 2rem !important;
+    }
+    }

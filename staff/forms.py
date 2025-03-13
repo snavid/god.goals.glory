@@ -6,7 +6,7 @@ from .models import Product, Review, Rating, Testimonial, WaitlistUser, Waitlist
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'price', 'description', 'status', 'quantity', 'image']
+        fields = ['name', 'price', 'description', 'status', 'quantity', 'image', 'image_2', 'image_3', 'image_4']
 
 class PraiseForm(forms.ModelForm):
     class Meta:

@@ -1,0 +1,56 @@
+{% extends "yuzzaz/besa.html" %}
+{% load static %}
+{% block title %}Orders{% endblock %}
+{% block location %}Orders{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<link rel="stylesheet" href="{% static 'css/order_details.css' %}">
+{% endblock %}
+{% block section %}Orders{% endblock %}
+{% block content %}
+<div class="form-side">
+  <div class="login-form">
+    
+    <div class="table-container">
+
+        <h1>Order Details</h1>
+
+        <p><strong>Order ID:</strong> {{ order.id }}</p>
+        <p><strong>Order User:</strong> {{ order.user.get_full_name }}</p>
+        <p><strong>Email:</strong> <a href="mailto:{{ order.user.email }}">{{ order.user.email }}</a></p>
+        <p><strong>Status:</strong> <strong style="color: {{ order.is_completed|yesno:'#28a745,#dc3545' }};">
+            {{ order.is_completed|yesno:"Completed,Pending" }}
+        </strong></p>
+        <p><strong>Created At:</strong> {{ order.created_at }}</p>
+        <p><strong>Updated At:</strong> {{ order.updated_at }}</p>
+        
+        <h3>Items in Order:</h3>
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Size</th>
+                    <th>Price (TZS)</th>
+                </tr>
+                {% for item in order.items.all %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.sizes }}</td>
+                    <td>{{ item.price }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align: center; color: #999;">No items in this order.</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+        </div>
+        <p><strong>Total Price:</strong> TZS <u>{{ order.total_price }}</u></p>
+        
+    </div>
+  </div>
+</div>
+{% endblock %}
