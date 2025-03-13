@@ -1,0 +1,23 @@
+{% extends "yuzzaz/besa.html" %}
+{% load static %}
+{% block title %}CART{% endblock %}
+{% block location %}CART{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock %}
+{% block section %}CART{% endblock %}
+{% block content %}
+<div class="form-side">
+  <div class="login-form">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Join Waitlist</button>
+    </form>
+    
+  </div>
+</div>
+
+
+
+{% endblock %}

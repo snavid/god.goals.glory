@@ -34,7 +34,7 @@ body {
   h1 {
     font-size: 3rem;
     font-weight: bold;
-    /* margin-bottom: 30px; */
+    margin-top: 30px;
     text-align: center;
     font-size: revert !important;
     padding: 10px;

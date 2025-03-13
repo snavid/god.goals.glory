@@ -340,11 +340,17 @@ body {
     }
     .login-form {
         width: 95%;
-        max-width: 360px;
+        max-width: 345px;
+        
     }
     .main-image {
-        width: 350px;
+        width: 345px;
     }
+
+    .size-btn{
+
+        margin-bottom: 10px;
+    }    
 
     .form-side {
         padding: 0 !important;
@@ -369,7 +375,6 @@ body {
     background: rgba(0, 105, 148, 0.95);
     padding: 1rem;
     backdrop-filter: blur(10px);
-}
 }
 
 @media (max-width: 480px) {
@@ -602,4 +607,69 @@ img{
 .size-btn:hover, .size-btn.selected {
     background-color: #000;
     color: #fff;
+}
+
+
+
+.order-tracking {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+}
+
+.round {
+    font-size: 24px;
+    background: black;
+    color: white;
+    border-radius: 100%;
+    padding: 12px;
+    margin-bottom: 5px;
+    width: 60px;
+    height: 60px;
+}
+
+.step p {
+    margin: 2px 0;
+    font-size: 14px;
+}
+
+.fw-bold {
+    font-weight: bold;
+}
+
+.line {
+    flex-grow: 1;
+    height: 3px;
+    background: black;
+    margin: 0 10px;
+}
+
+
+
+.main-imagee {
+    width: 150px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.main-imagee.active {
+    border-color: #4d4d4d; /* Active image border color */
+}
+
+@media (max-width: 1024px) {
+    .auto {
+        width: 345px;
+        overflow-x: scroll;
+    }
 }

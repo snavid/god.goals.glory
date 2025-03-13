@@ -1,3 +1,4 @@
+from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -76,28 +77,50 @@ class Testimonial(models.Model):
 
 
 class Order(models.Model):
-    SIZE_CHOICES = [
-        ('S', 'Small'),
-        ('M', 'Medium'),
-        ('L', 'Large'),
-        ('XL', 'Extra Large'),
-        ('XXL', 'Double Extra Large'),
-    ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     is_completed = models.BooleanField(default=False)
-    sizes = models.CharField(max_length=10, choices=SIZE_CHOICES, default='M')
-
+    
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
+    SIZE_CHOICES = [
+        ('S', 'S'),
+        ('M', 'M'),
+        ('L', 'L'),
+        ('XL', 'XL'),
+        ('XXL', 'XXL'),
+    ]
+
+    sizes = models.CharField(max_length=10, choices=SIZE_CHOICES, default='M')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name} in Order {self.order.id}"
+    
+
+
+class WaitlistUser(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField(unique=True)  # Ensure unique emails
+    joined_at = models.DateTimeField(auto_now_add=True)
+    tel1 = PhoneNumberField()
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} ({self.email})"
+
+class WaitlistEmailTemplate(models.Model):
+    subject = models.CharField(max_length=255)
+    content = models.TextField()
+    attachment = models.FileField(upload_to="email_attachments/", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.subject

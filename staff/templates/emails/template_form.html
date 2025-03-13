@@ -3,19 +3,27 @@
 {% block title %}Checkout{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<style>
+    .login-form{
+        padding: 2rem;
+    }
+</style>
 {% endblock %}
 {% block section %}Checkout{% endblock %}
 {% block content %}
 
 <div class="form-side">
     <div class="login-form">
-      <h1>CHECKOUT</h1>
-      <form method="post" action="{% url 'send_order_email' %}">
+      <!-- <h1>CHECKOUT</h1> -->
+      <h1>{% if form.instance.pk %} Edit {% else %} Create {% endif %} Email Template</h1>
+      <br>
+
+      <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button class="submit-btn" id="detailsi" type="submit">
             <span class="btn-text">
-                SEND ORDER EMAIL
+                Save template
             </span>
         </button>
     </form>
@@ -24,7 +32,7 @@
 
         <div class="form-footer">
             <p><i class="bi bi-arrow-left-circle-fill"></i> Go 
-                <a href="{% url 'cart'  %}"><u>BACK</u></a>
+                <a href="{% url 'email_template_list'  %}"><u>BACK</u></a>
             </p>
         </div>
 

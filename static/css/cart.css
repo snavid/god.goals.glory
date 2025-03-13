@@ -171,10 +171,10 @@ body {
 
 .login-form {
     width: 100%;
-    width: 60vw;
+    width: 80vw;
     max-width: calc(100% - 2rem);
     /* padding: 3rem; */
-    padding: 2rem;
+    padding: 1rem;
     background: rgb(255, 255, 255);
     /* backdrop-filter: blur(10px); */
     border: 1px solid grey;
@@ -341,9 +341,15 @@ body {
     }
     .login-form {
         width: 95%;
-        max-width: 360px;
-    }
-    .main-image {
+        max-width: 100%;
+        /* margin-left: 15px; */
+        padding: 0 !important;
+
+      }
+      .login-form .p-5{
+   padding: 1rem !important;
+      }
+          .main-image {
         width: 350px;
     }
 
@@ -371,7 +377,7 @@ body {
     padding: 1rem;
     backdrop-filter: blur(10px);
 }
-}
+
 
 @media (max-width: 480px) {
     .form-side {
@@ -423,7 +429,7 @@ body {
 
 @media (min-width: 768px) {
     .login-form {
-        padding: 2rem;
+        /* padding: 2rem; */
     }
 
 }
@@ -688,4 +694,10 @@ select{
 
   .card-registration .select-arrow {
     top: 13px;
+  }
+
+
+
+  .form-select-sm {
+    width: fit-content !important;
   }

@@ -1,7 +1,7 @@
 
 # admin.py
 from django.contrib import admin
-from .models import Product, Review, Rating, Testimonial, Order, OrderItem
+from .models import Product, Review, Rating, Testimonial, Order, OrderItem, WaitlistUser, WaitlistEmailTemplate
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -24,7 +24,7 @@ class TestimonialAdmin(admin.ModelAdmin):
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 1  # Number of empty forms to display for adding new OrderItems
-    fields = ('product', 'quantity', 'price')
+    fields = ('product', 'quantity', 'price', 'sizes')
     readonly_fields = ('price',)  # Price is calculated, so it should be read-only
 
 class OrderAdmin(admin.ModelAdmin):
@@ -51,3 +51,14 @@ class OrderItemAdmin(admin.ModelAdmin):
 # Register models with their respective admin classes
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem, OrderItemAdmin)
+
+
+@admin.register(WaitlistUser)
+class WaitlistUserAdmin(admin.ModelAdmin):
+    list_display = ("first_name", "last_name", "email", "joined_at")
+    search_fields = ("email", "first_name", "last_name")
+
+@admin.register(WaitlistEmailTemplate)
+class WaitlistEmailTemplateAdmin(admin.ModelAdmin):
+    list_display = ("subject", "created_at")
+    search_fields = ("subject",)

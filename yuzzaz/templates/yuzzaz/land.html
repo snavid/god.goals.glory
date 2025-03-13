@@ -15,35 +15,91 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
     rel="stylesheet">
-  <style></style>
+  <style>
+    /* Styling for the waitlist form */
+    .waitlist-form {
+      display: none;
+      background: black;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      text-align: left;
+    }
+    .waitlist-form input {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid white;
+      color: white;
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      outline: none;
+    }
+    .waitlist-form button {
+      background: white;
+      color: black;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+    }
+    .hidden {
+      display: none;
+    }
+    .error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+  </style>
 </head>
 
 <body>
 
-  <br>
-  <br>
   <h1>GOD · GOALS · GLORY</h1>
-
 
   <div class="hero-section">
     <div class="container">
       <p>MONTHLY DROPS ARE ONLY ACCESSIBLE BY JOINING THE WAITLIST</p>
-      <a href="#" class="btn">JOIN WAITLIST</a>
-
-      <a href="{% url 'homepage' %}" class="btn">SHOP BASICS</a>
+      <a href="#" class="btn" id="join-waitlist-btn">JOIN WAITLIST</a>
+      <a href="{% url 'homepage' %}" class="btn" id="shop-basics-btn">SHOP BASICS</a>
     </div>
+
+    <div class="container">
+    <form method="POST" action="{% url 'join_waitlist' %}" class="waitlist-form" id="waitlist-form">
+      {% csrf_token %}
+      
+      <input type="text" name="first_name" placeholder="First Name" value="{{ form.first_name.value|default_if_none:'' }}" required>
+      {% if form.first_name.errors %}
+      <p class="error">{{ form.first_name.errors.0 }}</p>
+      {% endif %}
+    
+      <input type="text" name="last_name" placeholder="Last Name" value="{{ form.last_name.value|default_if_none:'' }}" required>
+      {% if form.last_name.errors %}
+      <p class="error">{{ form.last_name.errors.0 }}</p>
+      {% endif %}
+    
+      <input type="email" name="email" placeholder="Email" value="{{ form.email.value|default_if_none:'' }}" required>
+      {% if form.email.errors %}
+      <p class="error">{{ form.email.errors.0 }}</p>
+      {% endif %}
+    
+      <input type="tel" name="tel1" placeholder="Phone Number" value="{{ form.tel1.value|default_if_none:'' }}" required>
+      {% if form.tel1.errors %}
+      <p class="error">{{ form.tel1.errors.0 }}</p>
+      {% endif %}
+    
+      <button type="submit">JOIN</button>
+    </form>
   </div>
-
-
+  </div>
 
   <footer class="footer">
     <div class="container">
-      <span>
-        All rights reserved.
-        <br>
-        &copy; 
-        2025 GOD·GOALS·GLORY. 
-      </span>
+      <span>All rights reserved. <br> &copy; 2025 GOD·GOALS·GLORY.</span>
     </div>
   </footer>
   {% if messages %}
@@ -61,11 +117,13 @@
       {% endfor %}
   </div>
   {% endif %}
+  <script>
+    document.getElementById('join-waitlist-btn').addEventListener('click', function (event) {
+      event.preventDefault();
+      document.getElementById('waitlist-form').style.display = 'block';
+      document.getElementById('shop-basics-btn').classList.add('hidden');
+    });
+  </script>
 
-
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
 </html>

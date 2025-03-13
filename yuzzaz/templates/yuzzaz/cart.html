@@ -1,6 +1,7 @@
 {% extends "yuzzaz/besa.html" %}
 {% load static %}
 {% block title %}CART{% endblock %}
+{% block location %}CART{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/cart.css' %}">
 {% endblock %}
@@ -27,37 +28,58 @@
 
                       {% for item in order.items.all %}
                       <div class="row mb-4 d-flex justify-content-between align-items-center">
-                        <div class="col-md-2 col-lg-2 col-xl-2">
-                          <img src="{{ item.product.image.url }}" class="img-fluid rounded-3"
-                            alt="{{ item.product.name }}">
-                        </div>
-                        <div class="col-md-3 col-lg-3 col-xl-3">
-                          <h6 class="text-muted">{{ item.product.category }}</h6>
-                          <h6 class="mb-0">{{ item.product.name }}</h6>
-                        </div>
-                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                          <a href="{% url 'decrease_quantity' item.id %}" class="btn btn-link px-2">
-                            <i class="bi bi-dash-circle"></i>
-                          </a>
-                          <p>
-                            {{ item.quantity }}
-                          </p>
-                          <a href="{% url 'increase_quantity' item.id %}" class="btn btn-link px-2">
-                            <i class="bi bi-plus-circle"></i>
-                          </a>
-                        </div>
-                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                          <h6 class="mb-0">TZS. {{ item.price|floatformat:0 }}
-
-                          </h6>
-                        </div>
-                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                          <a href="{% url 'remove_cart_item' item.id %}" class="text-muted"><i
-                              class="bi bi-x-circle"></i></a>
-                        </div>
+                          <div class="col-md-2 col-lg-2 col-xl-2">
+                              <img src="{{ item.product.image.url }}" class="img-fluid rounded-3" alt="{{ item.product.name }}">
+                          </div>
+                          <div class="col-md-3 col-lg-3 col-xl-3">
+                              <h6 class="text-muted">{{ item.product.category }}</h6>
+                              <h6 class="mb-0">{{ item.product.name }}</h6>
+                          </div>
+                          <div class="col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
+                              <a href="{% url 'decrease_quantity' item.id %}" class="btn btn-link px-2">
+                                  <i class="bi bi-dash-circle"></i>
+                              </a>
+                              <p class="mb-0">{{ item.quantity }}</p>
+                      
+                              <!-- Size Selection Dropdown -->
+                              <form method="POST" action="{% url 'update_cart_item_size' item.id %}" class="mx-2">
+                                {% csrf_token %}
+                                <select name="size" id="size-{{ item.id }}" class="form-select form-select-sm"
+                                    onchange="this.form.submit(); showLoading('{{ item.id }}');">
+                                    {% for size, label in item.SIZE_CHOICES %}
+                                        <option value="{{ size }}" {% if item.sizes == size %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                            
+                      
+                              <!-- Loading Indicator -->
+                              <div id="loading-{{ item.id }}" class="spinner-border spinner-border-sm text-primary d-none" role="status">
+                                  <span class="visually-hidden">Updating...</span>
+                              </div>
+                      
+                              <a href="{% url 'increase_quantity' item.id %}" class="btn btn-link px-2">
+                                  <i class="bi bi-plus-circle"></i>
+                              </a>
+                          </div>
+                          <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                              <h6 class="mb-0">TZS. {{ item.price|floatformat:0 }}</h6>
+                          </div>
+                          <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                              <a href="{% url 'remove_cart_item' item.id %}" class="text-muted">
+                                  <i class="bi bi-x-circle"></i>
+                              </a>
+                          </div>
                       </div>
                       <hr class="my-4">
                       {% endfor %}
+
+                      <script>
+function showLoading(itemId) {
+    document.getElementById('loading-' + itemId).classList.remove('d-none');
+}
+</script>
+
 
                       <div class="pt-5">
                         <h6 class="mb-0"><a href="{% url 'homepage' %}" class="text-body" style="text-align: start;">
@@ -82,7 +104,7 @@
                       <!-- <hr class="my-4"> -->
                       <!-- <div class="d-flex justify-content-between mb-5"> -->
                         <small class="text-uppercase">Amount</small>
-                        <small>{{ order.total_price }}</small>
+                        <small>{{ order.total_price|floatformat:0  }}</small>
                       </div>
                       <h5 class="text-uppercase mb-3">Discount</h5>
 
@@ -96,11 +118,11 @@
 
                       <hr class="my-4">
                       <div class="d-flex justify-content-between mb-5">
-                        <h5 class="text-uppercase">Net Price: </h5>
+                        <h5 class="text-uppercase">Net Price : </h5>
                         <h5>TZS. <u> {{ order.total_price }}</u></h5>
                       </div>
 
-                      <button class="submit-btn" id="details">
+                      <button class="submit-btn" id="detailsi">
                         <span class="btn-text">
                           <a href="{% url 'checkout' %}">
                             CHECKOUT
@@ -118,13 +140,14 @@
       <br>
     </section>
 {% else %}
-    <p class="empty-cart-message">Your cart is empty!</p>
+    <p class="empty-cart-message" style="padding: 20px;">Your cart is empty!</p>
     <p style="text-align: center;"><a href="{% url 'homepage' %}" class="keep-shopping"><i class="bi bi-cart"></i>
-            Continue Shopping</a></p>
+            Go Shopping</a></p>
     {% endif %}
 
   </div>
 </div>
+
 
 
 {% endblock %}

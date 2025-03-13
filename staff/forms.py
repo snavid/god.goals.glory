@@ -1,6 +1,7 @@
 # forms.py
 from django import forms
-from .models import Product, Review, Rating, Testimonial
+from .models import Product, Review, Rating, Testimonial, WaitlistUser, WaitlistEmailTemplate
+
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -11,10 +12,31 @@ class PraiseForm(forms.ModelForm):
     class Meta:
         model = Testimonial
         fields = ['user', 'caption', 'product', 'image', 'image_2', 'image_3', 'image_4']
-
+        
 class OrderForm(forms.Form):
-    shipping_address = forms.CharField(widget=forms.Textarea)
-    payment_method = forms.ChoiceField(choices=[('credit_card', 'Credit Card'), ('cash', 'Cash'), ('paypal', 'PayPal')])
+    address = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Please enter your address'}))
+    payment_method = forms.ChoiceField(choices=[('cash', 'Cash')])
+
+class WaitlistSignupForm(forms.ModelForm):
+    class Meta:
+        model = WaitlistUser
+        fields = ['first_name', 'last_name', 'email', 'tel1']
+
+# class EmailTemplateForm(forms.ModelForm):
+#     class Meta:
+#         model = WaitlistEmailTemplate
+#         fields = ['subject', 'content', 'attachment']
+
+class EmailTemplateForm(forms.ModelForm):
+    class Meta:
+        model = WaitlistEmailTemplate
+        fields = ['subject', 'content', 'attachment']
+        widgets = {
+            'subject': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter subject'}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Email content...'}),
+        }
+
+
 
 class ReviewForm(forms.ModelForm):
     class Meta:

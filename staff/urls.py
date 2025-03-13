@@ -13,4 +13,20 @@ urlpatterns = [
     path('review_rate/<int:product_id>/', views.review_rate, name='review_rate'),
     path('add-testimonial/', views.add_testimonial, name='add_testimonial'),
     
+
+
+    path("waitlist/join/", views.join_waitlist, name="join_waitlist"),
+    path("waitlist/admin/", views.waitlist_admin, name="waitlist_admin"),
+    path("waitlist/send-email/", views.send_bulk_email, name="send_bulk_email"),
+
+    path('email-template/', views.email_template_list, name='email_template_list'),
+    # path('email-template/edit/<int:template_id>/', views.email_template_edit, name='email_template_edit'),
+    # path('send-email/<int:template_id>/', views.send_bulk_email, name='send_bulk_email'),
+
+    # path("email-template/edit/<int:template_id>/", views.email_template_edit, name="email_template_edit"),
+    path("email-template/delete/<int:template_id>/", views.delete_template, name="delete_template"),
+    path("email-template/create/", views.email_template_create, name="email_template_create"),  # New template
+    path("email-template/edit/<int:template_id>/", views.email_template_edit, name="email_template_edit"),  # Edit template
+    path("waitlist/send-email/<int:template_id>/", views.send_bulk_email, name="send_bulk_email"),
+
 ]

@@ -26,6 +26,16 @@ from datetime import timedelta
 
 User = get_user_model()
 
+# @login_required
+# def besa(request):
+#     has_pending_order = Order.objects.filter(user=request.user, is_completed=False).exists()
+    
+#     context = {
+#         'has_pending_order': Order.objects.filter(user=request.user, is_completed=False).exists()
+#     }
+    
+#     return render(request, 'yuzzaz/besa.html', context)
+
 # Register view: Handles user registration and sending activation email
 def register(request):
     if request.method == "POST":
@@ -116,13 +126,20 @@ def login(request):
     return render(request, 'yuzzaz/login.html')
 
 def homepage(request):
+    user = request.user  # Get the user object
+    has_pending_order = False  # Default value
+
+    if user.is_authenticated:
+        has_pending_order = Order.objects.filter(user=user, is_completed=False).exists()
+
     context = {
         'products': Product.objects.all(),
         'latest_products': Product.objects.order_by('-id')[:6],  # Get last 6 products
-        'testimonials' : Testimonial.objects.all().order_by('-created_at'),
-        'user' : request.user
-
+        'testimonials': Testimonial.objects.all().order_by('-created_at'),
+        'user': user,
+        'has_pending_order': has_pending_order
     }
+
     return render(request, 'yuzzaz/homepage.html', context)
 
 def land(request):
@@ -158,7 +175,9 @@ def profile(request):
     
     return render(request, 'yuzzaz/profile.html', {
         'user': user,
-        'form': form
+        'form': form,
+        'has_pending_order': Order.objects.filter(user=request.user, is_completed=False).exists()
+
     })
 
 
@@ -169,6 +188,10 @@ def product_detail(request, product_id):
     ordered_date = timezone.now()
     order_ready_date = ordered_date + timedelta(days=2)
     delivered_date = order_ready_date + timedelta(days=2)
+    user = request.user
+    has_pending_order = False  # Default value
+    if user.is_authenticated:
+        has_pending_order = Order.objects.filter(user=user, is_completed=False).exists()
 
     context = {
         'product': product,
@@ -179,6 +202,8 @@ def product_detail(request, product_id):
         'ordered_date': ordered_date,
         'order_ready_date': order_ready_date,
         'delivered_date': delivered_date,
+        'has_pending_order': has_pending_order
+
     }
     
     return render(request, 'yuzzaz/shop.html', context)
@@ -186,37 +211,66 @@ def product_detail(request, product_id):
 
 
 
-
 @login_required
-def add_to_cart(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    order, created = Order.objects.get_or_create(user=request.user, is_completed=False)
+def update_cart_item_size(request, item_id):
+    item = get_object_or_404(OrderItem, id=item_id, order__user=request.user, order__is_completed=False)
 
-    # Provide a default price immediately to avoid NULL errors
-    order_item, created = OrderItem.objects.get_or_create(
-        order=order, product=product,
-        defaults={'price': product.price}  # Set default price when creating
-    )
+    if request.method == 'POST':
+        new_size = request.POST.get('size')
 
-    if not created:
-        order_item.quantity += 1
-    else:
-        order_item.quantity = 1
-        
-    # Update price based on quantity
-    order_item.price = product.price * order_item.quantity
-    order_item.save()
-
-    # Update the total price of the order
-    order.total_price = sum(item.price for item in order.items.all())
-    order.save()
-
+        if new_size and new_size != item.sizes:  # Update only if the size is different
+            item.sizes = new_size
+            item.save()
+    
     return redirect('cart')
+
+
+
+# @login_required
+# def add_to_cart(request, product_id):
+#     product = get_object_or_404(Product, id=product_id)
+    
+#     sizes = request.POST.get("sizes", "M")  # Ensure a default value if not selected
+
+#     if not sizes:  # Double-check if sizes is still empty
+#         messages.error(request, "Please select a size before adding to cart.")
+#         return redirect("product_detail", product_id=product.id)  # Redirect user back
+
+#     order, created = Order.objects.get_or_create(user=request.user, is_completed=False)
+
+#     order_item, created = OrderItem.objects.get_or_create(
+#         order=order,
+#         product=product,
+#         sizes=sizes,  # Correct field name
+#         defaults={'price': product.price, 'quantity': 1}
+#     )
+
+#     if not created:
+#         order_item.quantity += 1  # Increase quantity if already exists
+
+#     order_item.price = product.price * order_item.quantity
+#     order_item.save()
+
+#     order.total_price = sum(item.price for item in order.items.all())
+#     order.save()
+
+#     return redirect('cart')
+
+
 
 @login_required
 def cart(request):
     order = Order.objects.filter(user=request.user, is_completed=False).first()
-    return render(request, 'yuzzaz/cart.html', {'order': order})
+
+    # Check if order exists but has no items, then delete it
+    if order and not order.items.exists():
+        order.delete()
+        order = None  # Set to None so template recognizes an empty cart
+
+    return render(request, 'yuzzaz/cart.html', {
+        'order': order,
+        'has_pending_order': order is not None
+    })
 
 @login_required
 def order_confirmation (request, order_id):
@@ -229,13 +283,16 @@ def checkout(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
-            order.shipping_address = form.cleaned_data['shipping_address']
+            order.address = form.cleaned_data['address']
             order.is_completed = True
             order.save()
             return redirect('order_confirmation', order_id=order.id)
     else:
         form = OrderForm()
-    return render(request, 'yuzzaz/checkout.html', {'order': order, 'form': form})
+    return render(request, 'yuzzaz/checkout.html', {'order': order,
+                                                     'form': form,
+                                                     'has_pending_order': Order.objects.filter(user=request.user, is_completed=False).exists()
+                                                     })
 
 
 @login_required
@@ -243,24 +300,68 @@ def delete_order(request, pk):
     order = get_object_or_404(Order, pk=pk)
     order.delete()
     return redirect('homepage')
+@login_required
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    sizes = request.POST.get("sizes", "M")  # Default size if not selected
+
+    if not sizes:
+        messages.error(request, "Please select a size before adding to cart.")
+        return redirect("product_detail", product_id=product.id)
+
+    order, created = Order.objects.get_or_create(user=request.user, is_completed=False)
+
+    order_item, created = OrderItem.objects.get_or_create(
+        order=order,
+        product=product,
+        sizes=sizes, 
+        defaults={'price': product.price, 'quantity': 1}
+    )
+
+    if not created:
+        order_item.quantity += 1
+
+    order_item.price = order_item.quantity * product.price  # Ensure correct calculation
+    order_item.save()
+
+    # **Recalculate total cart price**
+    order.total_price = sum(item.price for item in order.items.all())
+    order.save()
+
+    return redirect('cart')
+
 
 @login_required
 def increase_quantity(request, item_id):
     order_item = get_object_or_404(OrderItem, id=item_id, order__user=request.user)
+    
     order_item.quantity += 1
     order_item.price = order_item.quantity * order_item.product.price
     order_item.save()
+
+    # **Update total cart price**
+    order_item.order.total_price = sum(item.price for item in order_item.order.items.all())
+    order_item.order.save()
+
     return redirect('cart')
+
 
 @login_required
 def decrease_quantity(request, item_id):
     order_item = get_object_or_404(OrderItem, id=item_id, order__user=request.user)
+    
     if order_item.quantity > 1:
         order_item.quantity -= 1
         order_item.price = order_item.quantity * order_item.product.price
         order_item.save()
     else:
-        order_item.delete()  # Remove if quantity reaches 0
+        order_item.delete()  # Remove item if quantity is zero
+
+    # **Update total cart price**
+    order = order_item.order
+    order.total_price = sum(item.price for item in order.items.all()) if order.items.exists() else 0
+    order.save()
+
     return redirect('cart')
 
 @login_required
@@ -345,6 +446,46 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 import datetime
 
+# def send_order_email(request):
+#     user = request.user
+#     order = Order.objects.filter(user=user, is_completed=False).first()
+
+#     if not order:
+#         messages.error(request, "No pending orders found.")
+#         return redirect('cart')
+
+#     order_items = []
+#     total_price = 0
+
+#     for item in order.items.all():
+#         item_total = item.quantity * item.product.price  # Precompute
+#         total_price += item_total
+#         order_items.append({
+#             'name': item.product.name,
+#             'quantity': item.quantity,
+#             'price': item.product.price,
+#             'total': item_total,  # Add precomputed total
+#         })
+
+#     html_message = render_to_string("yuzzaz/order_email.html", {
+#         'user': user,
+#         'order_items': order_items,
+#         'total_price': total_price,
+#         'current_year': datetime.datetime.now().year,
+#     })
+
+#     plain_message = strip_tags(html_message)
+#     subject = "🛒 Your Order Confirmation"
+#     email = EmailMultiAlternatives(subject, plain_message, to=[user.email])
+#     email.attach_alternative(html_message, "text/html")
+#     email.send()
+
+#     messages.success(request, "Order confirmation email sent successfully.")
+#     return redirect('homepage')
+
+
+
+@login_required
 def send_order_email(request):
     user = request.user
     order = Order.objects.filter(user=user, is_completed=False).first()
@@ -353,31 +494,46 @@ def send_order_email(request):
         messages.error(request, "No pending orders found.")
         return redirect('cart')
 
-    order_items = []
-    total_price = 0
+    if request.method == "POST":
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            address = form.cleaned_data['address']
+            payment_method = form.cleaned_data['payment_method']
 
-    for item in order.items.all():
-        item_total = item.quantity * item.product.price  # Precompute
-        total_price += item_total
-        order_items.append({
-            'name': item.product.name,
-            'quantity': item.quantity,
-            'price': item.product.price,
-            'total': item_total,  # Add precomputed total
-        })
+            order_items = []
+            total_price = 0
 
-    html_message = render_to_string("yuzzaz/order_email.html", {
-        'user': user,
-        'order_items': order_items,
-        'total_price': total_price,
-        'current_year': datetime.datetime.now().year,
-    })
+            for item in order.items.all():
+                item_total = item.quantity * item.product.price  # Calculate item total
+                total_price += item_total
+                order_items.append({
+                    'name': item.product.name,
+                    'quantity': item.quantity,
+                    'price': item.product.price,
+                    'total': item_total,
+                    'size': item.sizes,  # Include item size
+                })
 
-    plain_message = strip_tags(html_message)
-    subject = "🛒 Your Order Confirmation"
-    email = EmailMultiAlternatives(subject, plain_message, to=[user.email])
-    email.attach_alternative(html_message, "text/html")
-    email.send()
+            # Render email template with shipping details
+            html_message = render_to_string("yuzzaz/order_email.html", {
+                'user': user,
+                'order_items': order_items,
+                'total_price': total_price,
+                'address': address,
+                'payment_method': payment_method,
+                'current_year': datetime.datetime.now().year,
+            })
 
-    messages.success(request, "Order confirmation email sent successfully.")
-    return redirect('homepage')
+            plain_message = strip_tags(html_message)
+            subject = "🛒 Your Order Confirmation"
+            email = EmailMultiAlternatives(subject, plain_message, to=[user.email])
+            email.attach_alternative(html_message, "text/html")
+            email.send()
+
+            messages.success(request, "Order confirmation email sent successfully.")
+            return redirect('homepage')
+        else:
+            messages.error(request, "Please provide a valid shipping address.")
+
+    return redirect('cart')
+

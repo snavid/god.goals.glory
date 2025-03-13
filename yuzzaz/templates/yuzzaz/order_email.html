@@ -70,17 +70,18 @@
         <div class="email-body">
             <p>Hello {{ user.first_name }},</p>
             <p>Thank you for your order! Here are your order details:</p>
-
+    
             <ul style="list-style: none; padding: 0;">
                 {% for item in order_items %}
-                <li>{{ item.quantity }}x {{ item.name }} - ${{ item.total }}</li>
+                <li>{{ item.quantity }}x {{ item.name }} ({{ item.size }}) - ${{ item.total }}</li>
                 {% endfor %}
             </ul>
-            
-
+    
             <p><strong>💰 Total Price: <u>${{ total_price }}</u></strong></p>
+            <p><strong>📦 Shipping Address: {{ address }}</strong></p>
+            <p><strong>💳 Payment Method: {{ payment_method|capfirst }}</strong></p>
             <p><strong>📦 Order Status: Pending</strong></p>
-
+    
             <p>We will notify you once your order is processed.</p>
             <p>Best regards,</p>
             <p><strong>GOD·GOALS·GLORY Team</strong></p>
@@ -89,5 +90,6 @@
             © {{ current_year }} GOD·GOALS·GLORY. All rights reserved.
         </div>
     </div>
+    
 </body>
 </html>
