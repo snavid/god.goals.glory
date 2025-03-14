@@ -4,6 +4,8 @@
 {% block location %}CART{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<link rel="stylesheet" href="{% static 'css/order_details.css' %}">
+
 {% endblock %}
 {% block section %}CART{% endblock %}
 {% block content %}
@@ -98,7 +100,7 @@ function showLoading(itemId) {
 
                       <div class="pt-5">
                         <h6 class="mb-0"><a href="{% url 'homepage' %}" class="text-body" style="text-align: start;">
-                            <i class="bi bi-arrow-left-circle-fill"></i> Back to shop</a>
+                            <i class="bi bi-arrow-left-circle-fill"></i> Add items</a>
                         </h6>
                       </div>
                     </div>
@@ -162,7 +164,97 @@ function showLoading(itemId) {
 
   </div>
 </div>
+<br>
+<br>
 
+{% if has_completed_orders %}
+<div class="form-side">
+  <div class="login-form">
+    
+    <h1>Your Orders</h1>
+        <div class="table-container">
+      <div class="table-responsive">
+            <table>
+              <style>
+                tr{
+                  border-bottom: 1px solid rgba(185, 185, 185, 0.651);
+                }
+                .stage-label {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
 
+/* Pending - Yellow */
+.stage-label.pending {
+    color: #cca60d;
+    /* color: #663d00; */
+}
+
+/* Ready - Blue */
+.stage-label.ready {
+    color: #007bff;
+    /* color: white; */
+}
+
+/* Delivered - Green */
+.stage-label.delivered {
+    color: #28a745;
+    /* color: white; */
+}
+
+@media (min-width: 1200px) {
+  .col-xl-2 {
+    flex: 0 0 auto;
+    /* width: inherit !important; */
+  }
+}
+
+@media (min-width: 992px) {
+  .col-lg-3 {
+    flex: 0 0 auto;
+    width: 25% !important;
+  }
+}
+              </style>
+                <tr>
+                    <th>ID</th>
+                    <th>Items</th>
+                    <th>Total Price</th>
+                    <th>Stage</th>
+                    <th>Delivery Address</th>
+                    <th>Payment Method</th>
+                </tr>
+                
+                {% for order in completed_orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>
+                        <ul>
+                            {% for item in order.items.all %}
+                            <li>{{ item.quantity }} x {{ item.product.name }} ({{ item.sizes }}) - ${{ item.price }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>${{ order.total_price }}</td>
+                    <td>
+                      <span class="stage-label {{ order.stage|lower }}">{{ order.stage }}</span>
+                  </td>
+                  
+                    <td>{{ order.address }}</td>
+                    <td>{{ order.get_payment_method_display }}</td>
+                </tr>
+                {% endfor %}
+    
+              </table>
+            <br>
+        </div>
+    </div>
+        
+    </div>
+  </div>
+</div>
+{% endif %}
 
 {% endblock %}

@@ -10,16 +10,17 @@
 <div class="form-side">
     <div class="login-form">
       <h1>CHECKOUT</h1>
-      <form method="post" action="{% url 'send_order_email' %}">
+      <form method="post" action="{% url 'checkout' %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button class="submit-btn" id="detailsi" type="submit">
             <span class="btn-text">
-                SEND ORDER EMAIL
+                PLACE ORDER
             </span>
         </button>
     </form>
     
+        
       
 
         <div class="form-footer">

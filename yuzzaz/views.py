@@ -213,7 +213,6 @@ def product_detail(request, product_id):
 @login_required
 def update_cart_item_size(request, item_id):
     item = get_object_or_404(OrderItem, id=item_id, order__user=request.user, order__is_completed=False)
-
     if request.method == 'POST':
         new_size = request.POST.get('size')
 
@@ -222,6 +221,54 @@ def update_cart_item_size(request, item_id):
             item.save()
     
     return redirect('cart')
+
+@login_required
+def update_stage(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    new_stage = request.POST.get('stage')
+    
+    if new_stage and new_stage != order.stage:
+        order.stage = new_stage
+        order.save()
+        
+        # Send email notification when order is updated
+        if new_stage == "Ready":
+            send_oda_email(order, "Your order is now ready!", "yuzzaz/order_ready_email.html")
+        elif new_stage == "Delivered":
+            send_oda_email(order, "Your order has been delivered!", "yuzzaz/order_delivered_email.html")
+
+        messages.success(request, f"Order stage updated to {new_stage}, and user has been notified.")
+    else:
+        messages.error(request, "Invalid stage selection.")
+    
+    return redirect('orders_list')
+
+
+def send_oda_email(order, subject, template_name):
+    user = order.user
+    order_items = [
+        {
+            'name': item.product.name,
+            'quantity': item.quantity,
+            'total': item.quantity * item.product.price,
+            'size': item.sizes,
+        }
+        for item in order.items.all()
+    ]
+    
+    html_message = render_to_string(template_name, {
+        'user': user,
+        'order': order,  # Add this line
+        'order_items': order_items,
+        'total_price': order.total_price,
+        'address': order.address,
+        'current_year': datetime.datetime.now().year,
+    })
+    plain_message = strip_tags(html_message)
+    
+    email = EmailMultiAlternatives(subject, plain_message, to=[user.email])
+    email.attach_alternative(html_message, "text/html")
+    email.send()
 
 
 
@@ -260,6 +307,7 @@ def update_cart_item_size(request, item_id):
 @login_required
 def cart(request):
     order = Order.objects.filter(user=request.user, is_completed=False).first()
+    completed_orders = Order.objects.filter(user=request.user, is_completed=True)
 
     # Check if order exists but has no items, then delete it
     if order and not order.items.exists():
@@ -268,7 +316,10 @@ def cart(request):
 
     return render(request, 'yuzzaz/cart.html', {
         'order': order,
-        'has_pending_order': order is not None
+        'has_pending_order': order is not None,
+
+        'completed_orders': completed_orders,
+        'has_completed_orders': completed_orders.exists(),
     })
 
 @login_required
@@ -276,22 +327,96 @@ def order_confirmation (request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'yuzzaz/order-confirmation.html', {'order': order})
 
+# @login_required
+# def checkout(request):
+#     order = Order.objects.filter(user=request.user, is_completed=False).first()
+    
+#     if not order:
+#         return redirect('cart')  # Redirect if no pending order exists
+    
+#     if request.method == 'POST':
+#         form = OrderForm(request.POST, instance=order)  # Bind form to existing order
+#         if form.is_valid():
+#             form.instance.is_completed = True  # Mark order as completed
+#             form.save()
+#             # return redirect('order_confirmation', order_id=order.id)
+#             return redirect('land')
+#     else:
+#         form = OrderForm(instance=order)  # Pre-fill form with existing order data
+
+#     return render(request, 'yuzzaz/checkout.html', {
+#         'order': order,
+#         'form': form,
+#         'has_pending_order': Order.objects.filter(user=request.user, is_completed=False).exists()
+#     })
+
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+import datetime
+
 @login_required
 def checkout(request):
     order = Order.objects.filter(user=request.user, is_completed=False).first()
+
+    if not order:
+        return redirect('cart')  # Redirect if no pending order exists
+
     if request.method == 'POST':
-        form = OrderForm(request.POST)
+        form = OrderForm(request.POST, instance=order)  # Bind form to existing order
         if form.is_valid():
-            order.address = form.cleaned_data['address']
-            order.is_completed = True
-            order.save()
-            return redirect('order_confirmation', order_id=order.id)
+            form.instance.is_completed = True  # Mark order as completed
+            form.save()
+
+            # Get updated order details
+            user = request.user
+            address = form.cleaned_data['address']
+            payment_method = form.cleaned_data['payment_method']
+
+            order_items = []
+            total_price = 0
+
+            for item in order.items.all():
+                item_total = item.quantity * item.product.price  # Calculate item total
+                total_price += item_total
+                order_items.append({
+                    'name': item.product.name,
+                    'quantity': item.quantity,
+                    'price': item.product.price,
+                    'total': item_total,
+                    'size': item.sizes,  # Include item size
+                })
+
+            # Render email template with shipping details
+            html_message = render_to_string("yuzzaz/order_email.html", {
+                'user': user,
+                'order_items': order_items,
+                'total_price': total_price,
+                'address': address,
+                'payment_method': payment_method,
+                'current_year': datetime.datetime.now().year,
+
+                'stage': order.stage,  # ✅ Include order stage
+                'id': order.id,  # ✅ Include order ID
+            })
+
+            plain_message = strip_tags(html_message)
+            subject = "🛒 Your Order Confirmation"
+            email = EmailMultiAlternatives(subject, plain_message, to=[user.email])
+            email.attach_alternative(html_message, "text/html")
+            email.send()
+
+            messages.success(request, "Order placed successfully, and confirmation email sent!")
+            return redirect('cart')
     else:
-        form = OrderForm()
-    return render(request, 'yuzzaz/checkout.html', {'order': order,
-                                                     'form': form,
-                                                     'has_pending_order': Order.objects.filter(user=request.user, is_completed=False).exists()
-                                                     })
+        form = OrderForm(instance=order)  # Pre-fill form with existing order data
+
+    return render(request, 'yuzzaz/checkout.html', {
+        'order': order,
+        'form': form,
+        'has_pending_order': Order.objects.filter(user=request.user, is_completed=False).exists()
+    })
 
 
 @login_required
@@ -528,6 +653,10 @@ def send_order_email(request):
             email = EmailMultiAlternatives(subject, plain_message, to=[user.email])
             email.attach_alternative(html_message, "text/html")
             email.send()
+
+            # ✅ Mark the order as completed
+            order.is_completed = True
+            order.save()
 
             messages.success(request, "Order confirmation email sent successfully.")
             return redirect('homepage')

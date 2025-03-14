@@ -149,7 +149,7 @@ def order_detail(request, order_id):
 def delete_order(request, pk):
     order = get_object_or_404(Order, pk=pk)
     order.delete()
-    return redirect('orders_list')
+    return redirect('homepage')
 
 
 

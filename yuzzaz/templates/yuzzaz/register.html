@@ -53,22 +53,6 @@
         </div>
     </div>
 
-        <!-- Toast Messages -->
-        {% if messages %}
-        <div class="fixed-toast-container">
-            {% for message in messages %}
-            <div class="toast-message {% if message.tags %}{{ message.tags }}{% endif %}">
-                <div class="toast-content">
-                    <div class="toast-text">{{ message }}</div>
-                    <button type="button" class="toast-close" onclick="this.parentElement.parentElement.remove()">×</button>
-                </div>
-                <div class="toast-progress">
-                    <div class="progress-bar"></div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
     
     <!-- Scripts -->
     <script src="{% static 'js/login.js' %}"></script>

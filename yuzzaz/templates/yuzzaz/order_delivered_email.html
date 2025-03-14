@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Delivered</title>
+    <style>
+        body { font-family: 'DM Sans', sans-serif; background-color: #f4f4f9; color: #333; text-align: center; }
+        .container { max-width: 600px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; }
+        .header { background: #000; padding: 20px; color: #fff; font-size: 24px; border-radius: 8px 8px 0 0; }
+        .content { padding: 20px; font-size: 16px; }
+        .footer { font-size: 14px; color: #777; padding: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Your Order Has Been Delivered!</div>
+        <div class="content">
+            <p>Hello {{ user.first_name }},</p>
+            <p>Your order has been successfully delivered. We hope you love your purchase!</p>
+            <p><strong>Order ID:</strong> #{{ order.id }}</p>
+            <p>We appreciate your support and look forward to serving you again.</p>
+            <p>Best regards,<br><strong>GOD·GOALS·GLORY Team</strong></p>
+            <a href="{% url 'homepage' %}" class="btn">Forever welcomed!</a>
+        </div>
+        <div class="footer">© {{ current_year }} GOD·GOALS·GLORY. All rights reserved.</div>
+    </div>
+</body>
+</html>

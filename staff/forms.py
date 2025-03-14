@@ -1,7 +1,6 @@
 # forms.py
 from django import forms
-from .models import Product, Review, Rating, Testimonial, WaitlistUser, WaitlistEmailTemplate
-
+from .models import Product, Review, Rating, Testimonial, WaitlistUser, WaitlistEmailTemplate, Order
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -13,9 +12,20 @@ class PraiseForm(forms.ModelForm):
         model = Testimonial
         fields = ['user', 'caption', 'product', 'image', 'image_2', 'image_3', 'image_4']
         
-class OrderForm(forms.Form):
-    address = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Please enter your address'}))
-    payment_method = forms.ChoiceField(choices=[('cash', 'Cash')])
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['payment_method', 'address']
+
+class StaffOrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['stage']
+
+
+# class OrderForm(forms.Form):
+#     address = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Please enter your address'}))
+#     payment_method = forms.ChoiceField(choices=[('cash', 'Cash')])
 
 class WaitlistSignupForm(forms.ModelForm):
     class Meta:

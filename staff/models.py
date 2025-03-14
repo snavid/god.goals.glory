@@ -82,7 +82,15 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     is_completed = models.BooleanField(default=False)
-    
+     
+    STAGE_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Ready', 'Ready'),
+        ('Delivered', 'Delivered'),
+    ]
+    stage = models.CharField(max_length=20, choices=STAGE_CHOICES, default='Pending')
+    payment_method = models.CharField(max_length=10, choices=[('cash', 'Cash')])    
+    address = models.TextField()  # Add this field to store the address
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"
 

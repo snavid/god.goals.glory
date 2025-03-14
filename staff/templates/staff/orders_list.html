@@ -17,30 +17,43 @@
       <div class="table-responsive">
           <table>
               <tr>
+                  <th>ID</th>
                   <th>Order</th>
                   <th>Items No.</th>
                   <th>Total Price</th>
-                  <th>Completed?</th>
+                  <th>Completed</th>
+                  <th>Payment Method</th>
+                  <th>Stage</th>
                   <th>Contact</th>
-                  <th></th>
               </tr>
               {% for order in order %}
               <tr>
+                <td>{{ order.id }}</td>
+
                   <td>
                     <a href="{% url 'order_detail' order.id %}">
-                      <i class="bi bi-info-circle"></i> {{ order.user }}
+                      <!-- <i class="bi bi-info-circle"></i>  -->
+                      <u>{{ order.user }}</u>
                     </a>
                   </td>
                       
                   <td>{{ order.items.count }}</td>
                   <td>{{ order.total_price }}</td>
                   <td>{{ order.is_completed|yesno:"Yes,No" }}</td>
-
-
+                  <td>{{ order.payment_method }}</td>
+                  <td>
+                    <form method="POST" action="{% url 'update_stage' order.id %}" class="mx-2">
+                        {% csrf_token %}
+                        <select name="stage" id="stage-{{ order.id }}" class="form-select form-select-sm" onchange="this.form.submit();">
+                            <option value="Pending" {% if order.stage == "Pending" %}selected{% endif %}>Pending</option>
+                            <option value="Ready" {% if order.stage == "Ready" %}selected{% endif %}>Ready</option>
+                            <option value="Delivered" {% if order.stage == "Delivered" %}selected{% endif %}>Delivered</option>
+                        </select>
+                    </form>
                 </td>
                   <td>
-                      <a href="mailto:{{ order.user.email }}" class="btn btn-primary">
-                          <i class="bi bi-envelope"></i>
+                      <a href="tel:{{ order.user.telephone }}" class="btn btn-primary">
+                          <i class="bi bi-telephone"></i>
                       </a>
                   </td>
               </tr>
