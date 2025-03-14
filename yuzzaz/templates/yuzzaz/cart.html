@@ -46,11 +46,26 @@
                                 {% csrf_token %}
                                 <select name="size" id="size-{{ item.id }}" class="form-select form-select-sm"
                                     onchange="this.form.submit(); showLoading('{{ item.id }}');">
-                                    {% for size, label in item.SIZE_CHOICES %}
-                                        <option value="{{ size }}" {% if item.sizes == size %}selected{% endif %}>{{ label }}</option>
-                                    {% endfor %}
+                                    
+                                    {% if item.product.size_s %}
+                                        <option value="S" {% if item.sizes == "S" %}selected{% endif %}>S</option>
+                                    {% endif %}
+                                    {% if item.product.size_m %}
+                                        <option value="M" {% if item.sizes == "M" %}selected{% endif %}>M</option>
+                                    {% endif %}
+                                    {% if item.product.size_l %}
+                                        <option value="L" {% if item.sizes == "L" %}selected{% endif %}>L</option>
+                                    {% endif %}
+                                    {% if item.product.size_xl %}
+                                        <option value="XL" {% if item.sizes == "XL" %}selected{% endif %}>XL</option>
+                                    {% endif %}
+                                    {% if item.product.size_xxl %}
+                                        <option value="XXL" {% if item.sizes == "XXL" %}selected{% endif %}>XXL</option>
+                                    {% endif %}
+                                    
                                 </select>
                             </form>
+                            
                             
                       
                               <!-- Loading Indicator -->

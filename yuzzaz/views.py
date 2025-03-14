@@ -187,7 +187,7 @@ def product_detail(request, product_id):
     products = list(Product.objects.all())
     ordered_date = timezone.now()
     order_ready_date = ordered_date + timedelta(days=2)
-    delivered_date = order_ready_date + timedelta(days=2)
+    delivered_date = ordered_date + timedelta(days=1)
     user = request.user
     has_pending_order = False  # Default value
     if user.is_authenticated:
@@ -205,7 +205,6 @@ def product_detail(request, product_id):
         'has_pending_order': has_pending_order
 
     }
-    
     return render(request, 'yuzzaz/shop.html', context)
 
 

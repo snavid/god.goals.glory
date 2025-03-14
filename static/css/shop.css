@@ -602,6 +602,8 @@ img{
     margin-right: 5px;
     cursor: pointer;
     transition: 0.3s;
+    font-size: 15px;
+    color: black !important;
 }
 
 .size-btn:hover, .size-btn.selected {

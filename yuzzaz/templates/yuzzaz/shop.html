@@ -89,7 +89,7 @@
                 <div class="order-tracking">
                     <div class="step">
                         <div class="round">
-                            <i class="bi bi-bag-check"></i>
+                            <i class="bi bi-cart-check"></i>
                         </div>
                         <p class="fw-bold">Ordered</p>
                         <p>{{ ordered_date|date:"M d" }}</p>
@@ -97,10 +97,10 @@
                     <div class="line"></div>
                     <div class="step">
                         <div class="round">
-                            <i class="bi bi-truck"></i>
+                            <i class="bi bi-bag-check"></i>
                         </div>
                         <p class="fw-bold">Ready</p>
-                        <p>{{ order_ready_date|date:"M d" }}</p>
+                        <p>{{ ordered_date|date:"M d" }}</p>
                     </div>
                     <div class="line"></div>
                     <div class="step">

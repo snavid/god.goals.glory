@@ -102,7 +102,7 @@
       <span>All rights reserved. <br> &copy; 2025 GOD·GOALS·GLORY.</span>
     </div>
   </footer>
-  {% if messages %}
+{% if messages %}
   <div class="fixed-toast-container">
       {% for message in messages %}
       <div class="toast-message {% if message.tags %}{{ message.tags }}{% endif %}">
@@ -116,14 +116,43 @@
       </div>
       {% endfor %}
   </div>
+  <script>
+    // Auto-dismiss messages after 10 seconds
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(function () {
+        document.querySelectorAll('.toast-message').forEach(function (toast) {
+          toast.remove();
+        });
+      }, 10000);
+
+      // Animate progress bar
+      document.querySelectorAll('.toast-progress .progress-bar').forEach(function (bar) {
+        bar.style.transition = "width 10s linear";
+        bar.style.width = "100%";
+      });
+    });
+    
+
+    </script>
   {% endif %}
   <script>
+
+    // Toggle waitlist form visibility
     document.getElementById('join-waitlist-btn').addEventListener('click', function (event) {
       event.preventDefault();
-      document.getElementById('waitlist-form').style.display = 'block';
-      document.getElementById('shop-basics-btn').classList.add('hidden');
+      const waitlistForm = document.getElementById('waitlist-form');
+      const shopButton = document.getElementById('shop-basics-btn');
+      
+      if (waitlistForm.style.display === 'none' || waitlistForm.style.display === '') {
+        waitlistForm.style.display = 'block';
+        shopButton.classList.add('hidden');
+      } else {
+        waitlistForm.style.display = 'none';
+        shopButton.classList.remove('hidden');
+      }
     });
-  </script>
+    </script>
+
 
 </body>
 </html>

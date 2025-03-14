@@ -229,12 +229,15 @@ def join_waitlist(request):
             messages.success(request, "You've been added to the waitlist! Check your email for confirmation.")
             return redirect("land")
         else:
-            messages.error(request, "Please enter a valid email.")
+            # messages.error(request, "Please enter a valid email.")
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field.capitalize()}: {error}")
     
     else:
         form = WaitlistSignupForm()
 
-    return render(request, "waitlist/join.html", {"form": form})
+    return render(request, "yuzzaz/land.html", {"form": form})
 
 def waitlist_admin(request):
     """Allow staff to view all waitlist users."""
