@@ -1,6 +1,3 @@
-from django.core.mail import EmailMultiAlternatives
-from django.utils.html import strip_tags
-import datetime
 from django.contrib.auth.decorators import user_passes_test
 import smtplib, random
 from django.conf import settings
@@ -241,6 +238,38 @@ def send_oda_email(order, subject, template_name):
 
 
 
+# @login_required
+# def add_to_cart(request, product_id):
+#     product = get_object_or_404(Product, id=product_id)
+    
+#     sizes = request.POST.get("sizes", "M")  # Ensure a default value if not selected
+
+#     if not sizes:  # Double-check if sizes is still empty
+#         messages.error(request, "Please select a size before adding to cart.")
+#         return redirect("product_detail", product_id=product.id)  # Redirect user back
+
+#     order, created = Order.objects.get_or_create(user=request.user, is_completed=False)
+
+#     order_item, created = OrderItem.objects.get_or_create(
+#         order=order,
+#         product=product,
+#         sizes=sizes,  # Correct field name
+#         defaults={'price': product.price, 'quantity': 1}
+#     )
+
+#     if not created:
+#         order_item.quantity += 1  # Increase quantity if already exists
+
+#     order_item.price = product.price * order_item.quantity
+#     order_item.save()
+
+#     order.total_price = sum(item.price for item in order.items.all())
+#     order.save()
+
+#     return redirect('cart')
+
+
+
 @login_required
 def cart(request):
     order = Order.objects.filter(user=request.user, is_completed=False).first()
@@ -259,13 +288,39 @@ def cart(request):
         'has_completed_orders': completed_orders.exists(),
     })
 
-
 @login_required
 def order_confirmation (request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     return render(request, 'yuzzaz/order-confirmation.html', {'order': order})
 
+# @login_required
+# def checkout(request):
+#     order = Order.objects.filter(user=request.user, is_completed=False).first()
+    
+#     if not order:
+#         return redirect('cart')  # Redirect if no pending order exists
+    
+#     if request.method == 'POST':
+#         form = OrderForm(request.POST, instance=order)  # Bind form to existing order
+#         if form.is_valid():
+#             form.instance.is_completed = True  # Mark order as completed
+#             form.save()
+#             # return redirect('order_confirmation', order_id=order.id)
+#             return redirect('land')
+#     else:
+#         form = OrderForm(instance=order)  # Pre-fill form with existing order data
 
+#     return render(request, 'yuzzaz/checkout.html', {
+#         'order': order,
+#         'form': form,
+#         'has_pending_order': Order.objects.filter(user=request.user, is_completed=False).exists()
+#     })
+
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+import datetime
 
 @login_required
 def checkout(request):
@@ -335,7 +390,6 @@ def delete_order(request, pk):
     order = get_object_or_404(Order, pk=pk)
     order.delete()
     return redirect('homepage')
-
 @login_required
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -405,6 +459,120 @@ def remove_cart_item(request, item_id):
     order_item = get_object_or_404(OrderItem, id=item_id, order__user=request.user)
     order_item.delete()
     return redirect('cart')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from django.core.mail import EmailMessage
+# from django.contrib.auth.decorators import login_required
+# from django.shortcuts import redirect, get_object_or_404
+# from django.contrib import messages
+
+# @login_required
+# def send_order_email(request):
+#     user = request.user
+#     # order = Order.objects.filter(user=user, status="pending").first()
+#     order = Order.objects.filter(user=user, is_completed=False).first()
+
+    
+#     if not order:
+#         messages.error(request, "No pending orders found.")
+#         return redirect('cart')
+
+#     order_items = OrderItem.objects.filter(order=order)
+#     order_details = "\n".join([
+#         f"{item.quantity}x {item.product.name} - ${item.quantity * item.product.price}" 
+#         for item in order_items
+#         ])
+#     total_price = sum(item.quantity * item.product.price for item in order_items)
+
+#     subject = "🛒 Your Order Confirmation"
+#     message = f"""
+#     Dear {user.first_name},
+    
+#     Thank you for your order! Here are your order details:
+
+#     {order_details}
+
+#     💰 Total Price: ${total_price}
+
+#     📦 Order Status: Pending
+
+#     We will notify you once your order is processed.
+
+#     Best regards,
+#     Your Store Team
+#     """
+
+#     email = EmailMessage(subject, message, to=[user.email])
+#     email.send()
+
+#     messages.success(request, "Order confirmation email sent successfully.")
+#     return redirect('homepage')
+
+
+
+
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+import datetime
+
+# def send_order_email(request):
+#     user = request.user
+#     order = Order.objects.filter(user=user, is_completed=False).first()
+
+#     if not order:
+#         messages.error(request, "No pending orders found.")
+#         return redirect('cart')
+
+#     order_items = []
+#     total_price = 0
+
+#     for item in order.items.all():
+#         item_total = item.quantity * item.product.price  # Precompute
+#         total_price += item_total
+#         order_items.append({
+#             'name': item.product.name,
+#             'quantity': item.quantity,
+#             'price': item.product.price,
+#             'total': item_total,  # Add precomputed total
+#         })
+
+#     html_message = render_to_string("yuzzaz/order_email.html", {
+#         'user': user,
+#         'order_items': order_items,
+#         'total_price': total_price,
+#         'current_year': datetime.datetime.now().year,
+#     })
+
+#     plain_message = strip_tags(html_message)
+#     subject = "🛒 Your Order Confirmation"
+#     email = EmailMultiAlternatives(subject, plain_message, to=[user.email])
+#     email.attach_alternative(html_message, "text/html")
+#     email.send()
+
+#     messages.success(request, "Order confirmation email sent successfully.")
+#     return redirect('homepage')
+
 
 
 @login_required

@@ -3,6 +3,16 @@
 {% block title %}{{ product.name }}{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/shop.css' %}">
+<style>
+    .sold-out {
+    background-color: #b0b0b0;  /* Dull grey */
+    color: #666666;             /* Dark grey text */
+    cursor: not-allowed;
+    opacity: 0.5;               /* Faded look */
+    border: 1px solid #999999;  /* Light grey border */
+}
+
+</style>
 {% endblock %}
 {% block location %}{{ product.name }}{% endblock %}
 {% block section %}{{ product.name }}{% endblock %}
@@ -83,7 +93,9 @@
 
                 <h4>{{ product.name }}</h4>
                 <h5>{{ product.price|floatformat:2 }} TZS</h5>
+            {% if not product.status == 'sold_out' %}
                 <small>ALL ITEMS IN STOCK. READY TO SHIP</small>
+                {% endif %}
                 <!-- Order Tracking (No changes needed) -->
                 <br>
                 <div class="order-tracking">
@@ -136,19 +148,25 @@
             </div>
 
 
-            <button class="submit-btn" id="detailsi"
-    {% if product.status == 'sold_out' %}
-        disabled
-    {% endif %}
-    onclick="location.href='{% if user.is_authenticated %}{% url 'add_to_cart' product.id %}{% else %}{% url 'login' %}?next={% url 'checkout' %}{% endif %}';"
->
-    <span class="btn-text">
-        {% if user.is_authenticated %}
-            Order Now
-        {% else %}
-            Login to Order
-        {% endif %}
-    </span>
+            <button class="submit-btn {% if product.status == 'sold_out' %}sold-out{% endif %}" 
+            id="detailsi"
+            {% if product.status == 'sold_out' %}disabled{% endif %}
+            onclick="location.href='{% if user.is_authenticated %}{% url 'add_to_cart' product.id %}{% else %}{% url 'login' %}?next={% url 'checkout' %}{% endif %}';"
+        >
+            
+        <span class="btn-textm">
+            {% if product.status == 'sold_out' %}
+            SOLD OUT
+            {% else %}
+            {% if user.is_authenticated %}
+                Order Now
+            {% else %}
+                Login to Order
+            {% endif %}
+            {% endif %}
+
+        </span>
+        </button>
 </button>
 
 

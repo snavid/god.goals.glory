@@ -343,8 +343,29 @@ def delete_template(request, template_id):
     messages.success(request, "Email template deleted successfully.")
     return redirect("email_template_list")
 
-@user_passes_test(is_staff)
-@login_required
+# View: Send bulk emails
+# def send_bulk_email(request, template_id):
+#     template = get_object_or_404(WaitlistEmailTemplate, id=template_id)
+#     # users = ["user1@example.com", "user2@example.com"]  # Replace with actual waitlist users  DB
+#     users = WaitlistUser.objects.values_list("email", flat=True)
+
+#     subject = template.subject
+#     content = template.content
+#     attachment = template.attachment
+#     # html_message = render_to_string("emails/email_template.html", {"subject": subject, "content": content})
+#     html_message = render_to_string("emails/send_email.html", {"subject": subject, "content": content, "attachment": attachment})
+#     plain_message = strip_tags(html_message)
+
+#     for user_email in users:
+#         # email = EmailMultiAlternatives(subject, plain_message, to=[user_email])
+#         email = EmailMultiAlternatives(subject, plain_message, to=list(users))
+#         email.attach_alternative(html_message, "text/html")
+#         if template.attachment:
+#             email.attach_file(template.attachment.path)
+#         email.send()
+
+#     return redirect('email_template_list')
+
 def send_bulk_email(request, template_id):
     template = get_object_or_404(WaitlistEmailTemplate, id=template_id)
     users = WaitlistUser.objects.values_list("email", flat=True)
@@ -373,8 +394,6 @@ def send_bulk_email(request, template_id):
     return redirect('email_template_list')
 
 
-@user_passes_test(is_staff)
-@login_required
 def actions(request):
     """Allow staff to view all waitlist users."""
     users = WaitlistUser.objects.all().order_by('-joined_at')
