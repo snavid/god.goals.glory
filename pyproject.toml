@@ -1,0 +1,20 @@
+[project]
+name = "god-goals-glory"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "asgiref==3.8.1",
+    "django==5.1.6",
+    "django-browser-reload>=1.18.0",
+    "django-phonenumber-field==8.0.0",
+    "phonenumbers==9.0.0",
+    "pillow==11.1.0",
+    "sqlparse==0.5.3",
+]
+
+[tool.uv.workspace]
+members = [
+    "BeingThatGuy",
+]
