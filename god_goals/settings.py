@@ -166,6 +166,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "https://beingthatguy.com",
     "https://www.beingthatguy.com",
+    "http://www.beingthatguy.com",
+    "http://beingthatguy.com",
 ]
 CORS_ALLOWED_METHODS = [
     'DELETE',
