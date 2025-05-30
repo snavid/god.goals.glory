@@ -1,0 +1,26 @@
+[Unit]
+Description=Gunicorn instance to serve god.goals.glory Django application
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/god.goals.glory
+Environment="PATH=/var/www/god.goals.glory/.venv/bin"
+Environment="PYTHONPATH=/var/www/god.goals.glory"
+Environment="DJANGO_SETTINGS_MODULE=god_goals.settings"
+
+# Use absolute path to python in virtual environment
+ExecStart=/var/www/god.goals.glory/.venv/bin/python -m gunicorn \
+          --config /var/www/god.goals.glory/gunicorn.conf.py \
+          god_goals.wsgi:application
+
+Restart=always
+RestartSec=5
+
+# Add logging
+StandardOutput=append:/var/log/god_goals.log
+StandardError=append:/var/log/god_goals.error.log
+
+[Install]
+WantedBy=multi-user.target 
