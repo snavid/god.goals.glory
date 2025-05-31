@@ -158,7 +158,8 @@ def orders_list(request):
 
     if query:
         orders = orders.filter(
-            Q(user__username__icontains=query) |
+            Q(user__first_name__icontains=query) |
+            Q(user__last_name__icontains=query) |
             Q(stage__icontains=query) |
             Q(address__icontains=query)
         )
