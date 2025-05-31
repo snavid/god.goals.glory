@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-*!_zbu)w42-676l_&#a+_ha!#d(y#2kn(x9_!uoir!oqu0h*kw
 # DEBUG = True
 DEBUG = False
 
-ALLOWED_HOSTS = ['beingthatguy.com']
-# ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['beingthatguy.com', 'www.beingthatguy.com']
 
 
 # Application definition
@@ -43,16 +43,20 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'yuzzaz',
     'staff',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'god_goals.urls'
@@ -154,9 +158,42 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+
+# CORS settings
+CORS_ALLOW_ALL_ORIGINS = True  # Only for development! Configure properly for production
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://beingthatguy.com",
+    "https://www.beingthatguy.com",
+    "http://www.beingthatguy.com",
+    "http://beingthatguy.com",
+]
+CORS_ALLOWED_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+CORS_ALLOWED_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
 CRISPY_TEMPLATE_PACK = 'bootstrap5' 
 
 
 CSRF_TRUSTED_ORIGINS = [
     'https://beingthatguy.com',
+
 ]
