@@ -137,26 +137,24 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'gftinity01@gmail.com'  # Use your Gmail address here
-# EMAIL_HOST_PASSWORD = 'pjrrcldgbkeiwapb'  # Use the app password (not your Google account password)
-EMAIL_HOST_PASSWORD = 'lwuhmvurprfjbdso'  # Use the app password (not your Google account password)
+EMAIL_HOST_USER = 'gftinity01@gmail.com'
+EMAIL_HOST_PASSWORD = 'lwuhmvurprfjbdso'
 
 
 # In settings.py
-LOGIN_REDIRECT_URL = 'dashboard'  # This will redirect the user to the dashboard after login
+LOGIN_REDIRECT_URL = 'dashboard'  
 
 
 import os
 
-# Define where media files (images, uploaded files, etc.) will be stored
-MEDIA_URL = '/media/'  # URL that will be used to access media files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory where media files are saved
+MEDIA_URL = '/media/' 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-CRISPY_TEMPLATE_PACK = 'bootstrap5'  # Use 'bootstrap5' if you're using Bootstrap 5
+CRISPY_TEMPLATE_PACK = 'bootstrap5' 
 
 
 CSRF_TRUSTED_ORIGINS = [
