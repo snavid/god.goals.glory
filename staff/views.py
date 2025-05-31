@@ -1,4 +1,5 @@
 # views.py
+from django.db.models import Q
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect, get_object_or_404
@@ -84,7 +85,7 @@ def testimonials_list(request):
 @login_required
 def edit_testimonial(request, testimonial_id):
     testimonial = get_object_or_404(Testimonial, id=testimonial_id)
-    
+
     if request.method == "POST":
         form = PraiseForm(request.POST, request.FILES, instance=testimonial)
         if form.is_valid():
@@ -93,7 +94,7 @@ def edit_testimonial(request, testimonial_id):
             return redirect('testimonials_list')
     else:
         form = PraiseForm(instance=testimonial)
-    
+
     return render(request, 'staff/actions_form.html', {'form': form, 'title': 'Edit testimonial'})
 
 
@@ -127,25 +128,53 @@ def delete_testimonial(request, pk):
 User = get_user_model()
 
 
+
 @user_passes_test(is_staff)
 @login_required
 def users_list(request):
-    users = User.objects.all()
-    return render(request, 'staff/users_list.html', {'user': users})
+    query = request.GET.get('q', '')
+    users = User.objects.all().order_by('first_name')
 
+    if query:
+        users = users.filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(email__icontains=query) |
+            Q(telephone__icontains=query)
+        )
+
+    return render(request, 'staff/users_list.html', {
+        'users': users,
+        'query': query,
+        'user': request.user
+    })
 
 @user_passes_test(is_staff)
 @login_required
 def orders_list(request):
+    query = request.GET.get('q', '')
+
     orders = Order.objects.all()
-    return render(request, 'staff/orders_list.html', {'order': orders})
 
+    if query:
+        orders = orders.filter(
+            Q(user__username__icontains=query) |
+            Q(stage__icontains=query) |
+            Q(address__icontains=query)
+        )
 
+    orders = orders.order_by('-is_completed', '-created_at')  # optional sort
+
+    return render(request, 'staff/orders_list.html', {
+        'order': orders,
+        'query': query,
+        'user': request.user,
+    })
 
 @login_required
 def order_detail(request, order_id):
     order = get_object_or_404(Order.objects.prefetch_related('items'), id=order_id)
-    return render(request, 'staff/order_details.html', {'order': order})
+    return render(request, 'staff/order_details.html', {'order': order, 'user':request.user})
 
 @login_required
 def delete_order(request, pk):
@@ -159,15 +188,27 @@ def delete_order(request, pk):
 @user_passes_test(is_staff)
 @login_required
 def products_list(request):
+    query = request.GET.get('q', '')
     products = Product.objects.all()
-    return render(request, 'staff/products_list.html', {'product': products})
 
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) |
+            Q(status__icontains=query) |
+            Q(description__icontains=query)
+        )
+
+    return render(request, 'staff/products_list.html', {
+        'product': products,
+        'query': query,
+        'user': request.user,
+    })
 
 @user_passes_test(is_staff)
 @login_required
 def edit_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    
+
     if request.method == "POST":
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
@@ -176,8 +217,8 @@ def edit_product(request, product_id):
             return redirect('products_list')
     else:
         form = ProductForm(instance=product)
-    
-    return render(request, 'staff/actions_form.html', {'form': form, 'title': 'Edit Product'})
+
+    return render(request, 'staff/actions_form.html', {'form': form, 'title': 'Edit Product', 'user':request.user})
 
 
 
@@ -228,7 +269,7 @@ def join_waitlist(request):
         form = WaitlistSignupForm(request.POST)
         if form.is_valid():
             waitlist_user = form.save()
-            
+
             # Confirmation email
             subject = "🎉 Welcome to the GOD·GOALS·GLORY Waitlist!"
             html_content = render_to_string("emails/waitlist_confirmation.html", {'user': waitlist_user})
@@ -244,7 +285,7 @@ def join_waitlist(request):
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{field.capitalize()}: {error}")
-    
+
     else:
         form = WaitlistSignupForm()
 
@@ -255,9 +296,23 @@ def join_waitlist(request):
 @login_required
 def waitlist_admin(request):
     """Allow staff to view all waitlist users."""
-    users = WaitlistUser.objects.all().order_by('-joined_at')
-    return render(request, "waitlist/admin.html", {"users": users})
+    query = request.GET.get('q', '')
+    users = WaitlistUser.objects.all()
 
+    if query:
+        users = users.filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(tel1__icontains=query) |
+            Q(email__icontains=query)
+        )
+
+    users = users.order_by('-joined_at')
+
+    return render(request, "waitlist/admin.html", {
+        "users": users,
+        "query": query,
+    })
 
 @user_passes_test(is_staff)
 @login_required
@@ -308,15 +363,15 @@ def email_template_list(request):
 @login_required
 def email_template_edit(request, template_id):
     template = get_object_or_404(WaitlistEmailTemplate, id=template_id)
-    
+
     if request.method == "POST":
         form = EmailTemplateForm(request.POST, request.FILES, instance=template)
         if form.is_valid():
             form.save()
+            messages.success(request, "Template edited successfully")
             return redirect('email_template_list')
     else:
         form = EmailTemplateForm(instance=template)
-    
     return render(request, 'emails/template_form.html', {'form': form})
 
 # Create a new template
@@ -328,10 +383,11 @@ def email_template_create(request):
         form = EmailTemplateForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, "Template created successfully")
             return redirect('email_template_list')
     else:
         form = EmailTemplateForm()
-    
+
     return render(request, 'emails/template_form.html', {'form': form})
 
 

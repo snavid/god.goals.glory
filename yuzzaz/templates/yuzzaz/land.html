@@ -1,158 +1,206 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GOD·GOALS·GLORY</title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{% static 'assets/css/land.css' %}">
-
+  <title>GOD · GOALS · GLORY</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="{% static 'fav-1-150x150.png' %}" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
-    rel="stylesheet">
-  <style>
-    /* Styling for the waitlist form */
-    .waitlist-form {
-      display: none;
-      background: black;
-      color: white;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 20px;
-      text-align: left;
+  <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Karla', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-in-out',
+            'slide-up': 'slideUp 0.5s ease-out',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            }
+          }
+        }
+      }
     }
-    .waitlist-form input {
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid white;
-      color: white;
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 15px;
-      outline: none;
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-stroke {
+        -webkit-text-stroke: 1px white;
+        text-stroke: 1px white;
+      }
+      .text-stroke-black {
+        -webkit-text-stroke: 1px black;
+        text-stroke: 1px black;
+      }
     }
-    .waitlist-form button {
-      background: white;
-      color: black;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      width: 100%;
-    }
-    .hidden {
-      display: none;
-    }
-    .error {
-  color: red;
-  font-size: 14px;
-  margin-top: 5px;
-}
-
+    
   </style>
 </head>
+<style>
+  body {
+    background: url("{% static 'images/run.jpg' %}") no-repeat center center fixed;
+    background-size: cover;
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7); /* black with 50% opacity */
+    z-index: 1;
+    height: 113vh;
+  }
 
-<body>
-
-  <h1>GOD · GOALS · GLORY</h1>
-
-  <div class="hero-section">
-    <div class="container">
-      <p>MONTHLY DROPS ARE ONLY ACCESSIBLE BY JOINING THE WAITLIST</p>
-      <a href="#" class="btn" id="join-waitlist-btn">JOIN WAITLIST</a>
-      <a href="{% url 'homepage' %}" class="btn" id="shop-basics-btn">SHOP BASICS</a>
-    </div>
-
-    <div class="container">
-    <form method="POST" action="{% url 'join_waitlist' %}" class="waitlist-form" id="waitlist-form">
-      {% csrf_token %}
+</style>
+<body class="bg-black text-white font-sans min-h-screen flex flex-col">
+  <div class="overlay"></div>
+  <main class="flex-grow">
+    <!-- Hero Section -->
+    <div class="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <!-- Background with subtle pattern -->
+      <div class="absolute z-10 inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0aDV2Nmg1djVoLTZ2LTZoLTV2LTVoNnptLTE4IDBoNXY1aDV2NWgtNnYtNWgtNXYtNWg2em0wLTE4aDV2NWg1djVoLTZ2LTVoLTV2LTVoNnptMTggMGg1djVoNXY1aC02di01aC01di01aDZ6Ii8+PC9nPjwvZz48L3N2Zz4=')]"></div>
       
-      <input type="text" name="first_name" placeholder="First Name" value="{{ form.first_name.value|default_if_none:'' }}" required>
-      {% if form.first_name.errors %}
-      <p class="error">{{ form.first_name.errors.0 }}</p>
-      {% endif %}
-    
-      <input type="text" name="last_name" placeholder="Last Name" value="{{ form.last_name.value|default_if_none:'' }}" required>
-      {% if form.last_name.errors %}
-      <p class="error">{{ form.last_name.errors.0 }}</p>
-      {% endif %}
-    
-      <input type="email" name="email" placeholder="Email" value="{{ form.email.value|default_if_none:'' }}" required>
-      {% if form.email.errors %}
-      <p class="error">{{ form.email.errors.0 }}</p>
-      {% endif %}
-    
-      <input type="tel" name="tel1" placeholder="Phone Number" value="{{ form.tel1.value|default_if_none:'' }}" required>
-      {% if form.tel1.errors %}
-      <p class="error">{{ form.tel1.errors.0 }}</p>
-      {% endif %}
-    
-      <button type="submit">JOIN</button>
-    </form>
-  </div>
-  </div>
-
-  <footer class="footer">
-    <div class="container">
-      <span>All rights reserved. <br> &copy; 2025 GOD·GOALS·GLORY.</span>
-    </div>
-  </footer>
-{% if messages %}
-  <div class="fixed-toast-container">
-      {% for message in messages %}
-      <div class="toast-message {% if message.tags %}{{ message.tags }}{% endif %}">
-          <div class="toast-content">
-              <div class="toast-text">{{ message }}</div>
-              <button type="button" class="toast-close" onclick="this.parentElement.parentElement.remove()">×</button>
+      <!-- Content Container -->
+      <div class="relative z-10 text-center px-4 w-full max-w-4xl mx-auto animate-fade-in">
+        <!-- Main Heading with text stroke effect -->
+        <h1 class="text-[34px] md:text-7xl font-bold mb-8 text-transparent text-stroke tracking-tight">
+          GOD · GOALS · GLORY
+        </h1>
+        
+        <!-- Subheading -->
+        <p class="text-xl md:text-2xl mb-12 uppercase tracking-widest text-gray-100 p-2">
+          MONTHLY DROPS ARE ONLY ACCESSIBLE BY JOINING THE WAITLIST
+        </p>
+        
+        <!-- Buttons Container -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+          <button id="join-waitlist-btn" class="bg-white border-1 border-black text-black px-8 py-4 text-lg font-bold uppercase tracking-widest hover:bg-black hover:text-white hover:border-white transition-all duration-300 transform hover:scale-105">
+            JOIN WAITLIST
+          </button>
+          <a href="{% url 'homepage' %}" id="shop-basics-btn" class="border-1 border-white bg-black px-8 py-4 text-lg font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105">
+            SHOP BASICS
+          </a>
+        </div>
+        
+        <!-- Waitlist Form -->
+        <form method="POST" action="{% url 'join_waitlist' %}" id="waitlist-form" class="hidden max-w-md mx-auto bg-black p-8 border border-white animate-slide-up">
+          {% csrf_token %}
+          
+          <div class="mb-6">
+            <input type="text" name="first_name" placeholder="First Name" value="{{ form.first_name.value|default_if_none:'' }}" 
+                   class="w-full bg-transparent border-b border-white py-2 px-1 text-white placeholder-gray-400 focus:outline-none focus:border-white focus:placeholder-transparent transition-all" required>
+            {% if form.first_name.errors %}
+            <p class="text-red-500 text-sm mt-1 text-left">{{ form.first_name.errors.0 }}</p>
+            {% endif %}
           </div>
-          <div class="toast-progress">
-              <div class="progress-bar"></div>
+          
+          <div class="mb-6">
+            <input type="text" name="last_name" placeholder="Last Name" value="{{ form.last_name.value|default_if_none:'' }}" 
+                   class="w-full bg-transparent border-b border-white py-2 px-1 text-white placeholder-gray-400 focus:outline-none focus:border-white focus:placeholder-transparent transition-all" required>
+            {% if form.last_name.errors %}
+            <p class="text-red-500 text-sm mt-1 text-left">{{ form.last_name.errors.0 }}</p>
+            {% endif %}
           </div>
+          
+          <div class="mb-6">
+            <input type="email" name="email" placeholder="Email" value="{{ form.email.value|default_if_none:'' }}" 
+                   class="w-full bg-transparent border-b border-white py-2 px-1 text-white placeholder-gray-400 focus:outline-none focus:border-white focus:placeholder-transparent transition-all" required>
+            {% if form.email.errors %}
+            <p class="text-red-500 text-sm mt-1 text-left">{{ form.email.errors.0 }}</p>
+            {% endif %}
+          </div>
+          
+          <div class="mb-8">
+            <input type="tel" name="tel1" placeholder="Phone Number" value="{{ form.tel1.value|default_if_none:'' }}" 
+                   class="w-full bg-transparent border-b border-white py-2 px-1 text-white placeholder-gray-400 focus:outline-none focus:border-white focus:placeholder-transparent transition-all" required>
+            {% if form.tel1.errors %}
+            <p class="text-red-500 text-sm mt-1 text-left">{{ form.tel1.errors.0 }}</p>
+            {% endif %}
+          </div>
+          
+          <button type="submit" class="w-full bg-white text-black py-3 font-bold uppercase tracking-widest hover:bg-gray-200 transition-all duration-300">
+            JOIN
+          </button>
+        </form>
+        <footer class="py-8 text-center border-t border-gray-500 border-opacity-20">
+          <div class="container mx-auto px-4">
+            <span class="block">All rights reserved.</span>
+            <span class="block">&copy; 2025 GOD · GOALS · GLORY.</span>
+            <p class="text-sm mt-2 opacity-75">
+              Arts by <a href="tel:+255758523353" class="hover:underline text-gray-400">GCL</a> 
+            </p>
+          </div>
+        </footer>
       </div>
-      {% endfor %}
+    </div>
+  </main>
+
+  <!-- Footer -->
+
+  <!-- Toast Messages -->
+  {% if messages %}
+  <div class="fixed top-4 right-4 space-y-3 z-50">
+    {% for message in messages %}
+    <div class="toast-message bg-white text-black p-4 rounded shadow-lg max-w-xs animate-fade-in relative overflow-hidden">
+      <div class="flex justify-between items-start">
+        <div class="toast-text pr-4">{{ message }}</div>
+        <button type="button" class="toast-close text-gray-500 hover:text-black" onclick="this.parentElement.parentElement.remove()">
+          &times;
+        </button>
+      </div>
+      <div class="absolute bottom-0 left-0 h-1 bg-black origin-left toast-progress"></div>
+    </div>
+    {% endfor %}
   </div>
   <script>
-    // Auto-dismiss messages after 10 seconds
-    document.addEventListener("DOMContentLoaded", function () {
-      setTimeout(function () {
-        document.querySelectorAll('.toast-message').forEach(function (toast) {
+    // Auto-dismiss messages after 5 seconds
+    document.addEventListener("DOMContentLoaded", function() {
+      const toasts = document.querySelectorAll('.toast-message');
+      
+      toasts.forEach(toast => {
+        // Start progress bar animation
+        const progress = toast.querySelector('.toast-progress');
+        progress.style.transition = 'transform 5s linear';
+        progress.style.transform = 'scaleX(0)';
+        
+        // Remove toast after 5 seconds
+        setTimeout(() => {
           toast.remove();
-        });
-      }, 10000);
-
-      // Animate progress bar
-      document.querySelectorAll('.toast-progress .progress-bar').forEach(function (bar) {
-        bar.style.transition = "width 10s linear";
-        bar.style.width = "100%";
+        }, 10000);
       });
     });
-    
-
-    </script>
+  </script>
   {% endif %}
-  <script>
 
+  <script>
     // Toggle waitlist form visibility
-    document.getElementById('join-waitlist-btn').addEventListener('click', function (event) {
+    document.getElementById('join-waitlist-btn').addEventListener('click', function(event) {
       event.preventDefault();
       const waitlistForm = document.getElementById('waitlist-form');
       const shopButton = document.getElementById('shop-basics-btn');
       
-      if (waitlistForm.style.display === 'none' || waitlistForm.style.display === '') {
-        waitlistForm.style.display = 'block';
-        shopButton.classList.add('hidden');
-      } else {
-        waitlistForm.style.display = 'none';
-        shopButton.classList.remove('hidden');
+      waitlistForm.classList.toggle('hidden');
+      shopButton.classList.toggle('hidden');
+      
+      // Scroll to form if showing
+      if (!waitlistForm.classList.contains('hidden')) {
+        waitlistForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     });
-    </script>
-
-
+  </script>
 </body>
 </html>

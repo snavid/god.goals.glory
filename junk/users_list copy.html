@@ -1,0 +1,50 @@
+{% extends "staff/besa.html" %}
+{% load static %}
+{% block title %}Users{% endblock %}
+{% block location %}Users{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock %}
+{% block section %}Users{% endblock %}
+{% block content %}
+<div class="form-side">
+  <div class="login-form">
+    <h1>User Management</h1>
+    <div class="table-container">
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              
+              <th>Has Pending Order?</th>
+              <th>Phone number</th>
+              <!-- <th>Actions</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in user %}
+            <tr>
+              <td>{{ user.first_name }} {{ user.last_name }}</td>
+              <td>
+                <a href="mailto:{{ user.email }}" class="btn btn-email">{{user.email}}</a>
+                </td>
+              <td>{{ user.orders.all.0.is_completed|yesno:"No,Yes" }}</td>  <!-- Checking latest order status -->
+              <td>
+                <a href="tel:{{ user.telephone }}" class="btn btn-email">{{user.telephone}}</a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="7" style="text-align:center;">No users found.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>
+
+    {% endblock %}

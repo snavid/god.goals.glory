@@ -13,6 +13,8 @@ class PraiseForm(forms.ModelForm):
         fields = ['user', 'caption', 'product', 'image', 'image_2', 'image_3', 'image_4']
         
 class OrderForm(forms.ModelForm):
+    address = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Please enter your address', 'rows':2}))
+
     class Meta:
         model = Order
         fields = ['payment_method', 'address']

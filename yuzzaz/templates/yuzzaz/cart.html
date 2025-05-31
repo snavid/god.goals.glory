@@ -2,259 +2,214 @@
 {% load static %}
 {% block title %}CART{% endblock %}
 {% block location %}CART{% endblock %}
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/cart.css' %}">
-<link rel="stylesheet" href="{% static 'css/order_details.css' %}">
-
-{% endblock %}
 {% block section %}CART{% endblock %}
 {% block content %}
-<div class="form-side">
-  <div class="login-form">
-{% if order.items.all %}
-    <section class="h-100 h-custom">
-      <div class="container py-5 h-100" style="padding-top: 0 !important;">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-12">
-            <div class="card card-registration card-registration-2" style="border-radius: 15px;">
-              <div class="card-body p-0">
-                <div class="row g-0">
-                  <div class="col-lg-8">
-                    <div class="p-5">
-                      <div class="d-flex justify-content-between align-items-center mb-5">
 
-                        <h1 class="fw-bold mb-0">Shopping Cart</h1>
-                        <h6 class="mb-0 text-muted">{{ order.items.count }} items</h6>
-                      </div>
-                      <hr class="my-4">
-
-                      {% for item in order.items.all %}
-                      <div class="row mb-4 d-flex justify-content-between align-items-center">
-                          <div class="col-md-2 col-lg-2 col-xl-2">
-                              <img src="{{ item.product.image.url }}" class="img-fluid rounded-3" alt="{{ item.product.name }}">
-                          </div>
-                          <div class="col-md-3 col-lg-3 col-xl-3">
-                              <h6 class="text-muted">{{ item.product.category }}</h6>
-                              <h6 class="mb-0">{{ item.product.name }}</h6>
-                          </div>
-                          <div class="col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
-                              <a href="{% url 'decrease_quantity' item.id %}" class="btn btn-link px-2">
-                                  <i class="bi bi-dash-circle"></i>
-                              </a>
-                              <p class="mb-0">{{ item.quantity }}</p>
-                      
-                              <!-- Size Selection Dropdown -->
-                              <form method="POST" action="{% url 'update_cart_item_size' item.id %}" class="mx-2">
-                                {% csrf_token %}
-                                <select name="size" id="size-{{ item.id }}" class="form-select form-select-sm"
-                                    onchange="this.form.submit(); showLoading('{{ item.id }}');">
-                                    
-                                    {% if item.product.size_s %}
-                                        <option value="S" {% if item.sizes == "S" %}selected{% endif %}>S</option>
-                                    {% endif %}
-                                    {% if item.product.size_m %}
-                                        <option value="M" {% if item.sizes == "M" %}selected{% endif %}>M</option>
-                                    {% endif %}
-                                    {% if item.product.size_l %}
-                                        <option value="L" {% if item.sizes == "L" %}selected{% endif %}>L</option>
-                                    {% endif %}
-                                    {% if item.product.size_xl %}
-                                        <option value="XL" {% if item.sizes == "XL" %}selected{% endif %}>XL</option>
-                                    {% endif %}
-                                    {% if item.product.size_xxl %}
-                                        <option value="XXL" {% if item.sizes == "XXL" %}selected{% endif %}>XXL</option>
-                                    {% endif %}
-                                    
-                                </select>
-                            </form>
-                            
-                            
-                      
-                              <!-- Loading Indicator -->
-                              <div id="loading-{{ item.id }}" class="spinner-border spinner-border-sm text-primary d-none" role="status">
-                                  <span class="visually-hidden">Updating...</span>
-                              </div>
-                      
-                              <a href="{% url 'increase_quantity' item.id %}" class="btn btn-link px-2">
-                                  <i class="bi bi-plus-circle"></i>
-                              </a>
-                          </div>
-                          <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                              <h6 class="mb-0">TZS. {{ item.price|floatformat:0 }}</h6>
-                          </div>
-                          <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                              <a href="{% url 'remove_cart_item' item.id %}" class="text-muted">
-                                  <i class="bi bi-x-circle"></i>
-                              </a>
-                          </div>
-                      </div>
-                      <hr class="my-4">
-                      {% endfor %}
-
-                      <script>
-function showLoading(itemId) {
-    document.getElementById('loading-' + itemId).classList.remove('d-none');
-}
-</script>
-
-
-                      <div class="pt-5">
-                        <h6 class="mb-0"><a href="{% url 'homepage' %}" class="text-body" style="text-align: start;">
-                            <i class="bi bi-arrow-left-circle-fill"></i> Add items</a>
-                        </h6>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 bg-body-tertiary">
-                    <span class="sold-out-badge">
-                      <a href="{% url 'delete_order' order.id %}"><u><i class="bi bi-trash"></i></u></a>
-                    </span>
-                    
-                    <div class="p-5" style="padding: 1.5rem !important;">
-                      <h3 class="fw-bold mb-5 mt-2 pt-1">Totals Summary</h3>
-                      <hr class="my-4">
-                      <div class="d-flex justify-content-between mb-5">
-                        <small class="text-uppercase">Items</small>
-                        <small>{{ order.items.count }} </small>
-                        <br>
-                      <!-- </div> -->
-                      <!-- <hr class="my-4"> -->
-                      <!-- <div class="d-flex justify-content-between mb-5"> -->
-                        <small class="text-uppercase">Amount</small>
-                        <small>{{ order.total_price|floatformat:0  }}</small>
-                      </div>
-                      <h5 class="text-uppercase mb-3">Discount</h5>
-
-                      <div class="mb-5">
-                        <div data-mdb-input-init class="form-outline">
-                          <input type="text" id="form3Examplea2" class="form-control form-control-lg" width="40px"
-                            readonly value="{{0}}" />
-
-                        </div>
-                      </div>
-
-                      <hr class="my-4">
-                      <div class="d-flex justify-content-between mb-5">
-                        <h5 class="text-uppercase">Net Price : </h5>
-                        <h5>TZS. <u> {{ order.total_price }}</u></h5>
-                      </div>
-
-                      <button class="submit-btn" id="detailsi">
-                        <span class="btn-text">
-                          <a href="{% url 'checkout' %}">
-                            CHECKOUT
-                          </a>
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  {% if order.items.all %}
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Cart Items -->
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+        <div class="p-6 border-b border-gray-200">
+          <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Your Shopping Cart</h1>
+            <span class="text-gray-600">{{ order.items.count }} item{{ order.items.count|pluralize }}</span>
           </div>
         </div>
-      </div>
-      <br>
-    </section>
-{% else %}
-    <p class="empty-cart-message" style="padding: 20px;">Your cart is empty!</p>
-    <p style="text-align: center;"><a href="{% url 'homepage' %}" class="keep-shopping"><i class="bi bi-cart"></i>
-            Go Shopping</a></p>
-    {% endif %}
-
-  </div>
-</div>
-<br>
-<br>
-
-{% if has_completed_orders %}
-<div class="form-side">
-  <div class="login-form" style="margin-top: 30px;">
-    
-    <h1>Your Orders</h1>
-        <div class="table-container">
-      <div class="table-responsive">
-            <table>
-              <style>
-                tr{
-                  border-bottom: 1px solid rgba(185, 185, 185, 0.651);
-                }
-                .stage-label {
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: bold;
-    text-transform: capitalize;
-}
-
-/* Pending - Yellow */
-.stage-label.pending {
-    color: #cca60d;
-    /* color: #663d00; */
-}
-
-/* Ready - Blue */
-.stage-label.ready {
-    color: #007bff;
-    /* color: white; */
-}
-
-/* Delivered - Green */
-.stage-label.delivered {
-    color: #28a745;
-    /* color: white; */
-}
-
-@media (min-width: 1200px) {
-  .col-xl-2 {
-    flex: 0 0 auto;
-    /* width: inherit !important; */
-  }
-}
-
-@media (min-width: 992px) {
-  .col-lg-3 {
-    flex: 0 0 auto;
-    width: 25% !important;
-  }
-}
-              </style>
-                <tr>
-                    <th>ID</th>
-                    <th>Items</th>
-                    <th>Total Price</th>
-                    <th>Stage</th>
-                    <th>Delivery Address</th>
-                    <th>Payment Method</th>
-                </tr>
-                
-                {% for order in completed_orders %}
-                <tr>
-                    <td>{{ order.id }}</td>
-                    <td>
-                        <ul>
-                            {% for item in order.items.all %}
-                            <li>{{ item.quantity }} x {{ item.product.name }} ({{ item.sizes }}) - ${{ item.price }}</li>
-                            {% endfor %}
-                        </ul>
-                    </td>
-                    <td>${{ order.total_price }}</td>
-                    <td>
-                      <span class="stage-label {{ order.stage|lower }}">{{ order.stage }}</span>
-                  </td>
-                  
-                    <td>{{ order.address }}</td>
-                    <td>{{ order.get_payment_method_display }}</td>
-                </tr>
-                {% endfor %}
-    
-              </table>
-            <br>
-        </div>
-    </div>
         
+        <div class="divide-y divide-gray-200">
+          {% for item in order.items.all %}
+          <div class="p-6 flex flex-col sm:flex-row gap-4">
+            <!-- Product Image -->
+            <div class="w-full sm:w-24 flex-shrink-0">
+              <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" 
+                   class="w-full h-auto rounded-lg object-cover">
+            </div>
+            
+            <!-- Product Details -->
+            <div class="flex-grow">
+              <div class="flex justify-between">
+                <div>
+                  <h3 class="font-medium text-lg">{{ item.product.name }}</h3>
+                  <p class="text-gray-600 text-sm">{{ item.product.category }}</p>
+                </div>
+                <div class="text-right">
+                  <p class="font-medium">TZS {{ item.price|floatformat:0 }}</p>
+                </div>
+              </div>
+              
+              <!-- Quantity Controls -->
+              <div class="mt-4 flex items-center">
+                <div class="flex items-center border border-gray-300 rounded-md">
+                  <a href="{% url 'decrease_quantity' item.id %}" 
+                     class="px-3 py-1 text-lg hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-minus"></i>
+                  </a>
+                  <span class="px-3 py-1">{{ item.quantity }}</span>
+                  <a href="{% url 'increase_quantity' item.id %}" 
+                     class="px-3 py-1 text-lg hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-plus"></i>
+                  </a>
+                </div>
+                
+                <!-- Size Selection -->
+                <form method="POST" action="{% url 'update_cart_item_size' item.id %}" class="ml-4">
+                  {% csrf_token %}
+                  <select name="size" onchange="this.form.submit(); showLoading('{{ item.id }}');"
+                          class="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-black">
+                    {% if item.product.size_s %}
+                      <option value="S" {% if item.sizes == "S" %}selected{% endif %}>S</option>
+                    {% endif %}
+                    {% if item.product.size_m %}
+                      <option value="M" {% if item.sizes == "M" %}selected{% endif %}>M</option>
+                    {% endif %}
+                    {% if item.product.size_l %}
+                      <option value="L" {% if item.sizes == "L" %}selected{% endif %}>L</option>
+                    {% endif %}
+                    {% if item.product.size_xl %}
+                      <option value="XL" {% if item.sizes == "XL" %}selected{% endif %}>XL</option>
+                    {% endif %}
+                    {% if item.product.size_xxl %}
+                      <option value="XXL" {% if item.sizes == "XXL" %}selected{% endif %}>XXL</option>
+                    {% endif %}
+                  </select>
+                  <div id="loading-{{ item.id }}" class="hidden ml-2">
+                    <i class="fas fa-spinner fa-spin text-gray-500"></i>
+                  </div>
+                </form>
+              </div>
+            </div>
+            
+            <!-- Remove Button -->
+            <div class="flex-shrink-0">
+              <a href="{% url 'remove_cart_item' item.id %}" 
+                 class="text-gray-400 hover:text-black transition-colors">
+                <i class="fas fa-times"></i>
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        
+        <div class="p-6 border-t border-gray-200">
+          <a href="{% url 'homepage' %}" class="text-black hover:text-gray-600 transition-colors flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i> Continue Shopping
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Order Summary -->
+    <div>
+      <div class="bg-white rounded-xl shadow-md border border-gray-200 sticky top-6">
+        <div class="p-6 border-b border-gray-200">
+          <h3 class="text-xl font-bold">Order Summary</h3>
+        </div>
+        
+        <div class="p-6 space-y-4">
+          <div class="flex justify-between">
+            <span class="text-gray-600">Items ({{ order.items.count }})</span>
+            <span>TZS {{ order.total_price|floatformat:2 }}</span>
+          </div>
+          
+          <div class="flex justify-between">
+            <span class="text-gray-600">Discount</span>
+            <span>TZS 0</span>
+          </div>
+          
+          <div class="border-t border-gray-200 pt-4 flex justify-between font-bold">
+            <span>Total</span>
+            <span>TZS {{ order.total_price|floatformat:2 }}</span>
+          </div>
+          
+          <a href="{% url 'checkout' %}" 
+             class="block w-full bg-black text-white py-3 px-4 rounded-md text-center font-medium hover:bg-gray-800 transition-colors">
+            Proceed to Checkout
+          </a>
+          
+          <a href="{% url 'delete_order' order.id %}" 
+             class="block text-center text-red-600 hover:text-black transition-colors mt-2">
+            <i class="fas fa-trash mr-1"></i> Empty Cart
+          </a>
+        </div>
+      </div>
     </div>
   </div>
+  {% else %}
+  <!-- Empty Cart -->
+  <div class="text-center py-16">
+    <div class="max-w-md mx-auto">
+      <i class="fas fa-shopping-cart text-5xl text-gray-400 mb-4"></i>
+      <h3 class="text-2xl font-bold mb-2">Your cart is empty</h3>
+      <p class="text-gray-600 mb-6">Looks like you haven't added anything to your cart yet</p>
+      <a href="{% url 'homepage' %}" 
+         class="inline-block bg-black text-white px-6 py-3 rounded-md font-medium hover:bg-gray-800 transition-colors">
+        <i class="fas fa-bag-shopping mr-2"></i> Start Shopping
+      </a>
+    </div>
+  </div>
+  {% endif %}
+  
+  <!-- Order History -->
+  {% if has_completed_orders %}
+  <div class="mt-16">
+    <h2 class="text-2xl font-bold mb-6">Your Order History</h2>
+    
+    <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-black">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Order ID</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Items</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Total</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Status</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Address</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Payment</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            {% for order in completed_orders %}
+            <tr class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#{{ order.id }}</td>
+              <td class="px-6 py-4 text-sm text-gray-500">
+                <ul class="list-disc pl-5">
+                  {% for item in order.items.all %}
+                  <li>{{ item.quantity }} x {{ item.product.name }} ({{ item.sizes }}) - TZS {{ item.price }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">TZS {{ order.total_price }}</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
+                  {% if order.stage == 'Pending' %}bg-yellow-100 text-yellow-800
+                  {% elif order.stage == 'Ready' %}bg-blue-100 text-blue-800
+                  {% elif order.stage == 'Delivered' %}bg-green-100 text-green-800
+                  {% endif %}">
+                  {{ order.stage }}
+                </span>
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500">{{ order.address }}</td>
+              <td class="px-6 py-4 text-sm text-gray-500">{{ order.get_payment_method_display }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endif %}
 </div>
-{% endif %}
+
+<script>
+  function showLoading(itemId) {
+    const loader = document.getElementById('loading-' + itemId);
+    loader.classList.remove('hidden');
+    setTimeout(() => {
+      loader.classList.add('hidden');
+    }, 1000);
+  }
+</script>
 
 {% endblock %}

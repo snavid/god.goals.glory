@@ -1,87 +1,50 @@
-{% extends "yuzzaz/besa.html" %}
+{% extends 'yuzzaz/besa.html' %}
 {% load static %}
-{% block title %}Basics{% endblock %}
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/cart.css' %}">
-{% endblock %}
-{% block section %}Basics{% endblock %}
-
-{% block hero %}
-
-<div class="hero-container position-relative text-white text-center">
-  <video autoplay muted loop playsinline class="hero-video">
-    <source src="{% static 'assets/videos/hero-video.mp4' %}" type="video/mp4" autoplay muted loop playsinline>
-    Your browser does not support the video tag.
-  </video>
-  <div class="hero-overlay d-flex flex-column justify-content-center align-items-center">
-    <h1 class="display-3 fw-bold">GOD · GOALS · GLORY</h1>
-    <p class="lead">Strive For Greatness, Guided by Faith and Purpose.</p>
-    <a href="#explore" class="btn btn-primary btn-lg mt-3">Explore More</a>
-  </div>
-</div>
-
-{% endblock %}
-{% block content %}
-
-<div class="container" id="explore">
-  <!-- Add your content here -->
-  <h1 style="text-transform: uppercase;">Welcome {{user.first_name}}!</h1>
-
-  <p>Shop with us</p>
-
-  <br>
-</div>
-<div class="container my-5">
-  <!-- <h1 class="text-center mb-4">BASICS - Trikko</h1> -->
-  <div class="row row-cols-2 row-cols-md-4 g-4">
-    <!-- Card 1: Navy Blue Core Hoodie -->
-    {% for product in products %}
-    <div class="col">
-      <div class="card h-100">
-        {% if product.status == 'sold_out' %}
-        <span class="sold-out-badge">SOLD OUT</span>
-        {% endif %}
-
-        <div class="imeji">
-          <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top">
+    {% block content %}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Welcome Section -->
+      <div class="mb-12 text-center animate-fade-in">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 uppercase">Welcome, {% if user.is_authenticated %} {{user.first_name}}! {% else %} Guest! {% endif %}</h1>
+        <p class="text-xl opacity-75">Shop our premium collection</p>
+      </div>
+      <div class="mb-8">
+        <nav class="flex justify-center space-x-8 py-4 text-sm md:text-base font-medium uppercase tracking-widest">
+          <a href="{% url 'land' %}" class="hover:text-gray-400 transition">Waitlist</a>
+          <a href="{% url 'login' %}" class="text-gray-400 border-b-2 border-gray-400 pb-1">Basics</a>
+          <a href="{% url 'login' %}" class="hover:text-gray-400 transition">Our Story</a>
+        </nav>
+      </div>
+      <!-- Products Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4 lg:gap-6">
+        {% for product in products %}
+        <div class="card-hover group relative overflow-hidden rounded-lg border border-gray-200 animate-fade-in">
+          {% if product.status == 'sold_out' %}
+            <div class="absolute top-2 right-2 bg-black text-white px-2 py-1 text-xs font-bold uppercase z-10">
+              SOLD OUT
+            </div>
+          {% endif %}
+          
+          <a href="{% url 'product_detail' product.id %}" class="block">
+          <div class="aspect-square overflow-hidden bg-gray-100">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" 
+                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+          </div>
+          
+          <div class="p-4 text-center">
+              <h3 class="font-medium text-base mb-1 group-hover:underline">{{ product.name }}</h3>
+            </a>
+            <p class="text-gray-800 font-medium text-sm">TZS {{ product.price }}</p>
+          </div>
         </div>
-        <div class="card-body">
-          <a href="{% url 'product_detail' product.id %}">
-            <h5 class="card-title">
-              {{ product.name }}
-            </h5>
-          </a>
-
-          <p class="card-text">TZS. {{ product.price }}</p>
+        {% empty %}
+        <div class="col-span-full text-center py-12">
+          <div class="max-w-md mx-auto">
+            <i class="fas fa-box-open text-5xl mb-4 opacity-50"></i>
+            <h3 class="text-xl font-bold mb-2">Something Amazing is Coming</h3>
+            <p class="opacity-75">Stay tuned for our next drop</p>
+          </div>
         </div>
+        {% endfor %}
       </div>
     </div>
-    {% empty %}
-    <div class="col">
-      <div class="card h-100">
-        <div class="imeji">
-          <img src="{% static 'assets/images/single-image-2.jpg' %}" class="card-img-top" alt="Navy Blue Core Hoodie">
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">SOMETHING GOOD INCOMING</h5>
-          <p class="card-text">0.00</p>
-        </div>
-      </div>
-    </div> {% endfor %}
-
-
-    <!-- Card 2: Grey Core Hoodie -->
-    <div class="col">
-      <div class="card h-100">
-        <img src="{% static 'assets/images/single-image-2.jpg' %}" class="card-img-top" alt="Grey Core Hoodie">
-        <div class="card-body">
-          <h5 class="card-title">GREY CORE HOODIE</h5>
-          <p class="card-text">€70,00 EUR</p>
-        </div>
-      </div>
-    </div>
-
-
-  </div>
-</div>
-{% endblock %}
+    {% endblock %}

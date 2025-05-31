@@ -86,7 +86,7 @@ h1 {
   /* width: 70%; */
   /* margin-top: 30px; */
   text-decoration: none;
-  color: inherit;
+   color: inherit;
 }
 
 .container p {
@@ -875,4 +875,3 @@ h1 {
     footer i {
       color: black !important;
     }
-  

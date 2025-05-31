@@ -1,0 +1,67 @@
+{% extends "yuzzaz/besa.html" %}
+{% load static %}
+
+{% block section %}PROFILE{% endblock %}
+{% block title %}Profile{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h2 class="text-start">Welcome, {{ user.first_name }}!</h2>
+    <p class="text-start">Here is your profile information:</p>
+
+    <div class="row mt-4" style="width: 100%;">
+        <!-- Profile Card -->
+        <div class="col-md-5" style="margin-bottom: 40px;">
+            <div class="card h-100 shadow-sm">
+                <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'img/default-profile.jpg' %}{% endif %}"
+                     alt="Profile Picture" class="card-img-top">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Your Information</h5>
+                    <p><strong>First Name:</strong> {{ user.first_name }}</p>
+                    <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                </div>
+                <div class="card-footer text-center">
+                    <!-- <button id="updateButton" class="btn btn-outline-primary"> -->
+                        <button type="submit" id="updateButton"  class="submit-btn">
+                            <span class="btn-text">Update Information</span>
+                        </button>
+                        <!-- Update Information -->
+                    <!-- </button> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Update Form (Initially Hidden) -->
+        <div class="col-md-7">
+            <div class="card shadow-sm" id="updateSection" style="display: none;">
+                <div class="card-body">
+                    <h4>Update Your Information</h4>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <!-- <button type="submit" class="btn btn-primary mt-2">Save Changes</button> -->
+                        <button type="submit" class="submit-btn">
+                            <span class="btn-text">Save Information</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Toggle visibility of update section
+    document.getElementById('updateButton').addEventListener('click', function () {
+        var updateSection = document.getElementById('updateSection');
+        updateSection.style.display = updateSection.style.display === "none" ? "block" : "none";
+    });
+</script>
+{% endblock %}

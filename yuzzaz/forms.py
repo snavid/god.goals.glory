@@ -37,11 +37,15 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class CustomUserForm(forms.ModelForm):
+    telephone = forms.RegexField(regex=r'^\+?\d{9,15}$', error_messages={
+    'invalid': "Enter a valid international phone number."
+        })
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'profile_picture']
+        fields = ['first_name', 'last_name', 'email', 'telephone',  'profile_picture']
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            
         }

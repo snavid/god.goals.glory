@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*!_zbu)w42-676l_&#a+_ha!#d(y#2kn(x9_!uoir!oqu0h*kw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['gcl.pythonanywhere.com']
+# ALLOWED_HOSTS = ['gcl.pythonanywhere.com']
 ALLOWED_HOSTS = []
 
 
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "django_browser_reload",
+    'django.contrib.humanize',
+    'widget_tweaks',
     'yuzzaz',
     'staff',
 ]
@@ -51,9 +52,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'god_goals.urls'
