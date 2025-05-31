@@ -23,10 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*!_zbu)w42-676l_&#a+_ha!#d(y#2kn(x9_!uoir!oqu0h*kw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = False
 
-# ALLOWED_HOSTS = ['gcl.pythonanywhere.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['beingthatguy.com']
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -156,3 +157,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'  # Use 'bootstrap5' if you're using Bootstrap 5
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://beingthatguy.com',
+]
