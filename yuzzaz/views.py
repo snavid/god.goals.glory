@@ -40,7 +40,7 @@ def register(request):
             # Send activation email
             current_site = get_current_site(request)
             mail_subject = "Activate your user account"
-            message = render_to_string("yuzzaz/activate_account.html", {
+            message = render_to_string("emails/activate_account.html", {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -90,7 +90,7 @@ def login(request):
             messages.success(request, "You have successfully logged in.")
 
             if user.is_staff:
-                return redirect('staff_dashboard')  # Updated to use namespace
+                return redirect('actions')  # Updated to use namespace
             return redirect('homepage')
 
         messages.error(request, "Invalid credentials, please try again.")
@@ -136,7 +136,7 @@ def profile(request):
             return redirect('homepage')  # Redirect to the same page
     else:
         form = CustomUserForm(instance=user)
-    
+
     return render(request, 'yuzzaz/profile.html', {
         'user': user,
         'form': form,
@@ -182,7 +182,7 @@ def update_cart_item_size(request, item_id):
         if new_size and new_size != item.sizes:  # Update only if the size is different
             item.sizes = new_size
             item.save()
-    
+
     return redirect('cart')
 
 
@@ -195,21 +195,21 @@ def is_staff(user):
 def update_stage(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     new_stage = request.POST.get('stage')
-    
+
     if new_stage and new_stage != order.stage:
         order.stage = new_stage
         order.save()
-        
+
         # Send email notification when order is updated
         if new_stage == "Ready":
-            send_oda_email(order, "Your order is now ready!", "yuzzaz/order_ready_email.html")
+            send_oda_email(order, "Your order is now ready!", "emails/order_ready_email.html")
         elif new_stage == "Delivered":
-            send_oda_email(order, "Your order has been delivered!", "yuzzaz/order_delivered_email.html")
+            send_oda_email(order, "Your order has been delivered!", "emails/order_delivered_email.html")
 
         messages.success(request, f"Order stage updated to {new_stage}, and user has been notified.")
     else:
         messages.error(request, "Invalid stage selection.")
-    
+
     return redirect('orders_list')
 
 
@@ -224,7 +224,7 @@ def send_oda_email(order, subject, template_name):
         }
         for item in order.items.all()
     ]
-    
+
     html_message = render_to_string(template_name, {
         'user': user,
         'order': order,  # Add this line
@@ -234,7 +234,7 @@ def send_oda_email(order, subject, template_name):
         'current_year': datetime.datetime.now().year,
     })
     plain_message = strip_tags(html_message)
-    
+
     email = EmailMultiAlternatives(subject, plain_message, to=[user.email])
     email.attach_alternative(html_message, "text/html")
     email.send()
@@ -244,17 +244,14 @@ def send_oda_email(order, subject, template_name):
 @login_required
 def cart(request):
     order = Order.objects.filter(user=request.user, is_completed=False).first()
-    completed_orders = Order.objects.filter(user=request.user, is_completed=True)
-
-    # Check if order exists but has no items, then delete it
+    completed_orders = Order.objects.filter(user=request.user, is_completed=True).order_by('-id')[:5]
     if order and not order.items.exists():
         order.delete()
-        order = None  # Set to None so template recognizes an empty cart
+        order = None
 
     return render(request, 'yuzzaz/cart.html', {
         'order': order,
         'has_pending_order': order is not None,
-
         'completed_orders': completed_orders,
         'has_completed_orders': completed_orders.exists(),
     })
@@ -273,6 +270,21 @@ def checkout(request):
 
     if not order:
         return redirect('cart')  # Redirect if no pending order exists
+        
+    order_items = []
+    total_price = 0
+
+    for item in order.items.all():
+                item_total = item.quantity * item.product.price  # Calculate item total
+                total_price += item_total
+                order_items.append({
+                    'name': item.product.name,
+                    'quantity': item.quantity,
+                    'price': item.product.price,
+                    'total': item_total,
+                    'sub_total': item_total,
+                    'size': item.sizes,  # Include item size
+                })
 
     if request.method == 'POST':
         form = OrderForm(request.POST, instance=order)  # Bind form to existing order
@@ -287,7 +299,7 @@ def checkout(request):
 
             order_items = []
             total_price = 0
-
+            
             for item in order.items.all():
                 item_total = item.quantity * item.product.price  # Calculate item total
                 total_price += item_total
@@ -296,11 +308,12 @@ def checkout(request):
                     'quantity': item.quantity,
                     'price': item.product.price,
                     'total': item_total,
+                    'sub_total': item_total,
                     'size': item.sizes,  # Include item size
                 })
 
             # Render email template with shipping details
-            html_message = render_to_string("yuzzaz/order_email.html", {
+            html_message = render_to_string("emails/order_email.html", {
                 'user': user,
                 'order_items': order_items,
                 'total_price': total_price,
@@ -350,7 +363,7 @@ def add_to_cart(request, product_id):
     order_item, created = OrderItem.objects.get_or_create(
         order=order,
         product=product,
-        sizes=sizes, 
+        sizes=sizes,
         defaults={'price': product.price, 'quantity': 1}
     )
 
@@ -370,7 +383,7 @@ def add_to_cart(request, product_id):
 @login_required
 def increase_quantity(request, item_id):
     order_item = get_object_or_404(OrderItem, id=item_id, order__user=request.user)
-    
+
     order_item.quantity += 1
     order_item.price = order_item.quantity * order_item.product.price
     order_item.save()
@@ -378,14 +391,14 @@ def increase_quantity(request, item_id):
     # **Update total cart price**
     order_item.order.total_price = sum(item.price for item in order_item.order.items.all())
     order_item.order.save()
-
+    messages.success(request, "Order item increased by 1")
     return redirect('cart')
 
 
 @login_required
 def decrease_quantity(request, item_id):
     order_item = get_object_or_404(OrderItem, id=item_id, order__user=request.user)
-    
+
     if order_item.quantity > 1:
         order_item.quantity -= 1
         order_item.price = order_item.quantity * order_item.product.price
@@ -397,14 +410,22 @@ def decrease_quantity(request, item_id):
     order = order_item.order
     order.total_price = sum(item.price for item in order.items.all()) if order.items.exists() else 0
     order.save()
-
+    messages.success(request, "Order item decreased by 1")
     return redirect('cart')
+
 
 @login_required
 def remove_cart_item(request, item_id):
     order_item = get_object_or_404(OrderItem, id=item_id, order__user=request.user)
+    order = order_item.order  # store reference before deletion
     order_item.delete()
+
+    # Recalculate total cart price after item is removed
+    order.total_price = sum(item.price for item in order.items.all()) if order.items.exists() else 0
+    order.save()
+    messages.success(request, "Order item was removed")
     return redirect('cart')
+
 
 
 @login_required

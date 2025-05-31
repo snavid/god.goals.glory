@@ -2,49 +2,75 @@
 {% load static %}
 {% block title %}Users{% endblock %}
 {% block location %}Users{% endblock %}
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/cart.css' %}">
-<link rel="stylesheet" href="{% static 'css/list.css' %}">
-{% endblock %}
-{% block section %}Users{% endblock %}
 {% block content %}
-<div class="form-side">
-  <div class="login-form">
-    <h1>User Management</h1>
-    <div class="table-container">
-      <div class="table-responsive">
-        <table>
-          <thead>
+<main class="min-h-screen bg-white p-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">User Management ({{users.count}})</h1>
+      <div class="border-b border-gray-200 mt-4"></div>
+    </div>
+
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+      <form method="get" class="mb-6 px-4 pt-4">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+          <input
+            type="text"
+            name="q"
+            value="{{ query }}"
+            placeholder="Search users..."
+            class="flex-1 border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm"
+          >
+          <button
+            type="submit"
+            class="sm:w-auto w-full bg-black text-white border border-gray-800 rounded-md py-2 px-4 font-medium hover:bg-gray-800 transition"
+          >
+            Search
+          </button>
+        </div>
+      </form>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
             <tr>
-              <th>Name</th>
-              <th>Email</th>
-              
-              <th>Has Pending Order?</th>
-              <th>Phone number</th>
-              <!-- <th>Actions</th> -->
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pending Order</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone Number</th>
             </tr>
           </thead>
-          <tbody>
-            {% for user in user %}
-            <tr>
-              <td>{{ user.first_name }} {{ user.last_name }}</td>
-              <td>
-                <a href="mailto:{{ user.email }}" class="btn btn-email">{{user.email}}</a>
-                </td>
-              <td>{{ user.orders.all.0.is_completed|yesno:"No,Yes" }}</td>  <!-- Checking latest order status -->
-              <td>
-                <a href="tel:{{ user.telephone }}" class="btn btn-email">{{user.telephone}}</a>
+          <tbody class="bg-white divide-y divide-gray-200">
+            {% for user in users %}
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900">{{ user.first_name }} {{ user.last_name }}</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <a href="mailto:{{ user.email }}" class="text-sm text-gray-900 hover:text-gray-600 hover:underline">
+                  {{ user.email }}
+                </a>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                  {% if user.orders.all.0.is_completed %}bg-gray-100 text-gray-800{% else %}bg-red-100 text-red-800{% endif %}">
+                  {{ user.orders.all.0.is_completed|yesno:"No,Yes" }}
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <a href="tel:{{ user.telephone }}" class="flex items-center text-sm text-gray-900 hover:text-gray-600">
+                  <i class="fa fa-phone"></i>
+                  {{ user.telephone }}
+                </a>
               </td>
             </tr>
             {% empty %}
             <tr>
-              <td colspan="7" style="text-align:center;">No users found.</td>
+              <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">No users found</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
+    </div>
   </div>
-</div>
-
-    {% endblock %}
+</main>
+{% endblock %}

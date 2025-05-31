@@ -1,198 +1,249 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Bootstrap 5 CSS CDN -->
-  <title>{% block title %}{% endblock %}</title>
-  {% block extra_css %}{% endblock %}
-  <link rel="shortcut icon" href="{% static 'fav-1-150x150.png' %}" type="image/x-icon">
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{% static 'assets/css/homepage.css' %}">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+  <title>{% block title %}Staff Dashboard{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
-    rel="stylesheet">
-  <!-- Optional: Add custom CSS here -->
+  <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="{% static 'fav-1-150x150.png' %}" type="image/x-icon">
   
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Karla', 'sans-serif'],
+          },
+          colors: {
+            accent: '#111111',
+            light: '#f8f8f8',
+          },
+          animation: {
+            'float': 'float 3s ease-in-out infinite',
+            'fade-in': 'fadeIn 0.5s ease-out',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-stroke {
+        -webkit-text-stroke: 1px #000;
+        text-stroke: 1px #000;
+      }
+      .text-stroke-white {
+        -webkit-text-stroke: 1px #fff;
+        text-stroke: 1px #fff;
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      }
+    }
+  </style>
 </head>
 
-<body>
-  <nav class="navbar sticky-top bg-body-tertiaryi">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">GOD·GOALS·GLORY</a>
-      <a class="navbar-brand" href="#">{% block location %}{% endblock %}</a>
-      <a class="navbar-brandi" href="#">BASICS</a>
-
-      <ul class="nav justify-content-center">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'homepage' %}"><i class="bi bi-house"></i></a>
-        </li>
-
-
-
-        {% if user.is_authenticated %}
-        <li class="nav-item position-relative">
-          <a class="nav-link" href="{% url 'actions' %}">
-            <i class="bi bi-activity"></i>
+<body class="bg-white text-black font-sans min-h-screen flex flex-col">
+  <!-- Navigation -->
+     <!-- <nav class="sticky top-16 z-50 bg-gray-200 border-b border-gray-200 shadow-sm"> -->
+      <nav class="sticky top-0 z-40 bg-[url('https://www.transparenttextures.com/patterns/dark-mosaic.png')] bg-repeat bg-black text-white shadow-inner">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between h-10 items-center">
+          <!-- <marquee behavior="scroll" direction="left" scrollamount="3" class="text-xl font-medium tracking-tight uppercase ">
+            For the glory of the Most High &nbsp;&nbsp;&nbsp; For the glory of the Most High &nbsp;&nbsp;&nbsp; For the glory of the Most High</marquee>         -->
+          <marquee behavior="scroll" direction="left" scrollamount="3" class="text-xl font-medium tracking-tight uppercase hidden lg:block">For the glory of the Most High</marquee>        
+          <marquee behavior="scroll" direction="left" scrollamount="3" class="text-xl font-medium tracking-tight uppercase hidden md:block">For the glory of the Most High</marquee>        
+          <marquee behavior="scroll" direction="left" scrollamount="3" class="text-xl font-medium tracking-tight uppercase">For the glory of the Most High</marquee>        
+          </div>
+        </div>
+      </nav>
+  <nav class="sticky top-10 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <!-- Left side -->
+        <div class="flex items-center">
+          <a href="#" class="text-xl font-bold tracking-tight uppercase">{% block location %}Basics{% endblock %}</a>
+          <span class="ml-4 text-sm opacity-75"></span>
+        </div>
+        
+        <!-- Right side -->
+        <div class="flex items-center space-x-6">
+          <a href="{% url 'homepage' %}" class="hover:text-gray-600 transition-colors">
+            <i class="fas fa-home text-xl"></i>
           </a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <i class="bi bi-person-circle"></i> Hi, {{ user.first_name }}
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-            {% if user.is_staff %}
-            <li><a class="dropdown-item" href="{% url 'staff_dashboard' %}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-            {% endif %}
-            <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person"></i> Profile</a></li>
-            <li><a class="dropdown-item" href="{% url 'logout' %}" style="color: red;"><i
-                  class="bi bi-box-arrow-left"></i> Logout</a></li>
-          </ul>
-        </li>
-        {% else %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'login' %}">
-            <i class="bi bi-box-arrow-in-left"></i> Login
-          </a>
+          
+          {% if user.is_authenticated %}
+          {% if user.is_staff %}
+            <a href="{% url 'actions' %}" class="relative hover:text-gray-600 transition-colors">
+              <i class="fa-solid fa-wave-square text-xl"></i>
+              </a>
+              {% endif %}
+            
+            <div class="relative" x-data="{ open: false }">
+              <button @click="open = !open" class="flex items-center space-x-1 hover:text-gray-600 transition-colors focus:outline-none">
+                <i class="fas fa-user-circle text-xl"></i>
+                <span>Hi, {{ user.first_name }}</span>
+                <i class="fas fa-chevron-down text-xs hidden md:block"></i>
+              </button>
+            
+              <div
+                x-show="open"
+                @click.away="open = false"
+                x-transition:enter="transition ease-out duration-100"
+                x-transition:enter-start="transform opacity-0 scale-95"
+                x-transition:enter-end="transform opacity-100 scale-100"
+                x-transition:leave="transition ease-in duration-75"
+                x-transition:leave-start="transform opacity-100 scale-100"
+                x-transition:leave-end="transform opacity-0 scale-95"
+                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200"
+              >
+                {% if user.is_staff %}
+                  <a href="{% url 'actions' %}" class="block px-4 py-2 hover:bg-gray-100">
+                    <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+                  </a>
+                {% endif %}
+                <a href="{% url 'profile' %}" class="block px-4 py-2 hover:bg-gray-100">
+                  <i class="fas fa-user mr-2"></i> Profile
+                </a>
+                <a href="{% url 'logout' %}" class="block px-4 py-2 text-red-600 hover:bg-gray-100">
+                  <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                </a>
+              </div>
+            </div>
+                      {% else %}
+            <a href="{% url 'login' %}" class="hover:text-gray-600 transition-colors">
+              <i class="fas fa-sign-in-alt mr-1"></i> Login
+            </a>
           {% endif %}
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </nav>
 
-  {% block hero %}
 
+  <!-- Main Content -->
+  <main class="flex-grow">
+    {% block content %}
+    {% endblock %}
+  </main>
 
-{% endblock %}
-  <!-- Container for your content -->
-  <div class="container">
-    {% block content %}{% endblock %}
-
-    <footer id="footer" class="footer dark-background">
-      <div class="container footer-top">
-        <div class="row gy-4">
-
-          <!-- About Section -->
-          <div class="col-lg-4 col-md-6 footer-about">
-
-
-            <!-- Social Links -->
-            <div class="social-links d-flex mt-4">
-              <a href="https://www.tiktok.com/@being.that.guy_?_t=ZM-8ubTBVkjx13&_r=1" class="social-icon"><i
-                  class="bi bi-tiktok"></i></a>
-              <a href="tel:+255793950707" class="social-icon"><i class="bi bi-telephone"></i></a>
-              <a href="http://wa.me/255793950707" class="social-icon"><i class="bi bi-whatsapp"></i></a>
-              <a href="mailto:godlistengerald23@gmail.com" class="social-icon"><i class="bi bi-envelope-open"></i></a>
-              <a href="https://www.instagram.com/being.that.guy_?igsh=MWRtN2o1MGw1cGc5Yg%3D%3D&utm_source=qr"
-                class="social-icon"><i class="bi bi-instagram"></i></a>
-            </div>
+  <!-- Footer -->
+  <footer class="bg-black text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-6 md:mb-0">
+          <h3 class="text-xl font-bold mb-4">GOD · GOALS · GLORY</h3>
+          <div class="flex space-x-4">
+            <a href="https://www.tiktok.com/@being.that.guy_?_t=ZM-8ubTBVkjx13&_r=1" class="hover:text-gray-300">
+              <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="tel:+255793950707" class="hover:text-gray-300">
+              <i class="fas fa-phone"></i>
+            </a>
+            <a href="http://wa.me/255793950707" class="hover:text-gray-300">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="mailto:godlistengerald23@gmail.com" class="hover:text-gray-300">
+              <i class="fas fa-envelope"></i>
+            </a>
+            <a href="https://www.instagram.com/being.that.guy_?igsh=MWRtN2o1MGw1cGc5Yg%3D%3D&utm_source=qr" class="hover:text-gray-300">
+              <i class="fab fa-instagram"></i>
+            </a>
           </div>
-
         </div>
-      </div>
-
-      <!-- Copyright -->
-      <div class="container copyright text-center mt-4">
-        <div class="credits">© 2025 <a href="#">GOD·GOALS·GLORY</a>
-          <br> All Rights Reserved
+        
+        <div class="text-center md:text-right">
+          <p class="text-sm opacity-75">© 2025 GOD · GOALS · GLORY</p>
+          <p class="text-sm opacity-75">All Rights Reserved</p>
+          <p class="text-sm mt-2 opacity-75">
+            Arts by <a href="tel:+255758523353" class="hover:underline text-gray-400">GCL</a> 
+          </p>
         </div>
-        <div class="credits">
-          <br>
-          Designed by <a href="tel:+255758523353">GCL</a>
-        </div>
-      </div>
-    </footer>
-
-    <!-- Scroll to Top -->
-    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
-      <i class="bi bi-arrow-up-short"></i>
-    </a>
-
-    <!-- Preloader -->
-    <div id="preloader">
-      <div class="preloader-dots">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
       </div>
     </div>
+  </footer>
 
-    <style></style>
-    <script>
-      // Scroll to Top
-      const scrollTopBtn = document.getElementById("scroll-top");
+  <!-- Scroll to Top -->
+  <button id="scroll-top" class="fixed bottom-6 right-6 bg-black text-white w-10 h-10 rounded-full flex items-center justify-center opacity-0 invisible transition-all duration-300">
+    <i class="fas fa-arrow-up"></i>
+  </button>
 
-      window.addEventListener("scroll", function () {
-        if (window.scrollY > 300) {
-          scrollTopBtn.style.display = "flex";
-        } else {
-          scrollTopBtn.style.display = "none";
-        }
-      });
-
-      scrollTopBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
-
-      // Preloader
-      window.addEventListener("load", function () {
-        document.getElementById("preloader").style.display = "none";
-      });
-
-    </script>
-    <!-- Toast Messages -->
-    {% if messages %}
-    <div class="fixed-toast-container">
-        {% for message in messages %}
-        <div class="toast-message {% if message.tags %}{{ message.tags }}{% endif %}">
-            <div class="toast-content">
-                <div class="toast-text">{{ message }}</div>
-                <button type="button" class="toast-close" onclick="this.parentElement.parentElement.remove()">×</button>
-            </div>
-            <div class="toast-progress">
-                <div class="progress-bar"></div>
-            </div>
-        </div>
-        {% endfor %}
+  <!-- Toast Messages -->
+  {% if messages %}
+  <div class="fixed top-4 right-4 space-y-3 z-50">
+    {% for message in messages %}
+    <div class="bg-black text-white px-6 py-4 rounded-lg shadow-xl flex items-start max-w-xs animate-fade-in">
+      <div class="flex-grow">
+        <div class="font-medium">{{ message }}</div>
+      </div>
+      <button type="button" class="ml-4 text-gray-400 hover:text-white" onclick="this.parentElement.remove()">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-    <script>
-      // Auto-dismiss messages after 10 seconds
-      document.addEventListener("DOMContentLoaded", function () {
-        setTimeout(function () {
-          document.querySelectorAll('.toast-message').forEach(function (toast) {
-            toast.remove();
-          });
-        }, 10000);
-  
-        // Animate progress bar
-        document.querySelectorAll('.toast-progress .progress-bar').forEach(function (bar) {
-          bar.style.transition = "width 10s linear";
-          bar.style.width = "100%";
-        });
-      });
-      
-  
-      </script>
-    {% endif %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"></script>
-
+    {% endfor %}
   </div>
+  <script>
+    // Auto-dismiss messages after 5 seconds
+    document.addEventListener("DOMContentLoaded", function() {
+      setTimeout(function() {
+        document.querySelectorAll('[class*="animate-fade-in"]').forEach(function(toast) {
+          toast.remove();
+        });
+      }, 5000);
+    });
+  </script>
+  {% endif %}
 
+  <script>
+    // Scroll to Top Button
+    const scrollTopBtn = document.getElementById('scroll-top');
+    
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.remove('opacity-0', 'invisible');
+        scrollTopBtn.classList.add('opacity-100', 'visible');
+      } else {
+        scrollTopBtn.classList.remove('opacity-100', 'visible');
+        scrollTopBtn.classList.add('opacity-0', 'invisible');
+      }
+    });
+    
+    scrollTopBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Initialize Alpine.js for dropdown functionality
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('dropdown', () => ({
+            open: false,
+            toggle() {
+                this.open = !this.open
+            }
+        }))
+    });
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script></body>
 </body>
-
 </html>
