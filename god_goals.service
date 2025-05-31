@@ -1,0 +1,18 @@
+[Unit]
+Description=Gunicorn instance to serve god.goals.glory Django application
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/god.goals.glory
+Environment="PATH=/var/www/god.goals.glory/.venv/bin"
+ExecStart=/var/www/god.goals.glory/.venv/bin/gunicorn \
+          --config /var/www/god.goals.glory/gunicorn.conf.py \
+          god_goals.wsgi:application
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target 
