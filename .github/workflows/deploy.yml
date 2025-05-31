@@ -1,4 +1,4 @@
-name: Flask CI/CD Pipeline
+name: BeingThatGuy CI/CD Pipeline
 
 # Trigger on push to the main branch
 on:
@@ -23,12 +23,12 @@ jobs:
 
       # Step 3: Install dependencies
       #python3 -m pip install --upgrade pip
-      - name: Install dependencies
-        run: |
+    #   - name: Install dependencies
+    #     run: |
           
-          python3 -m venv venv
-          source venv/bin/activate
-          pip install -r requirements.txt
+    #       python3 -m venv venv
+    #       source venv/bin/activate
+    #       pip install -r requirements.txt
 
       # Step 4: Deploy to server via SSH
       - name: Deploy to server
@@ -42,5 +42,6 @@ jobs:
           script: |
             cd /var/www/god.goals.glory
             git pull
-            #pip install -r requirements.txt
+            source venv/bin/activate
+            pip install -r requirements.txt
             sudo systemctl restart BeingThatGuy
