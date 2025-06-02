@@ -1,6 +1,7 @@
 from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -26,6 +27,7 @@ class Product(models.Model):
     size_l = models.BooleanField(default=True)
     size_xl = models.BooleanField(default=True)
     size_xxl = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name

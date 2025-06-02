@@ -106,8 +106,8 @@ def homepage(request):
         has_pending_order = Order.objects.filter(user=user, is_completed=False).exists()
 
     context = {
-        'products': Product.objects.all(),
-        'latest_products': Product.objects.order_by('-id')[:6],  # Get last 6 products
+        'products': Product.objects.all().order_by('-created_at'),
+        'latest_products': Product.objects.order_by('-created_at')[:6],  # Get last 6 products
         'testimonials': Testimonial.objects.all().order_by('-created_at'),
         'user': user,
         'has_pending_order': has_pending_order
@@ -134,7 +134,7 @@ def profile(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Your profile has been updated!")
-            return redirect('homepage')  # Redirect to the same page
+            return redirect('profile')  # Redirect to the same page
     else:
         form = CustomUserForm(instance=user)
 
