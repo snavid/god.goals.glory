@@ -33,27 +33,27 @@
             <p class="text-lg md:text-xl leading-relaxed mb-8">
               Two brothers realized that something was missing. A void so deep that no worldly pleasure could fill.
             </p>
-            <!-- <div class="w-full h-64 md:h-80 bg-gray-100 mb-8 overflow-hidden rounded-lg"> -->
+            <div class="w-full h-64 md:h-80 bg-gray-100 mb-8 overflow-hidden rounded-lg">
               <!-- <img src="{% static 'phila/2.jpeg' %}" alt="Empty city"  class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"> -->
-            <!-- </div> -->
+            </div>
           </div>
 
           <div class="mb-16 animate-fade-in">
             <p class="text-lg md:text-xl leading-relaxed mb-8">
               It was the beginning of a journey of <strong>SELF-DISCOVERY</strong>, not knowing how difficult it would get—or if they would even reach the end. But they began anyway.
             </p>
-            <!-- <div class="w-full h-64 md:h-80 bg-gray-100 mb-8 overflow-hidden rounded-lg"> -->
+            <div class="w-full h-64 md:h-80 bg-gray-100 mb-8 overflow-hidden rounded-lg">
               <!-- <img src="{% static 'phila/3.jpeg' %}" alt="Journey into the unknown"  class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"> -->
-            <!-- </div> -->
+            </div>
           </div>
 
           <div class="mb-16 animate-fade-in">
             <p class="text-lg md:text-xl leading-relaxed mb-8">
               Along the way, they realized they weren’t alone. Others felt the same way. Knowing that <strong>teams win championships, not players</strong>, they bonded with those they met. Slowly, a once-lonely path felt like home. The pain faded. The challenges of life became manageable.
             </p>
-            <!-- <div class="w-full h-64 md:h-80 bg-gray-100 mb-8 overflow-hidden rounded-lg"> -->
+            <div class="w-full h-64 md:h-80 bg-gray-100 mb-8 overflow-hidden rounded-lg">
               <!-- <img src="{% static 'phila/5.jpeg' %}" alt="Brotherhood"  class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"> -->
-            <!-- </div> -->
+            </div>
           </div>
 
           <!-- Big Question Section -->
@@ -62,9 +62,9 @@
             <p class="text-xl md:text-2xl font-medium mb-8">
               Did they find the answers they were looking for?
             </p>
-            <!-- <div class="w-full h-64 md:h-80 bg-gray-100 mb-8 overflow-hidden rounded-lg mx-auto"> -->
+            <div class="w-full h-64 md:h-80 bg-gray-100 mb-8 overflow-hidden rounded-lg mx-auto">
               <!-- <img src="{% static 'phila/6.jpeg' %}" alt="Question mark in the sky"  class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"> -->
-            <!-- </div> -->
+            </div>
             <p class="text-lg md:text-xl leading-relaxed">
               <strong>No.</strong> They didn’t. In fact, they’re still walking the path to this very day. But they discovered something deeper—a <strong>mission</strong>, a <strong>purpose</strong>, something worth living and dying for.
             </p>
@@ -208,82 +208,36 @@
       <div class="max-w-7xl mx-auto px-4 mb-20" id="tribe">
         <h3 class="text-2xl md:text-3xl font-bold mb-0 text-center uppercase tracking-wider">MEET THE TRIBE</h3>
         <h3 class="text-base md:text-base mb-12 text-center uppercase tracking-wider">{{ yuzzaz.count }}+ Members</h3>
-        <div class="relative flex justify-center">
-          <!-- Scrollable container with snap behavior -->
-          <div 
-  class="overflow-x-auto whitespace-nowrap py-6 snap-x snap-mandatory hide-scrollbar"
-  x-data="{
-    interval: null,
-    scrollTo(direction) {
-      const container = this.$refs.scroller;
-      const scrollAmount = direction === 'left' ? -300 : 300;
-      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    },
-    autoScroll() {
-      const container = this.$refs.scroller;
-      this.interval = setInterval(() => {
-        // disable smooth scrolling temporarily
-        container.classList.remove('scroll-smooth');
-
-        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 5) {
-          container.scrollTo({ left: 0 });
-        } else {
-          container.scrollBy({ left: 2 }); // slightly higher step for smoother animation
-        }
-      }, 3000); // slower interval
-    },
-    stopScroll() {
-      clearInterval(this.interval);
-    },
-    init() {
-      this.autoScroll();
-    }
-  }"
-  x-init="init"
-  @mouseenter="stopScroll"
-  @mouseleave="autoScroll"
-  x-ref="scroller"
-  class="scroll-smooth"
->
-  <div class="inline-flex items-center space-x-6 pl-6">
-              {% for user in yuzzaz %}
-              <div class="relative group snap-center flex-shrink-0">
-                <img
-                  src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'default-profile.jpg' %}{% endif %}"
-                  alt="{{ user.first_name }}"
-                  class="w-20 h-20 rounded-full border-4 border-white shadow-lg object-cover hover:scale-105 transition-transform duration-300"
-                  title="{{ user.first_name }} {{ user.last_name }}"
-                />
-                
-                <h4 class="font-bold text-xs text-center mt-2">{{ user.first_name }}</h4>
-                <h4 class="font-bold text-xs text-center">{{ user.last_name }}</h4>
-                
-                {% if user.bio %}
-                <div class="absolute bottom-2 mt-4 left-1/2 transform -translate-x-1/2 translate-y-full w-max max-w-xs text-xs bg-black text-white rounded-md px-2 py-1 mt-1 hidden group-hover:block z-10">
-                  {{ user.bio|truncatechars:30 }}
-                </div>
-                {% endif %}
-              </div>
-              {% endfor %}
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {% for user in users %}
+          <!-- Member 1 -->
+          <div class="bg-white rounded-full py-2 text-center animate-fade-in-up">
+            <div class="w-32 h-32 mx-auto mb-4 overflow-hidden rounded-full border-4 border-gray-700">
+              <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'default-profile.jpg' %}{% endif %}" alt="Member" class="w-full h-full object-cover">
             </div>
+            <div class="group relative">
+              <h4 class="font-bold text-lg">{{ user.first_name }}</h4>
+            
+              <!-- Last Name (visible by default, hidden on hover if bio exists) -->
+              <h4 class="font-bold text-lg mb-2 
+                         {% if user.bio %} group-hover:hidden {% endif %}">
+                {{ user.last_name }}
+              </h4>
+            
+              {% if user.bio %}
+              <!-- Bio (hidden by default, visible on hover) -->
+              <p class="font-medium text-sm text-gray-400 italic mb-2 hidden group-hover:block truncate max-w-xs">
+                {{ user.bio|truncatechars:30 }}
+              </p>
+              {% endif %}
+            </div>
+                        <!-- <div class="flex justify-center space-x-4">
+              <a href="tel:{{ user.telephone }}" class="text-gray-600 hover:text-black"><i class="fas fa-phone"></i></a>
+              <a href="mailto:{{ user.email }}" class="text-gray-600 hover:text-black"><i class="fas fa-envelope"></i></a>
+            </div> -->
           </div>
-        
-          <!-- Navigation arrows -->
-          
+          {% endfor %}
         </div>
-        
-        <style>
-          .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-          }
-          .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-        </style>
-        
-        </div>
-        
         <!-- "Will You Be Next?" Section -->
         <div class="mt-16 text-center animate-fade-in">
           <h3 class="text-2xl md:text-3xl font-bold mb-6 uppercase tracking-wider">WILL YOU BE THE NEXT?</h3>
