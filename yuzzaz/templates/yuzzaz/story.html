@@ -1,0 +1,244 @@
+{% extends 'yuzzaz/besa.html' %}
+{% load static %}
+{% block title %}Story{% endblock %}
+{% block location%}Story{% endblock %}
+{% block content %}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Welcome Section -->
+      <div class="mb-12 text-center animate-fade-in">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 uppercase">Welcome, {% if user.is_authenticated %} {{user.first_name}}! {% else %} Guest! {% endif %}</h1>
+        <p class="text-xl opacity-75">This is our story. This is <strong>BE THAT GUY.</strong></p>
+      </div>
+      <div class="mb-8">
+        <nav class="flex justify-center space-x-8 py-4 text-sm md:text-base font-medium uppercase tracking-widest">
+          <a href="{% url 'land' %}" class="hover:text-gray-400 transition">Waitlist</a>
+          <a href="{% url 'homepage' %}" class="hover:text-gray-400 transition">Basics</a>
+          <a href="#" class="text-gray-400 border-b-2 border-gray-400 pb-1">Our Story</a>
+        </nav>
+      </div>
+
+      <!-- THE STORY BEGINS -->
+      <div class="story-section relative overflow-hidden">
+        <!-- Hero Image - Full Bleed -->
+        <div class="w-full h-96 md:h-[500px] bg-black mb-12 overflow-hidden relative">
+          <img src="{% static 'phila/1.jpeg' %}" alt="Two brothers on a journey" 
+               class="w-full h-full object-cover opacity-70">
+          <div class="absolute inset-0 flex items-center justify-center text-center px-4">
+            <h2 class="text-3xl md:text-5xl font-bold text-white tracking-wide animate-fade-in-up">IN A WORLD FULL OF DISTRACTIONS...</h2>
+          </div>
+        </div>
+
+        <!-- Story Text Sections with Images -->
+        <div class="max-w-3xl mx-auto px-4 mb-20">
+          <div class="mb-16 animate-fade-in">
+            <p class="text-lg md:text-xl leading-relaxed mb-8">
+              Two brothers realized that something was missing. A void so deep that no worldly pleasure could fill.
+            </p>
+            <div class="w-full h-64 md:h-80 bg-gray-100 mb-8 overflow-hidden rounded-lg">
+              <img src="{% static 'phila/2.jpeg' %}" alt="Empty city" 
+                   class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+            </div>
+          </div>
+
+          <div class="mb-16 animate-fade-in">
+            <p class="text-lg md:text-xl leading-relaxed mb-8">
+              It was the beginning of a journey of <strong>SELF-DISCOVERY</strong>, not knowing how difficult it would get—or if they would even reach the end. But they began anyway.
+            </p>
+            <div class="w-full h-64 md:h-80 bg-gray-100 mb-8 overflow-hidden rounded-lg">
+              <img src="{% static 'phila/3.jpeg' %}" alt="Journey into the unknown" 
+                   class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+            </div>
+          </div>
+
+          <div class="mb-16 animate-fade-in">
+            <p class="text-lg md:text-xl leading-relaxed mb-8">
+              Along the way, they realized they weren’t alone. Others felt the same way. Knowing that <strong>teams win championships, not players</strong>, they bonded with those they met. Slowly, a once-lonely path felt like home. The pain faded. The challenges of life became manageable.
+            </p>
+            <div class="w-full h-64 md:h-80 bg-gray-100 mb-8 overflow-hidden rounded-lg">
+              <img src="{% static 'phila/5.jpeg' %}" alt="Brotherhood" 
+                   class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+            </div>
+          </div>
+
+          <!-- Big Question Section -->
+          <div class="mb-16 text-center animate-fade-in">
+            <h3 class="text-2xl md:text-3xl font-bold mb-6 uppercase tracking-wider">THE QUESTION NOW IS...</h3>
+            <p class="text-xl md:text-2xl font-medium mb-8">
+              Did they find the answers they were looking for?
+            </p>
+            <div class="w-full h-64 md:h-80 bg-gray-100 mb-8 overflow-hidden rounded-lg mx-auto">
+              <img src="{% static 'phila/6.jpeg' %}" alt="Question mark in the sky" 
+                   class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+            </div>
+            <p class="text-lg md:text-xl leading-relaxed">
+              <strong>No.</strong> They didn’t. In fact, they’re still walking the path to this very day. But they discovered something deeper—a <strong>mission</strong>, a <strong>purpose</strong>, something worth living and dying for.
+            </p>
+          </div>
+        </div>
+
+        <!-- Mission Statement - Full Bleed -->
+        <div class="w-full bg-black text-white py-16 md:py-24 mb-20">
+          <div class="max-w-3xl mx-auto px-4 text-center animate-fade-in">
+            <h3 class="text-2xl md:text-4xl font-bold mb-8 uppercase tracking-wider">BE THAT GUY IS YOUR ESCAPE.</h3>
+            <p class="text-lg md:text-xl leading-relaxed mb-6">
+              Your tribe. Your reminder that you were built for more.
+            </p>
+            <p class="text-lg md:text-xl leading-relaxed mb-6">
+              We’re a community chasing greatness—<strong>physically, mentally, financially, and spiritually.</strong>
+            </p>
+            <p class="text-lg md:text-xl leading-relaxed mb-6">
+              We don’t follow trends. We set standards. We don’t just survive. We elevate.
+            </p>
+            <p class="text-lg md:text-xl leading-relaxed mb-6">
+              Here, you’ll find <strong>DISCIPLINE, DIRECTION, and FAMILY.</strong>
+            </p>
+            <p class="text-lg md:text-xl leading-relaxed mb-6">
+              This isn’t hype. It’s a lifestyle. It’s a mission.
+            </p>
+            <p class="text-lg md:text-xl leading-relaxed">
+              You may have landed here through a reel, an ad, or a friend… but you’ll stay because this feels like home. Because deep down, you know—<strong>you were born to be that guy.</strong>
+            </p>
+          </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="max-w-3xl mx-auto px-4 mb-20 text-center animate-fade-in">
+          <h3 class="text-2xl md:text-3xl font-bold mb-6 uppercase tracking-wider">🔥 JOIN THE MOVEMENT.</h3>
+          <p class="text-xl md:text-2xl mb-8">
+            Lock in. Level up. <strong>BE THAT GUY.</strong>
+          </p>
+          <a href="#tribe" class="inline-block bg-black text-white px-8 py-3 uppercase font-bold tracking-wider hover:bg-gray-800 transition">
+            Join Now
+          </a>
+        </div>
+      </div>
+
+<!-- PHILANTHROPY SECTION -->
+<div 
+  x-data="{
+    currentIndex: 0,
+    images: [
+      '{% static 'phila/1.jpeg' %}',
+      '{% static 'phila/2.jpeg' %}',
+      '{% static 'phila/3.jpeg' %}',
+      '{% static 'phila/4.jpeg' %}',
+      '{% static 'phila/5.jpeg' %}',
+      '{% static 'phila/6.jpeg' %}',
+      '{% static 'phila/7.jpeg' %}',
+      '{% static 'phila/8.jpeg' %}',
+    ],
+    next() {
+      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+    },
+    prev() {
+      this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+    },
+    goTo(index) {
+      this.currentIndex = index;
+    }
+  }"
+  x-init="
+    $watch('currentIndex', value => {
+      $refs.slider.scrollTo({
+        left: $refs.slider.offsetWidth * value,
+        behavior: 'smooth'
+      });
+    });
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % images.length;
+    }, 5000);
+  "
+  class="w-full bg-gray-100 py-16 md:py-24 mb-20"
+>
+  <div class="max-w-3xl mx-auto px-4 text-center animate-fade-in">
+    <h3 class="text-2xl md:text-4xl font-bold mb-8 uppercase tracking-wider">HOW WE GIVE BACK</h3>
+    <p class="text-lg md:text-xl leading-relaxed mb-8">
+      As a community, we invest financial and intellectual resources to uplift those born in tough situations.
+    </p>
+    
+    <!-- Image Gallery Container -->
+    <div class="relative group">
+      <!-- Navigation Arrows -->
+      <button 
+        @click="prev()"
+        class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black/30 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ml-2"
+      >
+        <i class="fa fa-chevron-left"></i>
+      </button>
+      
+      <button 
+        @click="next()"
+        class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/30 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 mr-2"
+      >
+        <i class="fa fa-chevron-right"></i>
+      </button>
+      
+      <!-- Image Slideshow -->
+      <div class="w-full h-64 md:h-96 mb-8 overflow-hidden relative">
+        <div 
+          class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth h-full hide-scrollbar"
+          x-ref="slider"
+        >
+          <template x-for="(image, index) in images" :key="index">
+            <div class="flex-shrink-0 w-full h-full snap-center">
+              <img 
+                :src="image" 
+                :alt="'Philanthropy image ' + (index + 1)"
+                class="w-full h-full object-cover transition-transform duration-500 hover:scale-105 rounded-md"
+                :class="{ 'ring-4 ring-black/20': currentIndex === index }"
+              />
+            </div>
+          </template>
+        </div>
+      </div>
+      
+      <!-- Dots Navigation -->
+      <div class="flex justify-center space-x-2 mb-8">
+        <template x-for="(image, index) in images" :key="index">
+          <button 
+            @click="goTo(index)"
+            class="w-3 h-3 rounded-full transition-all duration-300"
+            :class="currentIndex === index ? 'bg-black w-6' : 'bg-gray-400'"
+          ></button>
+        </template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AlpineJS -->
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+      <!-- JOIN US - MEMBERS SECTION -->
+      <div class="max-w-7xl mx-auto px-4 mb-20" id="tribe">
+        <h3 class="text-2xl md:text-3xl font-bold mb-0 text-center uppercase tracking-wider">MEET THE TRIBE</h3>
+        <h3 class="text-base md:text-base mb-12 text-center uppercase tracking-wider">{{ yuzzaz.count }}+ Members</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {% for user in users %}
+          <!-- Member 1 -->
+          <div class="bg-white rounded-full py-2 text-center animate-fade-in-up">
+            <div class="w-32 h-32 mx-auto mb-4 overflow-hidden rounded-full border-4 border-gray-700">
+              <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'default-profile.jpg' %}{% endif %}" alt="Member" class="w-full h-full object-cover">
+            </div>
+            <h4 class="font-bold text-lg">{{ user.first_name }} </h4>
+            <h4 class="font-bold text-lg mb-2">{{ user.last_name }}</h4>
+            <div class="flex justify-center space-x-4">
+              <a href="tel:{{ user.telephone }}" class="text-gray-600 hover:text-black"><i class="fas fa-phone"></i></a>
+              <a href="mailto:{{ user.email }}" class="text-gray-600 hover:text-black"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <!-- "Will You Be Next?" Section -->
+        <div class="mt-16 text-center animate-fade-in">
+          <h3 class="text-2xl md:text-3xl font-bold mb-6 uppercase tracking-wider">WILL YOU BE THE NEXT?</h3>
+          <p class="text-lg md:text-xl mb-8">
+            Join a brotherhood of men and women committed to greatness.
+          </p>
+          <a href="{% if user.is_authenticated %}{% url 'homepage' %}{% else %}{% url 'register' %}{% endif %}" class="inline-block bg-black text-white px-8 py-3 uppercase font-bold tracking-wider hover:bg-gray-800 transition">
+            Join the Movement
+          </a>
+        </div>
+      </div>
+    </div>
+{% endblock %}

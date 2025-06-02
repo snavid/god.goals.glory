@@ -121,7 +121,7 @@
           <div class="relative bg-white p-8 rounded-2xl shadow-xl border border-gray-100 lg:w-[30rem]">
             <img src="{% static 'images/education-illustration.png' %}" alt="Register Illustration" class="w-full h-auto">
             <div class="mt-8 text-center">
-              <h3 class="text-2xl font-bold mb-2">Already a member?</h3>
+              <h3 class="text-2xl font-bold mb-2 uppercase">Already a member?</h3>
               <p class="text-gray-600 mb-6">Sign in to access your account and continue shopping</p>
               <a href="{% url 'login' %}" class="inline-block bg-black text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
                 Sign In Now
@@ -136,13 +136,28 @@
         <div class="bg-white p-8 sm:p-10 rounded-2xl shadow-xl border border-gray-100 max-w-md mx-auto">
           <div class="text-center mb-8">
             <h1 class="text-3xl font-bold mb-2">Create Account</h1>
-            <p class="text-gray-600">Join GOD · GOALS · GLORY today</p>
+            <p class="text-gray-600">BE THAT GUY/GIRL today</p>
           </div>
 
           <form method="POST" enctype="multipart/form-data" class="space-y-6">
             {% csrf_token %}
-            
-            {% for field in form %}
+  <!-- Email Info Alert -->
+  <div class="flex items-start bg-gray-50 border-l-4 border-gray-400 p-2 rounded-md shadow-sm">
+    <i class="fa fa-info-circle text-gray-500 mr-3"></i>
+    <p class="text-sm text-gray-700">
+      Ensure the email you provide is <strong>active, accessible, and valid</strong>. An invalid email will result in an unsuccessful registration.
+    </p>
+  </div>
+<div class="flex items-start bg-gray-50 border-l-4 border-gray-400 p-2 rounded-md shadow-sm">
+    <i class="fa fa-info-circle text-gray-500 mr-3"></i>
+    <p class="text-sm text-gray-700">
+      Please include the <strong>country code</strong> in your phone number (e.g., <code>+255XXXXXXXXX</code>) to ensure proper delivery.
+    </p>
+  </div>
+
+  <!-- Divider -->
+  <hr class="opacity-50">
+              {% for field in form %}
             <div class="input-focus">
               <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
                 {{ field.label }}
@@ -185,9 +200,49 @@
             <div class="flex items-center">
               <input id="terms" name="terms" type="checkbox" class="h-4 w-4 text-black focus:ring-black border-gray-300 rounded" required>
               <label for="terms" class="ml-2 block text-sm text-gray-700">
-                I agree to the <a href="#" class="text-black hover:underline">Terms & Conditions</a>
+                I agree to the <button onclick="openTermsModal()" 
+                      class="text-black hover:underline">Terms & Conditions</button>
               </label>
             </div>
+
+            <div id="termsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50 h-screen mx-2">
+              <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full p-6 overflow-y-auto max-h-[80vh] relative">
+                <h2 class="text-xl font-bold mb-4">Terms and Conditions</h2>
+                <div class="text-sm space-y-4 text-gray-700">
+                  <p><strong>1. Service Agreement</strong><br>
+                  Being That Guy is an online clothing store where customers can browse, order, and purchase fashion products. By using this site, you agree to abide by all applicable laws and site policies. You must be 18 years or older, or have parental consent, to place an order.</p>
+            
+                  <p><strong>2. Orders and Payments</strong><br>
+                  All orders must be paid in full at checkout. Orders are processed upon payment confirmation. Prices listed include the product cost; delivering, taxes, and other fees may be added at checkout depending on your location.</p>
+            
+                  <p><strong>3. Delivering and Delivery</strong><br>
+                  We deliver orders based on the selected delivery method. Delivery times are estimates and may vary due to external factors. Customers are responsible for providing accurate delivering information. Being That Guy is not liable for delays caused by incorrect addresses or courier issues.</p>
+            
+                  <p><strong>4. Cancellations and Returns</strong><br>
+                  Orders can be canceled within 1 hour of placement. Returns are accepted within 7 days of delivery for unworn, unwashed items with original tags. Sale items and personalized products are non-returnable. Refunds are processed after item inspection.</p>
+            
+                  <p><strong>5. Code of Conduct</strong><br>
+                  All users must engage respectfully. Abuse, fraud, or misconduct will result in account suspension or termination. We reserve the right to cancel orders or ban accounts that violate our policies.</p>
+            
+                  <p><strong>6. Disclaimer and Liability</strong><br>
+                  While we strive for accuracy, Being That Guy is not responsible for typographical errors, color discrepancies due to screen settings, or third-party service interruptions. Liability for any product issue is limited to the product's purchase price.</p>
+                </div>
+                <button onclick="closeTermsModal()" class="absolute top-2 right-4 text-gray-600 hover:text-red-500 text-xl">×</button>
+              </div>
+            </div>
+              
+          </div>
+            <script>
+              function openTermsModal() {
+                document.getElementById("termsModal").classList.remove("hidden");
+              }
+            
+              function closeTermsModal() {
+                document.getElementById("termsModal").classList.add("hidden");
+              }
+            </script>
+          
+            
 
             <button type="submit" class="w-full bg-black text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 transition-colors flex items-center justify-center">
               <span>Register</span>
@@ -207,7 +262,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="mb-4 md:mb-0">
-          <h3 class="text-lg font-bold mb-2">GOD · GOALS · GLORY</h3>
+          <h3 class="text-lg font-bold mb-2">BEING THAT GUY/GIRL</h3>
           <div class="flex space-x-4">
             <a href="https://www.tiktok.com/@being.that.guy_?_t=ZM-8ubTBVkjx13&_r=1" class="hover:text-gray-300">
               <i class="fab fa-tiktok"></i>
@@ -228,7 +283,7 @@
         </div>
         
         <div class="text-center md:text-right">
-          <p class="text-sm opacity-75">© 2025 GOD · GOALS · GLORY</p>
+          <p class="text-sm opacity-75">© 2025 BEING THAT GUY/GIRL</p>
           <p class="text-sm opacity-75">All Rights Reserved</p>
           <p class="text-sm mt-1 opacity-75">
             Arts by <a href="tel:+255758523353" class="hover:underline">GCL</a>
@@ -281,4 +336,5 @@
   </script>
   {% endif %}
 </body>
+
 </html>

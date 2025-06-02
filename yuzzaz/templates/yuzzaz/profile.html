@@ -18,7 +18,7 @@
       <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden">
         <!-- Profile Picture -->
         <div class="relative h-64 bg-gray-100 flex items-center justify-center">
-          <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'img/default-profile.jpg' %}{% endif %}"
+          <img src="{% if user.profile_picture %}{{ user.profile_picture.url }}{% else %}{% static 'default-profile.jpg' %}{% endif %}"
                alt="Profile Picture" 
                class="absolute inset-0 w-full h-full object-cover">
         </div>

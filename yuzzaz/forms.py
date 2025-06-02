@@ -42,7 +42,7 @@ class CustomUserForm(forms.ModelForm):
         })
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'telephone',  'profile_picture']
+        fields = ['first_name', 'last_name', 'email', 'telephone',  'profile_picture', 'bio']
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),

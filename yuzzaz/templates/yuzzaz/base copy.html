@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>{%block title%}Password{% endblock%}</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -91,7 +91,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
         <div class="flex items-center">
-          <a href="{% url 'homepage' %}" class="text-xl font-bold tracking-tight uppercase">Login</a>
+          <a href="{% url 'homepage' %}" class="text-xl font-bold tracking-tight uppercase">PASSWORDS</a>
         </div>
         <div class="flex items-center space-x-6">
           <a href="{% url 'homepage' %}" class="hover:text-gray-600 transition-colors">
@@ -127,65 +127,12 @@
 
       <!-- Form Side -->
       <div class="animate-fade-in">
-        <div class="bg-white p-8 sm:p-10 rounded-2xl shadow-xl border border-gray-100 max-w-md mx-auto">
-          <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold mb-2">Welcome Back</h1>
-            <p class="text-gray-600">Sign in to your account</p>
-          </div>
+        <!-- <div class="bg-white p-8 sm:p-10 rounded-2xl shadow-xl border border-gray-100 max-w-md mx-auto"> -->
+          {% block content%}
 
-          <form method="POST" class="space-y-6">
-            {% csrf_token %}
-            
-            <!-- Email Field -->
-            <div class="input-focus">
-              <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-              <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <i class="fas fa-envelope text-gray-400"></i>
-                </div>
-                <input type="text" id="username" name="username" 
-                       class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
-                       placeholder="your@email.com" required>
-              </div>
-              {% if form.username.errors %}
-                <p class="mt-1 text-sm text-red-600">{{ form.username.errors.0 }}</p>
-              {% endif %}
-            </div>
-
-            <!-- Password Field -->
-            <div class="input-focus">
-              <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-              <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <i class="fas fa-lock text-gray-400"></i>
-                </div>
-                <input type="password" id="password" name="password" 
-                       class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
-                       placeholder="••••••••" required>
-              </div>
-              {% if form.password.errors %}
-                <p class="mt-1 text-sm text-red-600">{{ form.password.errors.0 }}</p>
-              {% endif %}
-            </div>
-
-            <div class="flex items-center justify-between">
-              <div class="flex items-center">
-                <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-black focus:ring-black border-gray-300 rounded">
-                <label for="remember-me" class="ml-2 block text-sm text-gray-700">Remember me</label>
-              </div>
-              <div class="text-sm">
-                <a href="{% url 'password_reset' %}" class="font-medium text-black hover:text-gray-700">Forgot password?</a>
-              </div>
-            </div>
-
-            <button type="submit" class="w-full bg-black text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 transition-colors flex items-center justify-center">
-              <span>Sign In</span>
-              <i class="fas fa-arrow-right ml-2"></i>
-            </button>
-          </form>
-
+          {% endblock %}
           
-        </div>
+        <!-- </div> -->
       </div>
     </div>
   </main>

@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('yuzzaz.urls')),
     path('staff/', include('staff.urls')),
+    path("__reload__/", include("django_browser_reload.urls")),
     path('accounts/login/', RedirectView.as_view(url='/login/', permanent=True)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

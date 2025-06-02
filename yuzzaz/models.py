@@ -8,6 +8,7 @@ class CustomUser(AbstractUser):
     username = models.EmailField(unique=True, blank=True, null=True)  # Use email as the username
     profile_picture = models.ImageField(upload_to="profile_pictures", blank=True, null=True)
     telephone = PhoneNumberField()
+    bio = models.TextField(blank=True, null=True)
 
     @property
     def is_counsellor(self):

@@ -34,7 +34,8 @@ def register(request):
         form = UserRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False  # Deactivate account until email verification
+            user.is_active = True
+            # user.is_active = False
             user.save()
 
             # Send activation email
@@ -53,7 +54,7 @@ def register(request):
             email.send()
 
             messages.success(
-                request, f"Dear {user.first_name}, we have sent an activation link to your email. Please check your email to complete registration.")
+                request, f"Dear {user.first_name}, we have sent an activation link to your email. Please check your email to complete registration. You cannot proceed without that link")
             return redirect('land')  # Redirect to login page
     else:
         form = UserRegistrationForm()
@@ -484,3 +485,8 @@ def send_order_email(request):
 
     return redirect('cart')
 
+def story(request):
+    users = list(User.objects.all())
+    yuzzaz = User.objects.all()
+    random_users = random.sample(users, min(8, len(users)))
+    return render(request, 'yuzzaz/story.html', {'users': random_users, 'yuzzaz': yuzzaz})
