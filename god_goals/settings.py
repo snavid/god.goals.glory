@@ -139,13 +139,23 @@ AUTH_USER_MODEL = 'yuzzaz.CustomUser'
 
 
 # settings.py
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'gftinity01@gmail.com'
-EMAIL_HOST_PASSWORD = 'lwuhmvurprfjbdso'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_PORT = 587
+#EMAIL_USE_TLS = True
+#EMAIL_HOST_USER = 'gftinity01@gmail.com'
+#EMAIL_HOST_PASSWORD = 'lwuhmvurprfjbdso'
 
+
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.privateemail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'ceo@beingthatguy.com'
+EMAIL_HOST_PASSWORD = 'BeingThatGuy100%'  # use env var in production
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # In settings.py
 LOGIN_REDIRECT_URL = 'dashboard'  
